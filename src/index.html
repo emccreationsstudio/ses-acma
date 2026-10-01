@@ -1,0 +1,1023 @@
+<title>Ses Açma</title>
+<style>
+/* Layout: tek sütun uygulama — üstte logodaki gece mavisi "sahne" (nota + akort göstergesi + klavye),
+   altında melodi eğrili egzersiz kartları ve ayarlar, en altta altın Başla çubuğu.
+   Başlıklar iPhone'un serif sistem fontu (New York), metinler SF Pro ile görünür; dış font yüklenmez. */
+:root {
+  --bg: #F2F2F6;
+  --surface: #FFFFFF;
+  --surface-2: #F0EFF4;
+  --ink: #16142B;
+  --muted: #5E5B78;
+  --line: #DCDAE6;
+  --stage: #0F0E1D;
+  --stage-2: #24203F;
+  --stage-ink: #F5F1E8;
+  --stage-muted: #ABA6C6;
+  --key-white: #F1ECE2;
+  --key-black: #0E0D1C;
+  --good: #2F9E6B;
+  --warn: #D9822B;
+  --gold: #E2B862;
+  --gold-ink: #1A1608;
+  --scrim: rgba(8, 7, 20, 0.55);
+  --ex: #E2B862;
+  --font-display: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: system-ui, -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C0B16; --surface: #16152A; --surface-2: #1E1C36; --ink: #EEEAF6; --muted: #A29EBE; --line: #2B2848;
+    --stage: #07060F; --stage-2: #1B1834; --stage-ink: #F5F1E8; --stage-muted: #A29EBE;
+    --key-white: #ECE6DA; --key-black: #05040B;
+    --good: #4CC38A; --warn: #F0A04B; --scrim: rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C0B16; --surface: #16152A; --surface-2: #1E1C36; --ink: #EEEAF6; --muted: #A29EBE; --line: #2B2848;
+    --stage: #07060F; --stage-2: #1B1834; --stage-ink: #F5F1E8; --stage-muted: #A29EBE;
+    --key-white: #ECE6DA; --key-black: #05040B;
+    --good: #4CC38A; --warn: #F0A04B; --scrim: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-inline: 16px;
+  padding-block: 16px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+h1 { font-size: 1.85rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+h2 { font-size: 1.2rem; font-weight: 600; }
+h3 { font-size: 1rem; font-weight: 600; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.header p { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mark { width: 52px; height: 52px; flex: none; border-radius: 12px; box-shadow: 0 4px 14px -6px rgba(10, 8, 30, 0.6); }
+.icon-btn {
+  width: 40px; height: 40px; flex: none;
+  border-radius: 50%; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 1.05rem;
+  cursor: pointer;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--ex); outline-offset: 2px; }
+
+/* Sahne */
+.stage {
+  background: radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 55%), linear-gradient(165deg, var(--stage-2), var(--stage) 70%);
+  color: var(--stage-ink);
+  border-radius: 24px;
+  padding: 18px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 30px -12px rgba(10, 14, 40, 0.45);
+}
+.now { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 8px 12px; }
+.now-note {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 15vw, 4.5rem);
+  font-weight: 600;
+  line-height: 0.95;
+  color: var(--ex);
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+}
+.now-side { text-align: right; display: flex; flex-direction: column; gap: 4px; }
+.status { color: var(--stage-muted); font-size: 0.9rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.score { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--gold); }
+.syllables { font-weight: 600; font-size: 1.15rem; letter-spacing: 0.02em; grid-column: 1 / -1; }
+
+/* Akort göstergesi */
+.meter { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px; }
+.meter-row { display: flex; justify-content: space-between; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--stage-muted); }
+.meter-row b { color: var(--stage-ink); font-weight: 700; font-size: 1rem; }
+.track { position: relative; height: 22px; border-radius: 11px; background: rgba(255,255,255,0.08); }
+.track .zone { position: absolute; top: 0; bottom: 0; left: 25%; width: 50%; border-radius: 11px; background: color-mix(in srgb, var(--good) 35%, transparent); }
+.track .mid { position: absolute; top: 3px; bottom: 3px; left: calc(50% - 1px); width: 2px; background: rgba(255,255,255,0.45); }
+.track .dot { position: absolute; top: 1px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--warn); transition: left 90ms linear, background 120ms; }
+.track .dot.ok { background: var(--good); }
+.meter-msg { font-weight: 700; font-size: 1.1rem; }
+.meter-msg.ok { color: var(--good); }
+
+/* Klavye */
+.keyboard { position: relative; height: 112px; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.whites { display: flex; height: 100%; gap: 2px; }
+.key-w {
+  flex: 1 1 0; min-width: 0;
+  background: var(--key-white);
+  border-radius: 0 0 7px 7px;
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,0.08);
+  border: 0; padding: 0 0 6px;
+  display: flex; align-items: flex-end; justify-content: center;
+  font-size: 0.6rem; font-weight: 700; color: #7A7488;
+  cursor: pointer;
+}
+.key-b {
+  position: absolute; top: 0; height: 62%;
+  background: var(--key-black);
+  border: 0; border-radius: 0 0 5px 5px;
+  box-shadow: inset 0 -4px 0 rgba(255,255,255,0.08);
+  cursor: pointer; padding: 0;
+}
+.key-w.on, .key-b.on { background: var(--ex); color: var(--gold-ink); box-shadow: 0 0 18px -2px var(--ex); }
+.key-w.target { box-shadow: inset 0 0 0 3px var(--ex); }
+
+/* Bölümler */
+.section { display: flex; flex-direction: column; gap: 12px; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.section-head span { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+
+/* Egzersiz kartları */
+.exercises { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 560px) { .exercises { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ex-card {
+  --c: var(--ex);
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 6px;
+  min-width: 0;
+  transition: transform 120ms, border-color 120ms, background 120ms;
+}
+.ex-card:hover { border-color: color-mix(in srgb, var(--c) 45%, var(--line)); }
+.ex-card[aria-pressed="true"] { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--surface)); }
+.ex-card svg { width: 100%; height: 44px; display: block; }
+.ex-name { font-weight: 700; font-size: 0.98rem; line-height: 1.15; }
+.ex-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); font-weight: 700; }
+.level { padding: 2px 8px; border-radius: 99px; background: color-mix(in srgb, var(--c) 22%, transparent); color: var(--ink); }
+
+/* Ayarlar */
+.panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.field { display: flex; flex-direction: column; gap: 8px; }
+.label { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; background: var(--surface-2); padding: 4px; border-radius: 14px; }
+.seg button { flex: 1 1 auto; border: 0; background: transparent; padding: 8px 10px; border-radius: 10px; font-weight: 700; cursor: pointer; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+.steppers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.stepper { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--surface-2); border-radius: 14px; padding: 6px; }
+.stepper b { font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.stepper button { width: 38px; height: 38px; border-radius: 10px; border: 0; background: var(--surface); font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+.tempo-row { display: flex; justify-content: space-between; align-items: baseline; }
+.tempo-row b { font-weight: 700; font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--ex); }
+.toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; cursor: pointer; }
+.toggle small { display: block; font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+.switch { position: relative; width: 52px; height: 30px; flex: none; }
+.switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.switch span { position: absolute; inset: 0; border-radius: 99px; background: var(--line); transition: background 150ms; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 150ms; }
+.switch input:checked + span { background: var(--ex); }
+.switch input:checked + span::after { transform: translateX(22px); }
+.switch input:focus-visible + span { outline: 3px solid var(--ex); outline-offset: 2px; }
+.hint { margin: 0; font-size: 0.85rem; color: var(--muted); }
+.hint.err { color: var(--warn); font-weight: 700; }
+.panel[aria-disabled="true"], .exercises[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
+
+/* Başla çubuğu */
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.play {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; max-width: 568px; margin: 0 auto;
+  border: 0; border-radius: 18px; padding: 15px;
+  background: linear-gradient(180deg, #F0CF86, var(--gold)); color: var(--gold-ink);
+  font-size: 1.2rem; font-weight: 700; letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -10px var(--gold);
+}
+.play.stop { background: var(--ink); color: var(--bg); box-shadow: none; }
+.play svg { width: 22px; height: 22px; }
+
+/* Hakkında */
+.sheet-wrap {
+  position: fixed; inset: 0; z-index: 10;
+  background: var(--scrim);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+.sheet {
+  width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
+  background: var(--surface); color: var(--ink);
+  border-radius: 24px; padding: 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.sheet p { margin: 0; color: var(--muted); }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sheet .ver { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
+.sheet-close { border: 0; border-radius: 14px; padding: 12px; background: var(--surface-2); font-weight: 800; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 1024 1024" aria-hidden="true">
+        <defs>
+          <linearGradient id="mbg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#232042"/><stop offset="1" stop-color="#0B0A16"/></linearGradient>
+          <linearGradient id="mgold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B98A3E"/><stop offset="0.55" stop-color="#F3D28A"/><stop offset="1" stop-color="#FFF1C9"/></linearGradient>
+        </defs>
+        <rect width="1024" height="1024" rx="230" fill="url(#mbg)"/>
+        <g fill="#ECE6DA"><rect x="182" y="690" width="92" height="190" rx="18"/><rect x="290" y="690" width="92" height="190" rx="18"/><rect x="398" y="690" width="92" height="190" rx="18"/><rect x="506" y="690" width="92" height="190" rx="18"/><rect x="614" y="690" width="92" height="190" rx="18"/><rect x="722" y="690" width="92" height="190" rx="18"/></g>
+        <g fill="#0E0D1C"><rect x="248" y="686" width="58" height="118" rx="12"/><rect x="356" y="686" width="58" height="118" rx="12"/><rect x="572" y="686" width="58" height="118" rx="12"/><rect x="680" y="686" width="58" height="118" rx="12"/></g>
+        <path d="M170 560 C 230 560, 250 520, 300 520 S 370 590, 420 560 S 480 430, 540 440 S 620 560, 670 500 S 740 270, 840 250" fill="none" stroke="url(#mgold)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="840" cy="250" r="36" fill="#FFF1C9"/>
+      </svg>
+      <div>
+        <h1>Ses Açma</h1>
+        <p data-i18n="tagline"></p>
+      </div>
+    </div>
+    <button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button>
+  </header>
+
+  <section class="stage" id="stage">
+    <div class="now">
+      <div class="now-note" id="nowNote">Do4</div>
+      <div class="now-side">
+        <div class="status" id="status"></div>
+        <div class="score" id="score" hidden></div>
+      </div>
+      <div class="syllables" id="syllables"></div>
+    </div>
+
+    <div class="meter" id="meter" hidden>
+      <div class="meter-row">
+        <span><span data-i18n="target"></span> <b id="mTarget">—</b></span>
+        <span><span data-i18n="you"></span> <b id="mYou">—</b></span>
+      </div>
+      <div class="track" aria-hidden="true">
+        <div class="zone"></div>
+        <div class="mid"></div>
+        <div class="dot" id="mDot" hidden></div>
+      </div>
+      <div class="meter-msg" id="mMsg"></div>
+    </div>
+
+    <div class="keyboard" id="keyboard"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 data-i18n="exercise"></h2>
+      <span data-i18n="contourHint"></span>
+    </div>
+    <div class="exercises" id="exercises"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 data-i18n="settings"></h2></div>
+    <div class="panel" id="settings">
+      <div class="field">
+        <div class="label" id="lblRange" data-i18n="voice"></div>
+        <div class="seg" id="ranges" role="group" aria-labelledby="lblRange"></div>
+      </div>
+
+      <div class="steppers">
+        <div class="field">
+          <div class="label" data-i18n="start"></div>
+          <div class="stepper">
+            <button type="button" id="startDown" aria-label="−">−</button>
+            <b id="startVal">Do4</b>
+            <button type="button" id="startUp" aria-label="+">+</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label" data-i18n="top"></div>
+          <div class="stepper">
+            <button type="button" id="endDown" aria-label="−">−</button>
+            <b id="endVal">Sol4</b>
+            <button type="button" id="endUp" aria-label="+">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="tempo-row"><span class="label" data-i18n="tempo"></span><b id="bpmVal">100 BPM</b></div>
+        <input type="range" id="bpm" min="60" max="160" step="5" value="100">
+      </div>
+
+      <div class="field">
+        <div class="label" id="lblDir" data-i18n="direction"></div>
+        <div class="seg" id="dirs" role="group" aria-labelledby="lblDir"></div>
+      </div>
+
+      <label class="toggle" for="melody">
+        <span><span data-i18n="melody"></span><small data-i18n="melodySub"></small></span>
+        <span class="switch"><input type="checkbox" id="melody" checked><span></span></span>
+      </label>
+
+      <label class="toggle" for="mic">
+        <span><span data-i18n="mic"></span><small data-i18n="micSub"></small></span>
+        <span class="switch"><input type="checkbox" id="mic"><span></span></span>
+      </label>
+      <p class="hint" id="micHint" hidden></p>
+
+      <div class="field">
+        <div class="label" id="lblLang" data-i18n="language"></div>
+        <div class="seg" id="langs" role="group" aria-labelledby="lblLang"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="bar">
+  <button type="button" class="play" id="play">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path id="playIcon" d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
+    <span id="playLabel"></span>
+  </button>
+</div>
+
+<div class="sheet-wrap" id="about" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="sheet-head">
+      <h2 id="aboutTitle">Ses Açma: Piyano Isınma</h2>
+      <span class="ver" id="aboutVer"></span>
+    </div>
+    <p data-i18n="aboutText"></p>
+    <h3 data-i18n="privacyTitle"></h3>
+    <p data-i18n="privacyText"></p>
+    <h3 data-i18n="howTitle"></h3>
+    <p data-i18n="howText"></p>
+    <p id="supportLine" hidden></p>
+    <button type="button" class="sheet-close" id="aboutClose" data-i18n="close"></button>
+  </div>
+</div>
+
+<script id="core">
+// ---------- Saf mantık (testlenebilir) ----------
+const APP_VERSION = "1.0";
+const SUPPORT_EMAIL = ""; // ör. "destek@alanadiniz.com" — doluysa Hakkında ekranında görünür
+
+const NOTE_NAMES = {
+  tr: ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"],
+  en: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+};
+
+const EXERCISES = [
+  { id: "uclu", name: { tr: "Mırıldanma", en: "Humming" }, syllables: { tr: "Mm – Mm – Mm", en: "Mm – mm – mm" }, pattern: [0, 2, 4, 2, 0], last: 2, staccato: false, level: "easy", color: "#E2B862" },
+  { id: "besli", name: { tr: "Beşli Merdiven", en: "Five-Note Ladder" }, syllables: { tr: "Mi – Me – Ma – Mo – Mu", en: "Mee – May – Mah – Moh – Moo" }, pattern: [0, 2, 4, 5, 7, 5, 4, 2, 0], last: 2, staccato: false, level: "easy", color: "#E8956B" },
+  { id: "staccato", name: { tr: "Staccato", en: "Staccato" }, syllables: { tr: "Ha – Ha – Ha – Ha – Ha", en: "Ha – ha – ha – ha – ha" }, pattern: [0, 4, 7, 4, 0], last: 1, staccato: true, level: "easy", color: "#7FBF9E" },
+  { id: "arpej", name: { tr: "Arpej", en: "Arpeggio" }, syllables: { tr: "Ya – Ya – Ya – Ya", en: "Yah – yah – yah – yah" }, pattern: [0, 4, 7, 12, 7, 4, 0], last: 2, staccato: false, level: "mid", color: "#D97A8A" },
+  { id: "oktav", name: { tr: "Oktav Sıçrama", en: "Octave Leap" }, syllables: { tr: "Ah – a – a – a – a", en: "Ah – a – a – a – a" }, pattern: [0, 12, 7, 4, 0], last: 2, staccato: false, level: "mid", color: "#6FA8D6" },
+  { id: "dokuzlu", name: { tr: "Dokuzlu Gam", en: "Nine-Note Scale" }, syllables: { tr: "A – a – a – a …", en: "Ah – a – a – a …" }, pattern: [0, 2, 4, 5, 7, 9, 11, 12, 14, 12, 11, 9, 7, 5, 4, 2, 0], last: 2, staccato: false, level: "adv", color: "#A08BD9" }
+];
+
+const RANGES = [
+  { id: "child", start: 60, end: 67 },
+  { id: "soprano", start: 60, end: 72 },
+  { id: "alto", start: 55, end: 67 },
+  { id: "tenor", start: 48, end: 60 },
+  { id: "bass", start: 43, end: 55 }
+];
+
+const STRINGS = {
+  tr: {
+    tagline: "Piyano eşliğinde ses ısınması", about: "Hakkında",
+    exercise: "Egzersiz", contourHint: "Eğri, melodinin şeklini gösterir", settings: "Ayarlar",
+    voice: "Ses grubu", start: "Başlangıç", top: "En yüksek", tempo: "Tempo", direction: "Yön",
+    up: "Sadece çık", upDown: "Çık ve in",
+    melody: "Melodiyi piyano çalsın", melodySub: "Kapalıyken yalnızca ton akoru çalar, notalar klavyede yanar",
+    mic: "Mikrofonla dinle", micSub: "Söylediğin notanın doğru olup olmadığını gösterir",
+    language: "Dil",
+    play: "Başla", stop: "Durdur",
+    ready: "Bir egzersiz seç ve başla", getReady: "Hazırlan…", stopped: "Durduruldu", done: "Isınma bitti", bravo: "Bravo!",
+    round: (a, b) => `${a} / ${b} tur`, notesScore: (h, s) => `${h} / ${s} nota`, notesCount: (n) => `${n} nota`,
+    target: "Hedef", you: "Sen", cantHear: "Seni duyamıyorum", listenChord: "Akoru dinle…", listening: "Dinliyorum",
+    perfect: "Harika, tam isabet!", lower: "Biraz aşağı ↓", higher: "Biraz yukarı ↑",
+    micTip: "İpucu: Kulaklık tak ya da melodiyi kapat; yoksa mikrofon piyanoyu da duyabilir.",
+    micDenied: "Mikrofon izni kapalı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
+    micFail: "Mikrofon açılamadı. Başka bir uygulama kullanıyor olabilir; kapatıp tekrar dene.",
+    levels: { easy: "Kolay", mid: "Orta", adv: "İleri" },
+    ranges: { child: "Çocuk", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bas" },
+    keyboardLabel: "Piyano klavyesi; tuşlara dokununca nota çalar",
+    aboutText: "Şan öğrencileri, şarkıcılar ve koro üyeleri için piyano eşliğinde ses açma egzersizleri. Her turda önce ton akoru çalar, sonra egzersiz yarım ton yarım ton yükselir.",
+    privacyTitle: "Gizlilik",
+    privacyText: "Bu uygulama hiçbir kişisel veri toplamaz, hesap istemez, reklam ve takip içermez. Mikrofon yalnızca sen açtığında kullanılır; ses cihazında anlık işlenir, kaydedilmez ve hiçbir yere gönderilmez. İnternet bağlantısı gerekmez.",
+    howTitle: "İpuçları",
+    howText: "Ses grubunu seç, başlangıç ve en yüksek notayı sesine göre ayarla. Mikrofonla çalışırken kulaklık takmak en doğru sonucu verir. Oktav farkı önemsenmez: bir oktav aşağıdan söylemek de doğru sayılır.",
+    support: (e) => `Destek: ${e}`,
+    close: "Kapat"
+  },
+  en: {
+    tagline: "Vocal warm-ups with piano", about: "About",
+    exercise: "Exercise", contourHint: "The curve shows the shape of the melody", settings: "Settings",
+    voice: "Voice type", start: "Start", top: "Highest", tempo: "Tempo", direction: "Direction",
+    up: "Up only", upDown: "Up and down",
+    melody: "Piano plays the melody", melodySub: "When off, only the starting chord plays and the notes light up on the keyboard",
+    mic: "Listen with microphone", micSub: "Shows whether you are singing the right note",
+    language: "Language",
+    play: "Start", stop: "Stop",
+    ready: "Pick an exercise and start", getReady: "Get ready…", stopped: "Stopped", done: "Warm-up complete", bravo: "Bravo!",
+    round: (a, b) => `Round ${a} of ${b}`, notesScore: (h, s) => `${h} / ${s} notes`, notesCount: (n) => `${n} notes`,
+    target: "Target", you: "You", cantHear: "I can't hear you", listenChord: "Listen to the chord…", listening: "Listening",
+    perfect: "Spot on!", lower: "A little lower ↓", higher: "A little higher ↑",
+    micTip: "Tip: Use headphones or turn off the melody, or the microphone may hear the piano too.",
+    micDenied: "Microphone access is off. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
+    micFail: "The microphone couldn't start. Another app may be using it; close it and try again.",
+    levels: { easy: "Easy", mid: "Medium", adv: "Advanced" },
+    ranges: { child: "Child", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bass" },
+    keyboardLabel: "Piano keyboard; tap a key to hear the note",
+    aboutText: "Piano-accompanied vocal warm-ups for singing students, singers and choir members. Each round starts with a chord, then the exercise moves up by a half step.",
+    privacyTitle: "Privacy",
+    privacyText: "This app collects no personal data, needs no account and has no ads or tracking. The microphone is used only when you turn it on; sound is analysed on your device in real time, never recorded and never sent anywhere. No internet connection is needed.",
+    howTitle: "Tips",
+    howText: "Choose your voice type and set the start and highest notes to suit your voice. Headphones give the most accurate results with the microphone. Octaves don't matter: singing an octave lower also counts as correct.",
+    support: (e) => `Support: ${e}`,
+    close: "Close"
+  }
+};
+
+const TOLERANCE_CENTS = 50;
+
+function pickLanguage(navLang) {
+  return /^tr\b/i.test(navLang || "") ? "tr" : "en";
+}
+
+function noteName(m, lang = "tr") {
+  const names = NOTE_NAMES[lang] || NOTE_NAMES.tr;
+  return names[((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1);
+}
+function isBlack(m) { return [1, 3, 6, 8, 10].includes(((m % 12) + 12) % 12); }
+
+function rootSequence(start, end, dir) {
+  if (start > end) return [start];
+  const up = [];
+  for (let r = start; r <= end; r++) up.push(r);
+  return dir === "up" ? up : up.concat(up.slice(0, -1).reverse());
+}
+
+// Bütün turun olay listesi (saniye cinsinden, başlangıç = 0)
+function buildTimeline(opts) {
+  const { exercise, start, end, dir, bpm, melody } = opts;
+  const beat = 60 / bpm;
+  const roots = rootSequence(start, end, dir);
+  const events = [];
+  let t = 0;
+  roots.forEach((root, ri) => {
+    events.push({ kind: "chord", t, dur: beat * 1.5, len: beat * 2, notes: [root, root + 4, root + 7], sound: true, root, round: ri });
+    t += beat * 2;
+    exercise.pattern.forEach((off, i) => {
+      const isLast = i === exercise.pattern.length - 1;
+      const len = isLast ? beat * exercise.last : beat;
+      const dur = exercise.staccato && !isLast ? len * 0.4 : len * 0.92;
+      events.push({ kind: "note", t, dur, len, notes: [root + off], target: root + off, sound: melody, root, round: ri });
+      t += len;
+    });
+    t += beat; // nefes
+  });
+  return { events, total: t, rounds: roots.length };
+}
+
+// Hedefe göre sent farkı; oktav farkı yok sayılır
+function centsOff(midi, target) {
+  let d = midi - target;
+  d -= 12 * Math.round(d / 12);
+  return d * 100;
+}
+
+function starsFor(hits, total) {
+  if (!total) return "";
+  const r = hits / total;
+  if (r >= 0.85) return "★★★";
+  if (r >= 0.6) return "★★☆";
+  if (r >= 0.3) return "★☆☆";
+  return "☆☆☆";
+}
+
+// YIN perde algılama → MIDI (ondalıklı) ya da null
+function detectMidi(buf, sampleRate) {
+  const n = buf.length;
+  let ms = 0;
+  for (let i = 0; i < n; i++) ms += buf[i] * buf[i];
+  if (Math.sqrt(ms / n) < 0.008) return null;
+
+  const maxTau = Math.min(n >> 1, Math.floor(sampleRate / 75));
+  const minTau = Math.max(2, Math.floor(sampleRate / 1200));
+  if (maxTau <= minTau + 2) return null;
+  const w = n - maxTau;
+
+  const diff = new Float32Array(maxTau + 1);
+  for (let tau = 1; tau <= maxTau; tau++) {
+    let s = 0;
+    for (let i = 0; i < w; i++) { const d = buf[i] - buf[i + tau]; s += d * d; }
+    diff[tau] = s;
+  }
+  const cmnd = new Float32Array(maxTau + 1);
+  cmnd[0] = 1;
+  let running = 0;
+  for (let tau = 1; tau <= maxTau; tau++) {
+    running += diff[tau];
+    cmnd[tau] = running > 0 ? diff[tau] * tau / running : 1;
+  }
+  let est = -1;
+  for (let tau = minTau; tau <= maxTau; tau++) {
+    if (cmnd[tau] < 0.15) {
+      while (tau + 1 <= maxTau && cmnd[tau + 1] < cmnd[tau]) tau++;
+      est = tau;
+      break;
+    }
+  }
+  if (est < 0) return null;
+  let refined = est;
+  if (est > 1 && est < maxTau) {
+    const s0 = cmnd[est - 1], s1 = cmnd[est], s2 = cmnd[est + 1];
+    const den = s0 + s2 - 2 * s1;
+    if (Math.abs(den) > 1e-9) refined += (s0 - s2) / (2 * den);
+  }
+  const f = sampleRate / refined;
+  return 69 + 12 * Math.log2(f / 440);
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
+}
+</script>
+
+<script>
+// ---------- Ayarlar ----------
+const state = { ex: "besli", range: "child", start: 60, end: 67, bpm: 100, dir: "upDown", melody: true, lang: pickLanguage(navigator.language) };
+try {
+  const saved = JSON.parse(localStorage.getItem("sesacma") || "null");
+  if (saved && typeof saved === "object") Object.assign(state, saved);
+} catch (e) {}
+if (!STRINGS[state.lang]) state.lang = "en";
+function save() { try { localStorage.setItem("sesacma", JSON.stringify(state)); } catch (e) {} }
+
+const $ = (id) => document.getElementById(id);
+const S = () => STRINGS[state.lang];
+const nn = (m) => noteName(m, state.lang);
+const exercise = () => EXERCISES.find((e) => e.id === state.ex) || EXERCISES[1];
+
+// iPhone: sessiz moddayken de çalsın (destekleyen sürümlerde)
+function setAudioSessionType(type) {
+  try { if (navigator.audioSession) navigator.audioSession.type = type; } catch (e) {}
+}
+
+// ---------- Piyano sesi (Web Audio) ----------
+const piano = {
+  ctx: null, master: null, wave: null, voices: new Set(),
+  ensure() {
+    if (!this.ctx) {
+      setAudioSessionType(mic.on ? "play-and-record" : "playback");
+      const AC = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AC();
+      const comp = this.ctx.createDynamicsCompressor();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = 0.55;
+      this.master.connect(comp).connect(this.ctx.destination);
+      const imag = new Float32Array([0, 1, 0.5, 0.28, 0.14, 0.07, 0.035]);
+      this.wave = this.ctx.createPeriodicWave(new Float32Array(imag.length), imag);
+    }
+    if (this.ctx.state !== "running") this.ctx.resume();
+    return this.ctx;
+  },
+  play(midi, when, dur, vel) {
+    const ctx = this.ctx;
+    const f = 440 * Math.pow(2, (midi - 69) / 12);
+    const osc = ctx.createOscillator();
+    osc.setPeriodicWave(this.wave);
+    osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter();
+    filt.type = "lowpass";
+    filt.frequency.setValueAtTime(Math.min(9000, f * 9), when);
+    filt.frequency.setTargetAtTime(Math.min(3500, f * 3), when, 0.35);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, when);
+    g.gain.linearRampToValueAtTime(vel * 0.32, when + 0.005);
+    g.gain.setTargetAtTime(0, when + 0.005, 0.9);
+    g.gain.setTargetAtTime(0, when + dur, 0.06);
+    osc.connect(filt).connect(g).connect(this.master);
+    osc.start(when);
+    osc.stop(when + dur + 0.5);
+    const v = { osc, g };
+    this.voices.add(v);
+    osc.onended = () => this.voices.delete(v);
+  },
+  stopAll() {
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    for (const v of this.voices) {
+      try {
+        if (v.g.gain.cancelAndHoldAtTime) v.g.gain.cancelAndHoldAtTime(now);
+        else v.g.gain.cancelScheduledValues(now);
+        v.g.gain.setTargetAtTime(0, now, 0.03);
+        v.osc.stop(now + 0.25);
+      } catch (e) {}
+    }
+  }
+};
+
+// ---------- Mikrofon ----------
+const mic = {
+  on: false, stream: null, src: null, an: null, buf: null, midi: null, silent: 0, lastRead: 0,
+  async start() {
+    setAudioSessionType("play-and-record");
+    const ctx = piano.ensure();
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: false }
+    });
+    this.src = ctx.createMediaStreamSource(this.stream);
+    this.an = ctx.createAnalyser();
+    this.an.fftSize = 4096;
+    this.buf = new Float32Array(this.an.fftSize);
+    this.src.connect(this.an);
+    this.on = true;
+  },
+  stop() {
+    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+    if (this.src) this.src.disconnect();
+    this.on = false; this.stream = null; this.src = null; this.an = null; this.midi = null;
+    setAudioSessionType("playback");
+  },
+  read() {
+    this.an.getFloatTimeDomainData(this.buf);
+    const m = detectMidi(this.buf, piano.ctx.sampleRate);
+    if (m == null) {
+      this.silent++;
+      if (this.silent >= 3) this.midi = null;
+    } else {
+      this.silent = 0;
+      this.midi = this.midi != null && Math.abs(this.midi - m) < 0.7 ? this.midi * 0.6 + m * 0.4 : m;
+    }
+    return m;
+  }
+};
+
+// ---------- Oynatma ----------
+let run = null;
+let wakeLock = null;
+let lastResult = null; // bitişte gösterilen puan (dil değişince yeniden yazmak için)
+
+function start() {
+  const ctx = piano.ensure();
+  stop(true);
+  const ex = exercise();
+  const tl = buildTimeline({ exercise: ex, start: state.start, end: state.end, dir: state.dir, bpm: state.bpm, melody: state.melody });
+  const t0 = ctx.currentTime + 0.15;
+  for (const ev of tl.events) {
+    if (!ev.sound) continue;
+    for (const n of ev.notes) piano.play(n, t0 + ev.t, ev.dur, ev.kind === "chord" ? 0.55 : 0.85);
+  }
+  run = { t0, tl, ex, scored: 0, hits: 0, nextScore: 0, listening: mic.on };
+  for (const ev of tl.events) { ev.voiced = 0; ev.inTune = 0; }
+  if (navigator.wakeLock) navigator.wakeLock.request("screen").then((l) => (wakeLock = l)).catch(() => {});
+  lastResult = null;
+  setPlaying(true);
+  $("status").textContent = S().getReady;
+  $("score").hidden = true;
+  ensureLoop();
+}
+
+function releaseWake() { if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
+
+function stop(silent) {
+  if (!run) return;
+  piano.stopAll();
+  run = null;
+  releaseWake();
+  setPlaying(false);
+  clearKeys();
+  $("nowNote").textContent = nn(state.start);
+  if (!silent) $("status").textContent = S().stopped;
+}
+
+function finish() {
+  const r = run;
+  run = null;
+  releaseWake();
+  setPlaying(false);
+  clearKeys();
+  lastResult = { hits: r.hits, scored: r.scored };
+  showResult();
+}
+
+function showResult() {
+  $("nowNote").textContent = S().bravo;
+  $("status").textContent = S().done;
+  const sc = $("score");
+  sc.hidden = !(lastResult && lastResult.scored > 0);
+  if (!sc.hidden) sc.textContent = `${starsFor(lastResult.hits, lastResult.scored)}  ${S().notesScore(lastResult.hits, lastResult.scored)}`;
+}
+
+function preview(midi) {
+  if (run) return;
+  const ctx = piano.ensure();
+  piano.play(midi, ctx.currentTime + 0.01, 0.6, 0.85);
+  const el = keyEls.get(midi);
+  if (el) { el.classList.add("on"); setTimeout(() => el.classList.remove("on"), 600); }
+}
+
+// ---------- Döngü (görsel + perde) ----------
+let looping = false;
+function ensureLoop() {
+  if (looping) return;
+  looping = true;
+  requestAnimationFrame(loop);
+}
+
+function loop() {
+  if (!run && !mic.on) { looping = false; return; }
+  const nowAbs = piano.ctx.currentTime;
+  let target = null;
+
+  if (mic.on && nowAbs - mic.lastRead > 0.045) {
+    mic.lastRead = nowAbs;
+    const m = mic.read();
+    if (run && run.listening && m != null) {
+      const t = nowAbs - run.t0;
+      for (const ev of run.tl.events) {
+        if (ev.kind === "note" && t >= ev.t + 0.12 && t < ev.t + ev.len) {
+          ev.voiced++;
+          if (Math.abs(centsOff(m, ev.target)) <= TOLERANCE_CENTS) ev.inTune++;
+          break;
+        }
+      }
+    }
+  }
+
+  if (run) {
+    const t = nowAbs - run.t0;
+    const lit = new Set();
+    let cur = null;
+    for (const ev of run.tl.events) {
+      if (ev.t > t) break;
+      if (t < ev.t + ev.dur) ev.notes.forEach((n) => lit.add(n));
+      if (ev.kind === "note" && t < ev.t + ev.len) target = ev.target;
+      cur = ev;
+    }
+    if (run.listening) {
+      const evs = run.tl.events;
+      while (run.nextScore < evs.length && evs[run.nextScore].t + evs[run.nextScore].len <= t) {
+        const ev = evs[run.nextScore++];
+        if (ev.kind !== "note") continue;
+        run.scored++;
+        if (ev.voiced >= 2 && ev.inTune >= ev.voiced * 0.5) run.hits++;
+      }
+      $("score").hidden = run.scored === 0;
+      $("score").textContent = S().notesScore(run.hits, run.scored);
+    }
+    setKeys(lit, target);
+    if (cur) {
+      $("nowNote").textContent = nn(cur.root);
+      $("status").textContent = S().round(cur.round + 1, run.tl.rounds);
+    }
+    if (t >= run.tl.total) finish();
+  }
+
+  if (mic.on) renderMeter(target);
+  requestAnimationFrame(loop);
+}
+
+function renderMeter(target) {
+  $("mTarget").textContent = target != null ? nn(target) : "—";
+  $("mYou").textContent = mic.midi != null ? nn(Math.round(mic.midi)) : "—";
+  const dot = $("mDot"), msg = $("mMsg");
+  if (mic.midi == null) {
+    dot.hidden = true; msg.textContent = S().cantHear; msg.classList.remove("ok"); return;
+  }
+  if (target == null) {
+    dot.hidden = true; msg.textContent = run ? S().listenChord : S().listening; msg.classList.remove("ok"); return;
+  }
+  const c = Math.max(-100, Math.min(100, centsOff(mic.midi, target)));
+  const ok = Math.abs(c) <= TOLERANCE_CENTS;
+  dot.hidden = false;
+  dot.style.left = `${(c + 100) / 2}%`;
+  dot.classList.toggle("ok", ok);
+  msg.textContent = ok ? S().perfect : c > 0 ? S().lower : S().higher;
+  msg.classList.toggle("ok", ok);
+}
+
+// ---------- Klavye ----------
+let keyEls = new Map();
+function keyboardBounds() {
+  const ex = exercise();
+  const lo = state.start - (((state.start % 12) + 12) % 12);
+  const top = Math.max(state.start, state.end) + Math.max(Math.max(...ex.pattern), 7);
+  return [lo, top + (11 - (((top % 12) + 12) % 12))];
+}
+function buildKeyboard() {
+  const [lo, hi] = keyboardBounds();
+  const kb = $("keyboard");
+  kb.innerHTML = "";
+  kb.setAttribute("aria-label", S().keyboardLabel);
+  keyEls = new Map();
+  const whites = [];
+  for (let m = lo; m <= hi; m++) if (!isBlack(m)) whites.push(m);
+  const row = document.createElement("div");
+  row.className = "whites";
+  for (const m of whites) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "key-w";
+    b.setAttribute("aria-label", nn(m));
+    if (m % 12 === 0) b.textContent = nn(m);
+    b.addEventListener("pointerdown", (e) => { e.preventDefault(); preview(m); });
+    row.appendChild(b);
+    keyEls.set(m, b);
+  }
+  kb.appendChild(row);
+  const W = whites.length;
+  for (let m = lo; m <= hi; m++) {
+    if (!isBlack(m)) continue;
+    const idx = whites.indexOf(m - 1);
+    if (idx < 0) continue;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "key-b";
+    b.setAttribute("aria-label", nn(m));
+    const bw = 62 / W;
+    b.style.width = `${bw}%`;
+    b.style.left = `${((idx + 1) / W) * 100 - bw / 2}%`;
+    b.addEventListener("pointerdown", (e) => { e.preventDefault(); preview(m); });
+    kb.appendChild(b);
+    keyEls.set(m, b);
+  }
+}
+function setKeys(lit, target) {
+  for (const [m, el] of keyEls) {
+    el.classList.toggle("on", lit.has(m));
+    el.classList.toggle("target", m === target && !lit.has(m));
+  }
+}
+function clearKeys() { setKeys(new Set(), null); }
+
+// ---------- Arayüz ----------
+function contourSVG(pattern, color) {
+  const W = 120, H = 44, pad = 6;
+  const min = Math.min(...pattern), max = Math.max(...pattern);
+  const span = Math.max(1, max - min);
+  const pts = pattern.map((p, i) => [
+    pad + (i / (pattern.length - 1)) * (W - 2 * pad),
+    H - pad - ((p - min) / span) * (H - 2 * pad)
+  ]);
+  const line = pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
+  const dots = pts.map(([x, y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.2" fill="${color}"/>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${line}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity="0.55" vector-effect="non-scaling-stroke"/>${dots}</svg>`;
+}
+
+function buildExercises() {
+  const box = $("exercises");
+  box.innerHTML = "";
+  for (const ex of EXERCISES) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "ex-card";
+    b.id = `ex-${ex.id}`;
+    b.style.setProperty("--c", ex.color);
+    b.innerHTML = `${contourSVG(ex.pattern, ex.color)}<div class="ex-name">${ex.name[state.lang]}</div><div class="ex-meta"><span>${S().notesCount(ex.pattern.length)}</span><span class="level">${S().levels[ex.level]}</span></div>`;
+    b.addEventListener("click", () => { state.ex = ex.id; lastResult = null; save(); render(); buildKeyboard(); });
+    box.appendChild(b);
+  }
+}
+
+function buildSeg(boxId, items, onPick) {
+  const box = $(boxId);
+  box.innerHTML = "";
+  for (const it of items) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.id = `${boxId}-${it.id}`;
+    b.textContent = it.name;
+    b.addEventListener("click", () => { onPick(it); save(); buildAll(); });
+    box.appendChild(b);
+  }
+}
+
+function buildAll() {
+  document.documentElement.lang = state.lang;
+  for (const el of document.querySelectorAll("[data-i18n]")) {
+    const v = S()[el.dataset.i18n];
+    if (typeof v === "string") el.textContent = v;
+  }
+  $("aboutBtn").setAttribute("aria-label", S().about);
+  $("aboutVer").textContent = `v${APP_VERSION}`;
+  const sl = $("supportLine");
+  sl.hidden = !SUPPORT_EMAIL;
+  if (SUPPORT_EMAIL) sl.textContent = S().support(SUPPORT_EMAIL);
+  buildExercises();
+  buildSeg("ranges", RANGES.map((r) => ({ ...r, name: S().ranges[r.id] })), (r) => { state.range = r.id; state.start = r.start; state.end = r.end; lastResult = null; });
+  buildSeg("dirs", [{ id: "up", name: S().up }, { id: "upDown", name: S().upDown }], (d) => { state.dir = d.id; });
+  buildSeg("langs", [{ id: "tr", name: "Türkçe" }, { id: "en", name: "English" }], (l) => { state.lang = l.id; });
+  render();
+  buildKeyboard();
+}
+
+function render() {
+  const ex = exercise();
+  document.documentElement.style.setProperty("--ex", ex.color);
+  $("syllables").textContent = ex.syllables[state.lang];
+  for (const e of EXERCISES) $(`ex-${e.id}`).setAttribute("aria-pressed", String(e.id === state.ex));
+  for (const r of RANGES) $(`ranges-${r.id}`).setAttribute("aria-pressed", String(r.id === state.range));
+  for (const d of ["up", "upDown"]) $(`dirs-${d}`).setAttribute("aria-pressed", String(d === state.dir));
+  for (const l of ["tr", "en"]) $(`langs-${l}`).setAttribute("aria-pressed", String(l === state.lang));
+  $("startVal").textContent = nn(state.start);
+  $("endVal").textContent = nn(state.end);
+  $("bpm").value = state.bpm;
+  $("bpmVal").textContent = `${state.bpm} BPM`;
+  $("melody").checked = state.melody;
+  setPlaying(!!run);
+  if (!run) {
+    if (lastResult) showResult();
+    else { $("nowNote").textContent = nn(state.start); $("status").textContent = S().ready; $("score").hidden = true; }
+  }
+  updateMicHint();
+}
+
+let micError = null;
+function updateMicHint() {
+  const h = $("micHint");
+  if (micError) { h.hidden = false; h.className = "hint err"; h.textContent = S()[micError]; return; }
+  if (mic.on && state.melody) { h.hidden = false; h.className = "hint"; h.textContent = S().micTip; }
+  else h.hidden = true;
+}
+
+function setPlaying(on) {
+  $("play").classList.toggle("stop", on);
+  $("playLabel").textContent = on ? S().stop : S().play;
+  $("playIcon").setAttribute("d", on ? "M6 6h12v12H6z" : "M7 4.5v15l13-7.5z");
+  $("settings").setAttribute("aria-disabled", String(on));
+  $("exercises").setAttribute("aria-disabled", String(on));
+}
+
+function step(key, delta) {
+  state[key] = Math.max(36, Math.min(84, state[key] + delta));
+  lastResult = null;
+  save(); render(); buildKeyboard();
+}
+
+// ---------- Olaylar ----------
+$("startDown").onclick = () => step("start", -1);
+$("startUp").onclick = () => step("start", 1);
+$("endDown").onclick = () => step("end", -1);
+$("endUp").onclick = () => step("end", 1);
+$("bpm").oninput = (e) => { state.bpm = Number(e.target.value); save(); render(); };
+$("melody").onchange = (e) => { state.melody = e.target.checked; save(); render(); };
+
+$("mic").onchange = async (e) => {
+  if (e.target.checked) {
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("unsupported");
+      await mic.start();
+      micError = null;
+      $("meter").hidden = false;
+      ensureLoop();
+    } catch (err) {
+      e.target.checked = false;
+      $("meter").hidden = true;
+      micError = err && err.name === "NotAllowedError" ? "micDenied" : "micFail";
+    }
+  } else {
+    mic.stop();
+    micError = null;
+    $("meter").hidden = true;
+  }
+  updateMicHint();
+};
+
+$("play").onclick = () => (run ? stop() : start());
+$("aboutBtn").onclick = () => { $("about").hidden = false; $("aboutClose").focus(); };
+$("aboutClose").onclick = () => { $("about").hidden = true; $("aboutBtn").focus(); };
+$("about").addEventListener("click", (e) => { if (e.target.id === "about") $("about").hidden = true; });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") $("about").hidden = true;
+  if (e.code === "Space" && e.target === document.body) { e.preventDefault(); run ? stop() : start(); }
+});
+// Uygulama arka plana geçince durdur (telefon çaldığında vb.)
+document.addEventListener("visibilitychange", () => { if (document.hidden && run) stop(); });
+
+buildAll();
+</script>

@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ses Açma logosu "Altın Dalga": gece mavisi zemin, sakin başlayıp yükselen altın ses çizgisi, altında piyano tuşları -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#232042"/><stop offset="1" stop-color="#0B0A16"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B98A3E"/><stop offset="0.55" stop-color="#F3D28A"/><stop offset="1" stop-color="#FFF1C9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.72" cy="0.32" r="0.5">
+      <stop offset="0" stop-color="#F3D28A" stop-opacity="0.22"/><stop offset="1" stop-color="#F3D28A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <g fill="#ECE6DA" opacity="0.95">
+    <rect x="182" y="690" width="92" height="190" rx="18"/>
+    <rect x="290" y="690" width="92" height="190" rx="18"/>
+    <rect x="398" y="690" width="92" height="190" rx="18"/>
+    <rect x="506" y="690" width="92" height="190" rx="18"/>
+    <rect x="614" y="690" width="92" height="190" rx="18"/>
+    <rect x="722" y="690" width="92" height="190" rx="18"/>
+  </g>
+  <g fill="#0E0D1C">
+    <rect x="248" y="686" width="58" height="118" rx="12"/>
+    <rect x="356" y="686" width="58" height="118" rx="12"/>
+    <rect x="572" y="686" width="58" height="118" rx="12"/>
+    <rect x="680" y="686" width="58" height="118" rx="12"/>
+  </g>
+  <path d="M170 560 C 230 560, 250 520, 300 520 S 370 590, 420 560 S 480 430, 540 440 S 620 560, 670 500 S 740 270, 840 250"
+        fill="none" stroke="url(#gold)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="840" cy="250" r="34" fill="#FFF1C9"/>
+</svg>

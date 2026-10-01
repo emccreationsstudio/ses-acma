@@ -1,0 +1,106 @@
+<title>Ses Açma Gizlilik Politikası</title>
+<style>
+/* Layout: tek sütun, okuma genişliğinde iki dilli belge; uygulamanın koyu "sahne" rengi başlık bandında */
+:root {
+  --bg: #F2F2F6;
+  --surface: #FFFFFF;
+  --ink: #16142B;
+  --muted: #586085;
+  --line: #D8DDEB;
+  --stage: #14122A;
+  --stage-ink: #F5E7C4;
+  --accent: #E2B862;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: ui-serif, "New York", "Iowan Old Style", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0E1120; --surface: #181C31; --ink: #ECEEFA; --muted: #9CA3C6; --line: #2C3254; --stage: #090B17; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0E1120; --surface: #181C31; --ink: #ECEEFA; --muted: #9CA3C6; --line: #2C3254; --stage: #090B17; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 48px; display: flex; flex-direction: column; gap: 20px; }
+.band { background: var(--stage); color: var(--stage-ink); border-radius: 22px; padding: 22px 20px; display: flex; flex-direction: column; gap: 6px; }
+.band h1 { margin: 0; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.2; text-wrap: balance; }
+.band p { margin: 0; color: #A5ADD2; font-size: 0.95rem; }
+.band .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); margin-right: 8px; }
+.lang { display: flex; gap: 8px; }
+.lang a { text-decoration: none; color: var(--ink); font-weight: 700; font-size: 0.9rem; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); }
+section { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+h2 { margin: 0; font-family: var(--font-display); font-size: 1.3rem; }
+h3 { margin: 6px 0 0; font-size: 1rem; }
+p, li { margin: 0; color: var(--ink); max-width: 65ch; }
+ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.summary { border-left: 4px solid var(--accent); padding-left: 12px; font-weight: 700; }
+</style>
+
+<div class="wrap">
+  <header class="band">
+    <h1><span class="dot" aria-hidden="true"></span>Ses Açma: Piyano Isınma</h1>
+    <p>Gizlilik Politikası · Privacy Policy · Yürürlük / Effective: 1 Ekim 2026 / October 1, 2026</p>
+  </header>
+
+  <nav class="lang" aria-label="Dil / Language">
+    <a href="#tr">Türkçe</a>
+    <a href="#en">English</a>
+  </nav>
+
+  <section id="tr" lang="tr">
+    <h2>Gizlilik Politikası</h2>
+    <p class="summary">Ses Açma hiçbir kişisel veri toplamaz, saklamaz veya paylaşmaz.</p>
+
+    <h3>Toplanan veriler</h3>
+    <p>Uygulama hesap, ad, e-posta, konum, kişiler ya da cihaz kimliği gibi hiçbir bilgi istemez ve toplamaz. Reklam, analiz veya takip aracı içermez. Üçüncü taraf yazılım geliştirme kiti (SDK) kullanmaz.</p>
+
+    <h3>Mikrofon</h3>
+    <ul>
+      <li>Mikrofon yalnızca "Mikrofonla dinle" seçeneğini açtığınızda ve izin verdiğinizde kullanılır.</li>
+      <li>Ses, söylediğiniz notanın perdesini bulmak için telefonunuzda anlık olarak işlenir.</li>
+      <li>Ses hiçbir zaman kaydedilmez, saklanmaz ve cihazdan dışarı gönderilmez.</li>
+      <li>İzni istediğiniz zaman iPhone Ayarlar &gt; Ses Açma &gt; Mikrofon bölümünden kapatabilirsiniz.</li>
+    </ul>
+
+    <h3>Cihazda saklanan ayarlar</h3>
+    <p>Seçtiğiniz egzersiz, ses grubu, tempo ve dil gibi tercihler, uygulamayı bir sonraki açışınızda hatırlanması için yalnızca telefonunuzda saklanır. Bu bilgiler bize ya da başka bir yere gönderilmez. Uygulamayı sildiğinizde bu ayarlar da silinir.</p>
+
+    <h3>İnternet</h3>
+    <p>Uygulama internet bağlantısı olmadan çalışır ve herhangi bir sunucuyla iletişim kurmaz.</p>
+
+    <h3>Çocuklar</h3>
+    <p>Uygulama çocuklar dahil her yaştan kullanıcıya uygundur. Kimseden kişisel veri toplanmadığı için çocuklardan da veri toplanmaz.</p>
+
+    <h3>Değişiklikler</h3>
+    <p>Bu politika değişirse güncel sürüm bu sayfada, yeni yürürlük tarihiyle yayınlanır.</p>
+  </section>
+
+  <section id="en" lang="en">
+    <h2>Privacy Policy</h2>
+    <p class="summary">Ses Açma does not collect, store or share any personal data.</p>
+
+    <h3>Data collected</h3>
+    <p>The app does not ask for or collect any information such as an account, name, email address, location, contacts or device identifiers. It contains no advertising, analytics or tracking, and uses no third-party SDKs.</p>
+
+    <h3>Microphone</h3>
+    <ul>
+      <li>The microphone is used only when you turn on "Listen with microphone" and grant permission.</li>
+      <li>Sound is processed on your phone in real time to detect the pitch you are singing.</li>
+      <li>Audio is never recorded, never stored and never leaves your device.</li>
+      <li>You can turn off access at any time in iPhone Settings &gt; Ses Açma &gt; Microphone.</li>
+    </ul>
+
+    <h3>Settings stored on your device</h3>
+    <p>Your choices, such as the exercise, voice type, tempo and language, are saved only on your phone so the app remembers them next time. They are not sent to us or anywhere else, and they are removed when you delete the app.</p>
+
+    <h3>Internet</h3>
+    <p>The app works without an internet connection and does not communicate with any server.</p>
+
+    <h3>Children</h3>
+    <p>The app is suitable for users of all ages, including children. Because no personal data is collected from anyone, none is collected from children.</p>
+
+    <h3>Changes</h3>
+    <p>If this policy changes, the updated version will be posted on this page with a new effective date.</p>
+  </section>
+
+  <p class="muted">© 2026 Ses Açma</p>
+</div>
