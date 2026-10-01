@@ -1,0 +1,55 @@
+# Codemagic: Ses Açma iOS uygulamasını derler, imzalar ve App Store Connect'e (TestFlight) yükler.
+# Mac gerekmez. Ayrıntılı adımlar: WINDOWS.md
+#
+# Değiştirmeniz gereken 2 şey:
+#  1) bundle_identifier → capacitor.config.json içindeki appId ile AYNI olmalı
+#  2) app_store_connect → Codemagic'te oluşturduğunuz API anahtarı entegrasyonunun adı
+
+workflows:
+  ios-appstore:
+    name: Ses Açma — App Store
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: SesAcma
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.emccreationsstudio.sesacma
+      node: latest
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events: []   # yalnızca elle başlatılır ("Start new build")
+    scripts:
+      - name: Paketleri kur
+        script: npm install
+      - name: Testleri çalıştır
+        script: npm test
+      - name: Uygulama dosyasını derle
+        script: npm run build
+      - name: iOS projesini oluştur ve ayarla
+        script: |
+          rm -rf ios
+          npx cap add ios
+          node scripts/ios-setup.js
+          npx cap sync ios
+      - name: Derleme numarasını artır
+        script: |
+          sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD_NUMBER;/g" ios/App/App.xcodeproj/project.pbxproj
+      - name: İmzalama profillerini uygula
+        script: xcode-project use-profiles
+      - name: Uygulamayı paketle (.ipa)
+        script: |
+          if [ -d ios/App/App.xcworkspace ]; then
+            xcode-project build-ipa --workspace ios/App/App.xcworkspace --scheme App
+          else
+            xcode-project build-ipa --project ios/App/App.xcodeproj --scheme App
+          fi
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

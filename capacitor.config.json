@@ -1,0 +1,10 @@
+{
+  "appId": "com.emccreationsstudio.sesacma",
+  "appName": "Ses Açma",
+  "webDir": "www",
+  "backgroundColor": "#111022",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#111022"
+  }
+}

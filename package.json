@@ -1,0 +1,23 @@
+{
+  "name": "ses-acma",
+  "version": "1.0.0",
+  "description": "Ses Açma: Piyano Isınma — şan öğrencileri ve şarkıcılar için piyano eşliğinde ses açma uygulaması",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node test/core.test.js",
+    "serve": "npm run build && npx --yes serve www -l 5173",
+    "icon": "python3 scripts/make_icon.py",
+    "ios:add": "npm run build && npx cap add ios && node scripts/ios-setup.js",
+    "ios:setup": "node scripts/ios-setup.js",
+    "ios:sync": "npm run build && npx cap sync ios",
+    "ios:open": "npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "latest",
+    "@capacitor/ios": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "latest"
+  }
+}
