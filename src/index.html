@@ -333,6 +333,30 @@ button.qcard { cursor: pointer; }
 #earSection:not([hidden]) ~ .x {}
 .app.ear-on { padding-bottom: calc(205px + env(safe-area-inset-bottom, 0px)); }
 
+/* Söyleme ışığı ve "nerede kaldım" listesi */
+.light-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.light {
+  --p: 0%; width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; position: relative;
+  background: radial-gradient(circle at 50% 40%, #2A3160, #141938 70%);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08);
+  transition: background 120ms, box-shadow 120ms;
+}
+.light::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(var(--gold) var(--p), transparent 0); -webkit-mask: radial-gradient(circle, transparent 59px, #000 60px); mask: radial-gradient(circle, transparent 59px, #000 60px); }
+.light span { font-size: 2.6rem; font-weight: 800; color: #fff; }
+.light.ok { background: radial-gradient(circle at 50% 40%, #7BF0B1, #1F9E62 72%); box-shadow: 0 0 34px 2px rgba(76,195,138,0.75), inset 0 0 0 2px rgba(255,255,255,0.25); }
+.light.low, .light.high { background: radial-gradient(circle at 50% 40%, #FFC27A, #C46A1C 72%); box-shadow: 0 0 22px -2px rgba(242,162,78,0.6); }
+.light-wrap .meter-msg { min-height: 1.4em; text-align: center; }
+.review { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; font-size: 0.92rem; font-weight: 600; text-align: left; }
+.rv { display: grid; grid-template-columns: 1.6em 1fr 1.3fr 1.2em; gap: 8px; align-items: center; padding: 7px 10px; border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--ink); }
+.rv b { font-weight: 800; }
+.rv small { color: var(--muted); font-weight: 600; }
+.rv em { color: var(--muted); font-style: normal; }
+.rv .mk { text-align: right; font-weight: 800; }
+.rv.ok .mk { color: var(--good); }
+.rv.no .mk { color: var(--warn); }
+.rv-q { display: flex; flex-direction: column; gap: 2px; }
+.rv-h { color: var(--muted); font-size: 0.85rem; font-weight: 700; margin-top: 6px; }
+
 /* Konservatuvar */
 .hero-k { color: var(--gold); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
 .ear-card.soon { opacity: 0.55; cursor: default; }
@@ -602,9 +626,9 @@ button.qcard { cursor: pointer; }
         <p class="ear-prompt" id="earPrompt"></p>
         <div class="sing-row" id="singRow" hidden></div>
         <button type="button" class="tap-pad" id="tapPad" hidden></button>
-        <div class="meter" id="earMeter" hidden>
-          <div class="track" aria-hidden="true"><div class="zone"></div><div class="mid"></div><div class="dot" id="earDot" hidden></div></div>
-          <div class="meter-msg" id="earMsg"></div>
+        <div class="light-wrap" id="earMeter" hidden>
+          <div class="light" id="earLight" aria-hidden="true"><span></span></div>
+          <div class="meter-msg" id="earMsg" aria-live="polite"></div>
         </div>
         <div class="keyboard" id="earKeys" hidden></div>
         <div class="ear-fb" id="earFeedback"></div>
@@ -776,7 +800,9 @@ const STRINGS = {
       start: "Başla", listen: "Tekrar dinle", next: "Sonraki soru", results: "Sonucu gör", back: "Kulak", listening: "Dinliyorum…",
       q: (a, b) => `Soru ${a} / ${b}`,
       correct: "Doğru!", wrong: (x) => `Doğrusu: ${x}`, first: "Birinci", second: "İkinci",
-      singNow: "Şimdi sen söyle", singGet: "Dinle…", singNote: (a, b) => `${a}. nota / ${b}`, singScore: (a, b) => `${a} / ${b} nota doğru`,
+      singNow: "Şimdi sen söyle",
+      singYourTurn: "Sıra sende, söyle", singNext: "Sıradaki notaya geç", lightOk: "Doğru ton", lightUp: "Biraz yukarı", lightUpMore: "Daha yukarı", lightDown: "Biraz aşağı", lightDownMore: "Daha aşağı",
+      noVoice: "Ses gelmedi", reviewTarget: "Hedef", reviewYou: "Sen", review: "Söylediklerin", cents: "sent", wasLow: "pes kaldı", wasHigh: "tiz kaldı", singGet: "Dinle…", singNote: (a, b) => `${a}. nota / ${b}`, singScore: (a, b) => `${a} / ${b} nota doğru`,
       needMic: "Bu egzersiz mikrofonu kullanır. Kulaklık takarsan daha doğru sonuç alırsın.",
       micFail: "Mikrofon açılamadı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
       micSkip: "Mikrofon açılamadı; test 'Duyduğunu Söyle' olmadan devam ediyor.",
@@ -884,7 +910,9 @@ const STRINGS = {
       start: "Start", listen: "Listen again", next: "Next question", results: "See results", back: "Ear", listening: "Listening…",
       q: (a, b) => `Question ${a} of ${b}`,
       correct: "Correct!", wrong: (x) => `Answer: ${x}`, first: "First", second: "Second",
-      singNow: "Now you sing", singGet: "Listen…", singNote: (a, b) => `Note ${a} of ${b}`, singScore: (a, b) => `${a} of ${b} notes right`,
+      singNow: "Now you sing",
+      singYourTurn: "Your turn, sing", singNext: "Move to the next note", lightOk: "On pitch", lightUp: "A little higher", lightUpMore: "Go higher", lightDown: "A little lower", lightDownMore: "Go lower",
+      noVoice: "No voice heard", reviewTarget: "Target", reviewYou: "You", review: "What you sang", cents: "cents", wasLow: "flat", wasHigh: "sharp", singGet: "Listen…", singNote: (a, b) => `Note ${a} of ${b}`, singScore: (a, b) => `${a} of ${b} notes right`,
       needMic: "This exercise uses the microphone. Headphones give more accurate results.",
       micFail: "The microphone couldn't start. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
       micSkip: "The microphone couldn't start; the test continues without 'Sing It Back'.",
@@ -1107,6 +1135,12 @@ function gradeSungNote(samples, target, tolerance = 50) {
   const ok = voiced.filter((m) => Math.abs(centsOff(m, target)) <= tolerance).length;
   return ok >= Math.max(2, voiced.length * 0.4);
 }
+/** Söylenen sesin hedefe göre durumu (oktav önemsiz): ok / low (pes, yukarı çık) / high (tiz, aşağı in). */
+function pitchState(midi, target, tolerance = TOLERANCE_CENTS) {
+  if (midi == null || target == null) return { state: "none", cents: null, far: false };
+  const c = centsOff(midi, target);
+  return { state: Math.abs(c) <= tolerance ? "ok" : c < 0 ? "low" : "high", cents: c, far: Math.abs(c) > 150 };
+}
 /** Söyleme sorusu: notaların en az 2/3'ü doğruysa soru doğru sayılır. */
 function singPassed(hits, count) { return hits >= Math.ceil(count * (2 / 3)); }
 
@@ -1264,7 +1298,7 @@ function consExamSummary(log) {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
+  module.exports = { pitchState, CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
 }
 </script>
 
@@ -2050,7 +2084,7 @@ function earNext() {
   box.className = "answers" + (q.choices && q.choices.length > 6 ? " many" : "");
   $("earKeys").hidden = q.type !== "note";
   $("singRow").hidden = !isSingQ(q) && q.type !== "c_rhythm";
-  $("earMeter").hidden = !isSingQ(q) || ear.exam;
+  $("earMeter").hidden = !isSingQ(q);
   $("tapPad").hidden = q.type !== "c_rhythm";
   $("tapPad").disabled = true;
   if (q.type === "note") buildEarKeys(q.lo, q.hi);
@@ -2110,9 +2144,9 @@ function earAnswer(v, btn) {
   $("earFeedback").className = "ear-fb " + (ok ? "ok" : "no");
 }
 
-function earRecord(ok, part) {
+function earRecord(ok, part, extra = {}) {
   ear.answered = true;
-  ear.log.push({ type: ear.q.type, level: ear.q.level, ok, part });
+  ear.log.push({ type: ear.q.type, level: ear.q.level, ok, part, ...extra });
   $("earBarFill").style.width = `${((ear.idx + 1) / ear.plan.length) * 100}%`;
   const last = ear.idx >= ear.plan.length - 1;
   setEarPlay(last ? ES().results : ES().next, "next");
@@ -2185,60 +2219,100 @@ function earSingStart(q, delayMs) {
   const s = ES();
   setEarPlay(s.listening, "replay", true);
   $("earBig").textContent = "♪";
-  $("earMsg").textContent = s.singGet; $("earMsg").classList.remove("ok");
-  $("earDot").hidden = true;
-  q.targets.forEach((_, i) => { const c = chip(i); if (c) c.className = "chip"; });
+  setLight(null, null, s.singGet);
+  q.targets.forEach((_, i) => { const c = chip(i); if (c) { c.className = "chip"; delete c.dataset.done; } });
   ear.timers.push(setTimeout(() => {
-    const win = Math.max(0.9, q.step * 1.3);
-    ear.sing = { q, t0: performance.now(), win, samples: q.targets.map(() => []), hits: 0 };
-    $("earBig").textContent = s.singNow;
+    ear.sing = { q, i: 0, run: [], needChange: false, lastLocked: null, results: q.targets.map(() => null), noteStart: performance.now() / 1000, hits: 0 };
+    $("earBig").textContent = q.targets.length > 1 ? s.singNote(1, q.targets.length) : s.singNow;
+    setEarPlay(ear.exam ? (CONS_PLAYS - ear.plays > 0 ? CS().playsLeft(CONS_PLAYS - ear.plays) : CS().noPlays) : s.listen, "replay", ear.exam && CONS_PLAYS - ear.plays <= 0);
     earSingTick();
   }, delayMs));
 }
+// Işık: doğru tonda yeşil; değilse yön (yukarı/aşağı). Hedef notanın adı gösterilmez.
+function setLight(midi, target, msg, hold = 0) {
+  const s = ES(), el = $("earLight"), m = $("earMsg");
+  el.classList.remove("ok", "low", "high", "on");
+  el.style.setProperty("--p", `${Math.round(Math.min(1, hold) * 100)}%`);
+  if (msg) { m.textContent = msg; el.querySelector("span").textContent = ""; return; }
+  const st = pitchState(midi, target);
+  if (st.state === "none") { m.textContent = s.singYourTurn; el.querySelector("span").textContent = ""; return; }
+  el.classList.add("on", st.state);
+  el.querySelector("span").textContent = st.state === "ok" ? "✓" : st.state === "low" ? "↑" : "↓";
+  m.textContent = st.state === "ok" ? s.lightOk : st.state === "low" ? (st.far ? s.lightUpMore : s.lightUp) : (st.far ? s.lightDownMore : s.lightDown);
+}
+const HOLD_SEC = 0.75, NOTE_TIMEOUT = 10;
+const median = (a) => { const b = a.slice().sort((x, y) => x - y); return b.length ? b[b.length >> 1] : null; };
 function earSingTick() {
   const sg = ear.sing;
   if (!sg || sg.q !== ear.q) return;
   const s = ES();
-  const t = (performance.now() - sg.t0) / 1000;
-  const i = Math.floor(t / sg.win);
-  if (i >= sg.q.targets.length) return earSingEnd();
-  const local = t - i * sg.win;
-  const target = sg.q.targets[i];
-  for (let k = 0; k < sg.q.targets.length; k++) { const c = chip(k); if (c) c.classList.toggle("now", k === i); }
-  if (local > 0.2 && local < sg.win - 0.05) sg.samples[i].push(mic.midi);
-  $("earBig").textContent = sg.q.targets.length > 1 ? s.singNote(i + 1, sg.q.targets.length) : s.singNow;
-  if (!ear.exam) {
-    const dot = $("earDot"), msg = $("earMsg");
-    if (mic.midi == null) { dot.hidden = true; msg.textContent = S().cantHear; msg.classList.remove("ok"); }
+  const now = performance.now() / 1000;
+  const n = sg.q.targets.length, target = sg.q.targets[sg.i];
+  for (let k = 0; k < n; k++) { const c = chip(k); if (c && !c.dataset.done) c.classList.toggle("now", k === sg.i); }
+  // piyano çalarken (ya da sönerken) dinleme: kendi sesini duymasın
+  const m = piano.voices.size > 0 ? null : mic.midi;
+  if (now - sg.noteStart > NOTE_TIMEOUT) { earLockNote(sg.lastWrong ?? null); }
+  else if (m == null) {
+    sg.run = []; sg.needChange = false;
+    setLight(null, target);
+  } else {
+    if (sg.needChange && Math.abs(m - sg.lastLocked) > 0.6) { sg.needChange = false; sg.run = []; }
+    if (sg.needChange) setLight(null, null, s.singNext);
     else {
-      const c = Math.max(-100, Math.min(100, centsOff(mic.midi, target)));
-      const ok = Math.abs(c) <= TOLERANCE_CENTS;
-      dot.hidden = false; dot.style.left = `${(c + 100) / 2}%`; dot.classList.toggle("ok", ok);
-      msg.textContent = ok ? S().perfect : c > 0 ? S().lower : S().higher; msg.classList.toggle("ok", ok);
+      if (sg.run.length && Math.abs(m - median(sg.run.map((r) => r.m))) > 0.5) sg.run = [];
+      sg.run.push({ t: now, m });
+      const held = now - sg.run[0].t;
+      setLight(m, target, null, held / HOLD_SEC);
+      if (held >= HOLD_SEC) {
+        const med = median(sg.run.map((r) => r.m));
+        // Alıştırmada yanlış ses kilitlenmez: ışık yön gösterir, doğru tutana kadar (ya da süre dolana kadar) dinler.
+        if (ear.exam || Math.abs(centsOff(med, target)) <= TOLERANCE_CENTS) earLockNote(med);
+        else sg.lastWrong = med;
+      }
     }
   }
-  if (i > 0) { const prev = chip(i - 1); if (prev && !prev.dataset.done) earMarkSung(i - 1, sg); }
+  if (!ear.sing) return;
   clearTimeout(ear.tick); ear.tick = setTimeout(earSingTick, 40);
 }
-function earMarkSung(k, sg) {
-  const ok = gradeSungNote(sg.samples[k], sg.q.targets[k]);
+function earLockNote(sung) {
+  const sg = ear.sing, s = ES();
+  const target = sg.q.targets[sg.i];
+  const ok = sung != null && Math.abs(centsOff(sung, target)) <= TOLERANCE_CENTS;
+  sg.results[sg.i] = { target, sung, ok };
   if (ok) sg.hits++;
-  const c = chip(k);
+  const c = chip(sg.i);
   if (c) { c.dataset.done = "1"; c.classList.remove("now"); c.classList.add(ear.exam ? "done" : ok ? "good" : "bad"); }
+  sg.lastLocked = sung; sg.needChange = sung != null; sg.run = []; sg.lastWrong = null;
+  sg.i++; sg.noteStart = performance.now() / 1000;
+  if (sg.i >= sg.q.targets.length) return earSingEnd();
+  $("earBig").textContent = s.singNote(sg.i + 1, sg.q.targets.length);
+}
+/** "Nerede kaldım": hedef ve söylenen notalar (sonradan gösterilir) */
+function reviewHTML(results) {
+  const s = ES();
+  return `<div class="review">${results.map((r, i) => {
+    const sung = r.sung == null ? `<em>${s.noVoice}</em>` : `${nn(Math.round(r.sung))} <small>${dirWord(r)}</small>`;
+    return `<div class="rv ${r.ok ? "ok" : "no"}"><span class="rk">${results.length > 1 ? i + 1 + "." : ""}</span><span>${s.reviewTarget}: <b>${nn(r.target)}</b></span><span>${s.reviewYou}: <b>${sung}</b></span><span class="mk">${r.ok ? "✓" : "✗"}</span></div>`;
+  }).join("")}</div>`;
+}
+function dirWord(r) {
+  const s = ES();
+  if (r.sung == null) return "";
+  const c = Math.round(centsOff(r.sung, r.target));
+  if (Math.abs(c) <= TOLERANCE_CENTS) return c === 0 ? "" : `(${c > 0 ? "+" : ""}${c} ${s.cents})`;
+  return c < 0 ? s.wasLow : s.wasHigh;
 }
 function earSingEnd() {
   const sg = ear.sing; ear.sing = null;
+  clearTimeout(ear.tick);
   const s = ES();
-  const last = sg.q.targets.length - 1;
-  const c = chip(last);
-  if (c && !c.dataset.done) earMarkSung(last, sg);
   const n = sg.q.targets.length;
   const ok = singPassed(sg.hits, n);
-  earRecord(ok, sg.hits / n);
-  $("earDot").hidden = true;
+  earRecord(ok, sg.hits / n, { review: sg.results });
+  setLight(null, null, " ");
   if (ear.exam) return examNeutral();
   $("earBig").textContent = ok ? "✓" : "✗";
-  $("earFeedback").textContent = `${ok ? s.correct + " " : ""}${s.singScore(sg.hits, n)}`;
+  $("earFeedback").innerHTML = `<div>${ok ? s.correct + " " : ""}${s.singScore(sg.hits, n)}</div>${reviewHTML(sg.results)}`;
   $("earFeedback").className = "ear-fb " + (ok ? "ok" : "no");
 }
 
@@ -2310,6 +2384,7 @@ function earFinish() {
         <div class="res-pct">${c.overall}</div>
       </section>
       <div class="panel areas">${rows}${sum.weakest ? `<p class="hint">${c.focus(c.areas[sum.weakest])}</p>` : ""}</div>
+      ${ear.log.some((a) => a.review) ? `<div class="panel"><h3>${s.review}</h3>${ear.log.map((a, i) => a.review ? `<div class="rv-q"><div class="rv-h">${i + 1}. ${info(a.type).name}</div>${reviewHTML(a.review)}</div>` : "").join("")}</div>` : ""}
       <p class="note-hint">${c.disclaimer}</p>
       <div class="res-actions">
         ${focusType ? `<button type="button" class="ghost-btn" id="resFocus">${c.types[focusType].name} →</button>` : ""}
@@ -2330,6 +2405,7 @@ function earFinish() {
         <p class="res-text">${s.rankText[sum.rank]}</p>
       </section>
       <div class="panel areas">${rows}${sum.weakest ? `<p class="hint">${s.focus(s.types[sum.weakest].name)}</p>` : ""}</div>
+      ${ear.log.some((a) => a.review) ? `<div class="panel"><h3>${s.review}</h3>${ear.log.map((a, i) => a.review ? `<div class="rv-q"><div class="rv-h">${i + 1}. ${info(a.type).name}</div>${reviewHTML(a.review)}</div>` : "").join("")}</div>` : ""}
       <div class="res-actions">
         ${sum.weakest ? `<button type="button" class="ghost-btn" id="resFocus">${s.types[sum.weakest].name} →</button>` : ""}
         <button type="button" class="ghost-btn" id="resHome">${s.home}</button></div>`;
