@@ -1,7 +1,7 @@
 {
   "name": "ses-acma",
-  "version": "1.0.0",
-  "description": "Ses Açma: Piyano Isınma — şan öğrencileri ve şarkıcılar için piyano eşliğinde ses açma uygulaması",
+  "version": "1.1.0",
+  "description": "Ses Açma: Piyano Isınma — şan öğrencileri ve şarkıcılar için ses açma, kulak eğitimi ve konservatuvara hazırlık",
   "private": true,
   "scripts": {
     "build": "node scripts/build.js",

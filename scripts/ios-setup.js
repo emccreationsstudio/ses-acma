@@ -79,6 +79,17 @@ if (fs.existsSync(splashSet)) {
   if (pngs.length) done.push(`Açılış ekranı (${pngs.length} görsel)`);
 }
 
+// 4b) Sürüm numarası package.json'dan (ör. 1.1.0 → 1.1)
+{
+  const ver = require(path.join(__dirname, "..", "package.json")).version.split(".").slice(0, 2).join(".");
+  const pbxP = path.join(__dirname, "..", "ios", "App", "App.xcodeproj", "project.pbxproj");
+  if (fs.existsSync(pbxP)) {
+    const t = fs.readFileSync(pbxP, "utf8");
+    const u = t.replace(/MARKETING_VERSION = [0-9.]+;/g, `MARKETING_VERSION = ${ver};`);
+    if (u !== t) { fs.writeFileSync(pbxP, u); done.push(`Sürüm ${ver}`); }
+  }
+}
+
 // 5) Yalnızca iPhone (iPad ekran görüntüsü istenmesin; iPad'de iPhone uygulaması olarak yine çalışır)
 const pbxPath = path.join(root, "ios", "App", "App.xcodeproj", "project.pbxproj");
 if (fs.existsSync(pbxPath)) {
