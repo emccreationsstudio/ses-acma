@@ -269,7 +269,7 @@ button.qcard { cursor: pointer; }
 .note-hint svg { width: 18px; height: 18px; flex: none; }
 
 /* Ayarlar (alt sayfa) */
-.panel { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.panel { background: linear-gradient(170deg, var(--surface-2), var(--surface)); border-radius: var(--radius); border: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .label { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .seg { display: flex; flex-wrap: wrap; gap: 4px; background: var(--bg); padding: 4px; border-radius: 14px; border: 1px solid var(--line); }
@@ -517,21 +517,46 @@ button.qcard { cursor: pointer; }
         <div class="ex-row" id="exercises"></div>
       </section>
 
-      <div class="quick" id="quick">
-        <div class="qcard">
-          <svg viewBox="0 0 30 30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M11 4h8l5 22H6z"/><path d="M15 21l6-11"/><path d="M9 21h12"/></svg>
-          <div class="qtxt"><span data-i18n="tempo"></span><b id="bpmVal">100 BPM</b></div>
-          <div class="qbtns">
-            <button type="button" class="round-btn" id="tempoDown" aria-label="−"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
-            <button type="button" class="round-btn" id="tempoUp" aria-label="+"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      <section class="section" id="settingsSection">
+        <div class="section-head"><h2 data-i18n="settings"></h2></div>
+    <div class="panel" id="settings">
+          <div class="field">
+            <div class="label" id="lblRange" data-i18n="voice"></div>
+            <div class="seg" id="ranges" role="group" aria-labelledby="lblRange"></div>
+          </div>
+          <div class="steppers">
+            <div class="field">
+              <div class="label" data-i18n="start"></div>
+              <div class="stepper"><button type="button" id="startDown" aria-label="−">−</button><b id="startVal">Do4</b><button type="button" id="startUp" aria-label="+">+</button></div>
+            </div>
+            <div class="field">
+              <div class="label" data-i18n="top"></div>
+              <div class="stepper"><button type="button" id="endDown" aria-label="−">−</button><b id="endVal">Sol4</b><button type="button" id="endUp" aria-label="+">+</button></div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="label" data-i18n="tempo"></div>
+            <div class="stepper"><button type="button" id="tempoDown" aria-label="−">−</button><b id="bpmVal">100 BPM</b><button type="button" id="tempoUp" aria-label="+">+</button></div>
+          </div>
+          <div class="field">
+            <div class="label" id="lblDir" data-i18n="direction"></div>
+            <div class="seg" id="dirs" role="group" aria-labelledby="lblDir"></div>
+          </div>
+          <label class="toggle" for="melody">
+            <span><span data-i18n="melody"></span><small data-i18n="melodySub"></small></span>
+            <span class="switch"><input type="checkbox" id="melody" checked><span></span></span>
+          </label>
+          <label class="toggle" for="mic">
+            <span><span data-i18n="mic"></span><small data-i18n="micSub"></small></span>
+            <span class="switch"><input type="checkbox" id="mic"><span></span></span>
+          </label>
+          <p class="hint" id="micHint" hidden></p>
+          <div class="field">
+            <div class="label" id="lblLang" data-i18n="language"></div>
+            <div class="seg" id="langs" role="group" aria-labelledby="lblLang"></div>
           </div>
         </div>
-        <button type="button" class="qcard" id="rangeCard">
-          <svg viewBox="0 0 30 30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12v6M10 7v16M15 4v22M20 9v12M25 13v4"/></svg>
-          <div class="qtxt"><span data-i18n="rangeTitle"></span><b id="rangeVal">Do4 – Sol4</b></div>
-          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
+      </section>
 
       <button type="button" class="play" id="play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path id="playIcon" d="M6 3.5v17l15-8.5z" fill="currentColor"/></svg>
@@ -591,46 +616,6 @@ button.qcard { cursor: pointer; }
 
     <div class="ear-col" id="earResult" hidden></div>
   </section>
-</div>
-
-<div class="sheet-wrap" id="settingsSheet" hidden>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <h2 id="settingsTitle" data-i18n="settings"></h2>
-    <div class="panel" id="settings">
-      <div class="field">
-        <div class="label" id="lblRange" data-i18n="voice"></div>
-        <div class="seg" id="ranges" role="group" aria-labelledby="lblRange"></div>
-      </div>
-      <div class="steppers">
-        <div class="field">
-          <div class="label" data-i18n="start"></div>
-          <div class="stepper"><button type="button" id="startDown" aria-label="−">−</button><b id="startVal">Do4</b><button type="button" id="startUp" aria-label="+">+</button></div>
-        </div>
-        <div class="field">
-          <div class="label" data-i18n="top"></div>
-          <div class="stepper"><button type="button" id="endDown" aria-label="−">−</button><b id="endVal">Sol4</b><button type="button" id="endUp" aria-label="+">+</button></div>
-        </div>
-      </div>
-      <div class="field">
-        <div class="label" id="lblDir" data-i18n="direction"></div>
-        <div class="seg" id="dirs" role="group" aria-labelledby="lblDir"></div>
-      </div>
-      <label class="toggle" for="melody">
-        <span><span data-i18n="melody"></span><small data-i18n="melodySub"></small></span>
-        <span class="switch"><input type="checkbox" id="melody" checked><span></span></span>
-      </label>
-      <label class="toggle" for="mic">
-        <span><span data-i18n="mic"></span><small data-i18n="micSub"></small></span>
-        <span class="switch"><input type="checkbox" id="mic"><span></span></span>
-      </label>
-      <p class="hint" id="micHint" hidden></p>
-      <div class="field">
-        <div class="label" id="lblLang" data-i18n="language"></div>
-        <div class="seg" id="langs" role="group" aria-labelledby="lblLang"></div>
-      </div>
-    </div>
-    <button type="button" class="sheet-close" id="settingsClose" data-i18n="okBtn"></button>
-  </div>
 </div>
 
 <div class="dock">
@@ -1740,7 +1725,7 @@ function render() {
   for (const e of EXERCISES) $(`ex-${e.id}`).setAttribute("aria-pressed", String(e.id === state.ex));
   $("stageContour").innerHTML = chartSVG(ex.pattern, ex.color, { w: 260, h: 100, drops: true, r: 5.2 });
   $("hz").textContent = hzLabel(state.start);
-  $("rangeVal").textContent = `${nn(Math.min(state.start, state.end))} – ${nn(Math.max(state.start, state.end))}`;
+
   for (const r of RANGES) $(`ranges-${r.id}`).setAttribute("aria-pressed", String(r.id === state.range));
   for (const d of ["up", "upDown"]) $(`dirs-${d}`).setAttribute("aria-pressed", String(d === state.dir));
   for (const l of ["tr", "en"]) $(`langs-${l}`).setAttribute("aria-pressed", String(l === state.lang));
@@ -1771,7 +1756,6 @@ function setPlaying(on) {
   $("playIcon").setAttribute("d", on ? "M6 6h12v12H6z" : PLAY_D);
   $("settings").setAttribute("aria-disabled", String(on));
   $("exercises").setAttribute("aria-disabled", String(on));
-  $("quick").setAttribute("aria-disabled", String(on));
   $("stageDown").disabled = on; $("stageUp").disabled = on;
   $("demo").disabled = on && !demo;
   if (!on) setDot(-1);
@@ -1807,9 +1791,6 @@ $("tempoDown").onclick = () => tempo(-5);
 $("tempoUp").onclick = () => tempo(5);
 $("stageDown").onclick = () => step("start", -1);
 $("stageUp").onclick = () => step("start", 1);
-$("rangeCard").onclick = () => { $("settingsSheet").hidden = false; $("settingsClose").focus(); };
-$("settingsClose").onclick = () => { $("settingsSheet").hidden = true; $("rangeCard").focus(); };
-$("settingsSheet").addEventListener("click", (e) => { if (e.target.id === "settingsSheet") $("settingsSheet").hidden = true; });
 $("seeAll").onclick = () => showAll(true);
 $("allBack").onclick = () => showAll(false);
 $("sumPlay").onclick = () => { showAll(false); start(); };
@@ -1842,7 +1823,7 @@ $("aboutBtn").onclick = () => { $("about").hidden = false; $("aboutClose").focus
 $("aboutClose").onclick = () => { $("about").hidden = true; $("aboutBtn").focus(); };
 $("about").addEventListener("click", (e) => { if (e.target.id === "about") $("about").hidden = true; });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") { $("about").hidden = true; $("settingsSheet").hidden = true; }
+  if (e.key === "Escape") $("about").hidden = true;
   if (e.code === "Space" && e.target === document.body) { e.preventDefault(); run ? stop() : start(); }
 });
 // Uygulama arka plana geçince durdur (telefon çaldığında vb.)

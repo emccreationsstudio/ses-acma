@@ -1,0 +1,2397 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html, body { margin: 0; overscroll-behavior: none; }
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Ses Açma</title>
+<style>
+/* Tasarım: taslaklardaki gece laciverti + altın. Tek koyu tema; kartlar yumuşak kenarlı cam paneller.
+   Başlıklar SF Pro (sistem), büyük nota adı serif altın. Dış font yüklenmez. */
+:root {
+  --bg: #090C1D;
+  --bg-2: #0E1330;
+  --surface: #131937;
+  --surface-2: #1A2146;
+  --surface-3: #232B57;
+  --line: rgba(150, 162, 230, 0.16);
+  --line-2: rgba(150, 162, 230, 0.26);
+  --ink: #F4F2FA;
+  --muted: #A3A8CB;
+  --dim: #7B82AC;
+  --gold: #F2C566;
+  --gold-2: #E3A64A;
+  --gold-hi: #FFE3A3;
+  --gold-ink: #1D1405;
+  --good: #4CC38A;
+  --warn: #F2A24E;
+  --key-white: #F4EFE4;
+  --key-black: #0A0C19;
+  --scrim: rgba(3, 4, 12, 0.66);
+  --ex: #F2C566;
+  --font-display: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: system-ui, -apple-system, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --radius: 20px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  background:
+    radial-gradient(90% 50% at 80% -10%, rgba(92, 84, 190, 0.28), transparent 60%),
+    radial-gradient(70% 40% at 0% 0%, rgba(242, 197, 102, 0.08), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), var(--bg) 55%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.app {
+  max-width: 640px; margin: 0 auto;
+  padding: 16px 16px calc(110px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+/* Başlık */
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.mark { width: 58px; height: 58px; flex: none; border-radius: 15px; box-shadow: 0 8px 22px -8px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06); }
+.brand h1 { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+.brand p { margin: 3px 0 0; color: var(--muted); font-size: 0.98rem; }
+.icon-btn {
+  width: 44px; height: 44px; flex: none; border-radius: 50%;
+  border: 1px solid var(--line-2); background: var(--surface); color: var(--ink);
+  font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; cursor: pointer;
+}
+
+/* Üst bölüm seçici */
+.switcher { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; padding: 4px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+.switcher button {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  border: 0; border-radius: 14px; padding: 11px 8px; background: transparent; cursor: pointer;
+  font-weight: 700; font-size: 1.02rem; color: var(--muted);
+}
+.switcher svg { width: 22px; height: 22px; flex: none; }
+@media (max-width: 460px) { .switcher svg { display: none; } .switcher button { font-size: 0.9rem; padding: 11px 2px; letter-spacing: -0.01em; } }
+.switcher button[aria-selected="true"] {
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 45%, var(--gold-2));
+  color: var(--gold-ink); box-shadow: 0 6px 18px -8px var(--gold), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Sahne */
+.stage {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 90% 0%, color-mix(in srgb, var(--ex) 14%, transparent), transparent 60%),
+    linear-gradient(170deg, #1A2047, #0F1331 70%);
+  border: 1px solid var(--line);
+  border-radius: 26px; padding: 18px 16px 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.stage-top { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: stretch; }
+.start-col { display: flex; flex-direction: column; gap: 2px; padding-right: 14px; border-right: 1px solid var(--line); min-width: 0; }
+.kicker { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.now-note {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(3.3rem, 16vw, 4.6rem); line-height: 0.95; letter-spacing: -0.02em;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.hz { color: var(--muted); font-size: 0.98rem; font-variant-numeric: tabular-nums; }
+.round-btns { display: flex; gap: 12px; margin-top: 10px; }
+.round-btn {
+  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--line-2); background: rgba(255,255,255,0.04); color: var(--ink);
+  display: grid; place-items: center;
+}
+.round-btn svg { width: 20px; height: 20px; }
+.round-btn:disabled { opacity: 0.4; cursor: default; }
+.contour-col { display: flex; flex-direction: column; justify-content: space-between; gap: 6px; min-width: 0; }
+.contour-col { justify-content: center; }
+.contour-col svg { width: 100%; height: 118px; display: block; overflow: visible; }
+.syllables { text-align: center; font-weight: 700; font-size: clamp(1.05rem, 4.8vw, 1.4rem); letter-spacing: 0.01em; margin-top: -4px; }
+.stage-status { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; min-height: 1.2em; font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+.score { color: var(--gold); font-family: var(--font-display); font-size: 1.05rem; }
+.cdot { transition: r 120ms, filter 120ms; }
+.cdot.cur { filter: drop-shadow(0 0 6px var(--ex)); }
+
+/* Akort göstergesi */
+.meter { background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px; }
+.meter-row { display: flex; justify-content: space-between; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+.meter-row b { color: var(--ink); font-size: 1rem; }
+.track { position: relative; height: 22px; border-radius: 11px; background: rgba(255,255,255,0.08); }
+.track .zone { position: absolute; top: 0; bottom: 0; left: 25%; width: 50%; border-radius: 11px; background: color-mix(in srgb, var(--good) 32%, transparent); }
+.track .mid { position: absolute; top: 3px; bottom: 3px; left: calc(50% - 1px); width: 2px; background: rgba(255,255,255,0.45); }
+.track .dot { position: absolute; top: 1px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--warn); transition: left 90ms linear, background 120ms; }
+.track .dot.ok { background: var(--good); }
+.meter-msg { font-weight: 700; font-size: 1.05rem; }
+.meter-msg.ok { color: var(--good); }
+
+/* Klavye */
+.keyboard {
+  position: relative; height: 128px; user-select: none; -webkit-user-select: none; touch-action: manipulation;
+  padding: 6px; border-radius: 16px; background: #05060E; box-shadow: inset 0 2px 8px rgba(0,0,0,0.6), 0 0 0 1px var(--line);
+}
+.whites { display: flex; height: 100%; gap: 3px; }
+.key-w {
+  flex: 1 1 0; min-width: 0; border: 0; padding: 0 0 8px; cursor: pointer;
+  background: linear-gradient(180deg, #E6E0D3, var(--key-white) 18%, #FBF8F1 92%, #DCD5C6);
+  border-radius: 3px 3px 8px 8px; box-shadow: inset 0 -6px 0 rgba(0,0,0,0.12);
+  display: flex; align-items: flex-end; justify-content: center;
+  font-size: 0.66rem; font-weight: 700; color: #6F6A7E;
+}
+.key-b {
+  position: absolute; top: 6px; height: 60%; border: 0; padding: 0; cursor: pointer; z-index: 1;
+  background: linear-gradient(180deg, #2A2D44, var(--key-black) 30%, #000);
+  border-radius: 0 0 6px 6px; box-shadow: inset 0 -4px 0 rgba(255,255,255,0.1), 0 3px 6px rgba(0,0,0,0.5);
+}
+.key-w.on, .key-b.on { background: linear-gradient(180deg, var(--gold-hi), var(--gold) 60%, var(--gold-2)); color: var(--gold-ink); box-shadow: 0 0 22px -2px var(--gold); }
+.key-w.target { box-shadow: inset 0 0 0 3px var(--ex); }
+.key-w.good, .key-b.good { background: var(--good); box-shadow: 0 0 16px -2px var(--good); color: #fff; }
+.key-w.bad, .key-b.bad { background: var(--warn); color: #fff; }
+
+/* Bölüm başlıkları */
+.section { display: flex; flex-direction: column; gap: 12px; }
+.section-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.section-head h2 { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.01em; }
+.section-head span, .link-btn { color: var(--muted); font-size: 0.92rem; font-weight: 700; }
+.link-btn { border: 0; background: transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 6px 0; }
+.link-btn svg { width: 16px; height: 16px; }
+
+/* Egzersiz kartları (ana ekranda yatay sıra) */
+.ex-row {
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc(50% - 6px); gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 6px; margin: -2px -2px 0;
+  scrollbar-width: none;
+}
+.ex-row::-webkit-scrollbar { display: none; }
+.ex-card {
+  --c: var(--ex);
+  position: relative; scroll-snap-align: start; min-width: 0; text-align: left; cursor: pointer;
+  background: linear-gradient(170deg, var(--surface-2), var(--surface));
+  border: 1.5px solid var(--line); border-radius: var(--radius); padding: 14px 14px 13px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: border-color 140ms, transform 140ms;
+}
+.ex-card svg { width: 100%; height: 62px; display: block; overflow: visible; }
+.ex-card[aria-pressed="true"] {
+  border-color: var(--c);
+  background: linear-gradient(170deg, color-mix(in srgb, var(--c) 16%, var(--surface-2)), var(--surface));
+  box-shadow: 0 10px 26px -14px var(--c);
+}
+.check {
+  position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 50%;
+  display: none; place-items: center; background: var(--c); color: #1A1206; box-shadow: 0 0 14px -2px var(--c);
+}
+.check svg { width: 16px !important; height: 16px !important; }
+[aria-pressed="true"] > .check { display: grid; }
+.ex-name { font-weight: 700; font-size: 1.12rem; line-height: 1.15; }
+.ex-meta { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--muted); font-weight: 600; }
+.ex-meta i { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); }
+.level { padding: 3px 10px; border-radius: 99px; background: color-mix(in srgb, var(--c) 20%, rgba(255,255,255,0.04)); color: color-mix(in srgb, var(--c) 55%, #fff); font-weight: 700; font-size: 0.84rem; }
+
+/* Tempo + ses aralığı kutuları */
+.quick { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 500px) { .quick { grid-template-columns: 1fr 1fr; gap: 12px; } }
+.qcard {
+  display: flex; align-items: center; gap: 10px; min-width: 0;
+  background: linear-gradient(170deg, var(--surface-2), var(--surface)); border: 1px solid var(--line);
+  border-radius: 18px; padding: 12px; text-align: left;
+}
+button.qcard { cursor: pointer; }
+.qcard > svg { width: 30px; height: 30px; flex: none; color: var(--muted); }
+.qtxt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.qtxt span { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+.qtxt b { font-size: 1.12rem; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.qbtns { display: flex; gap: 6px; }
+.qbtns .round-btn { width: 36px; height: 36px; }
+.qbtns .round-btn svg { width: 16px; height: 16px; }
+.chev { width: 18px; height: 18px; color: var(--muted); flex: none; }
+
+/* Ana düğmeler */
+.play {
+  display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%;
+  border: 0; border-radius: 22px; padding: 18px; cursor: pointer;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 45%, var(--gold-2));
+  color: var(--gold-ink); font-size: 1.32rem; font-weight: 800; letter-spacing: 0.005em;
+  box-shadow: 0 14px 30px -14px var(--gold), inset 0 1px 0 rgba(255,255,255,0.55);
+}
+.play svg { width: 26px; height: 26px; }
+.play.stop { background: var(--surface-3); color: var(--ink); box-shadow: none; }
+.play:disabled { opacity: 0.55; cursor: default; }
+.ghost-lg {
+  display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;
+  border: 1px solid var(--line-2); border-radius: 22px; padding: 15px; cursor: pointer;
+  background: rgba(255,255,255,0.03); color: var(--ink); font-size: 1.08rem; font-weight: 700;
+}
+.ghost-lg svg { width: 22px; height: 22px; }
+.ghost-lg:disabled, .ex-row[aria-disabled="true"], .quick[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+/* Tüm egzersizler sayfası */
+.all-head { display: flex; flex-direction: column; gap: 4px; }
+.all-head h1 { font-size: clamp(2.2rem, 10vw, 3rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+.all-head p { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.back { border: 0; background: transparent; cursor: pointer; font-weight: 700; color: var(--muted); padding: 6px 0; font-size: 1rem; align-self: flex-start; display: inline-flex; gap: 6px; align-items: center; }
+.back svg { width: 18px; height: 18px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chips button { border: 1px solid var(--line-2); background: var(--surface); color: var(--muted); border-radius: 99px; padding: 8px 18px; font-weight: 700; cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--surface-3); color: var(--ink); border-color: rgba(255,255,255,0.3); }
+.all-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 540px) { .all-grid { grid-template-columns: 1fr 1fr; } }
+.big-card { padding: 16px; gap: 10px; }
+.big-card svg.chart { height: 120px; }
+.big-foot { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; }
+.big-foot .ex-name { font-size: 1.35rem; }
+.big-foot .sub { color: var(--muted); font-size: 1rem; font-weight: 600; }
+.play-dot {
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line-2); background: linear-gradient(180deg, var(--surface-3), var(--surface-2)); color: var(--ink);
+  box-shadow: 0 6px 16px -8px rgba(0,0,0,0.8);
+}
+.play-dot svg { width: 22px !important; height: 22px !important; margin-left: 3px; }
+.summary {
+  position: sticky; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); z-index: 2;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
+  background: linear-gradient(170deg, #1C2350, #141A3A); border: 1px solid var(--line-2); border-radius: 22px; padding: 10px 10px 10px 12px;
+  box-shadow: 0 -12px 30px -14px rgba(0,0,0,0.9);
+}
+.summary .mini { width: 96px; height: 50px; border-radius: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--line); padding: 5px 6px; }
+.summary .mini svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.summary .ex-name { font-size: 1.08rem; }
+.summary .ex-meta { font-size: 0.82rem; }
+.summary .play { width: auto; padding: 13px 18px; font-size: 1rem; border-radius: 16px; gap: 8px; }
+.summary .play svg { width: 18px; height: 18px; }
+.summary .short { display: none; }
+@media (max-width: 430px) { .summary .mini { display: none; } .summary { grid-template-columns: 1fr auto; } .summary .long { display: none; } .summary .short { display: inline; } }
+.note-hint { display: flex; gap: 8px; align-items: center; color: var(--dim); font-size: 0.85rem; }
+.note-hint svg { width: 18px; height: 18px; flex: none; }
+
+/* Ayarlar (alt sayfa) */
+.panel { background: linear-gradient(170deg, var(--surface-2), var(--surface)); border-radius: var(--radius); border: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.label { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; background: var(--bg); padding: 4px; border-radius: 14px; border: 1px solid var(--line); }
+.seg button { flex: 1 1 auto; border: 0; background: transparent; padding: 9px 10px; border-radius: 10px; font-weight: 700; cursor: pointer; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--surface-3); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+.steppers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.stepper { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 6px; }
+.stepper b { font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.stepper button { width: 38px; height: 38px; border-radius: 10px; border: 0; background: var(--surface-3); font-size: 1.3rem; font-weight: 700; cursor: pointer; }
+.toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; cursor: pointer; }
+.toggle small { display: block; font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+.switch { position: relative; width: 52px; height: 30px; flex: none; }
+.switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.switch span { position: absolute; inset: 0; border-radius: 99px; background: var(--surface-3); transition: background 150ms; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.35); transition: transform 150ms; }
+.switch input:checked + span { background: var(--gold); }
+.switch input:checked + span::after { transform: translateX(22px); }
+.switch input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
+.hint { margin: 0; font-size: 0.85rem; color: var(--muted); }
+.hint.err { color: var(--warn); font-weight: 700; }
+.panel[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
+
+.sheet-wrap {
+  position: fixed; inset: 0; z-index: 10; background: var(--scrim);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+.sheet {
+  width: 100%; max-width: 560px; max-height: 86vh; overflow-y: auto;
+  background: linear-gradient(170deg, var(--surface-2), var(--surface)); color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: 26px; padding: 20px;
+  display: flex; flex-direction: column; gap: 14px; box-shadow: 0 -20px 60px -20px rgba(0,0,0,0.8);
+}
+.sheet > p { margin: 0; color: var(--muted); }
+.sheet h2 { font-size: 1.35rem; font-weight: 800; }
+.sheet .panel { padding: 0; border: 0; background: transparent; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sheet .ver { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
+.sheet-close { border: 0; border-radius: 16px; padding: 14px; background: var(--surface-3); font-weight: 800; cursor: pointer; }
+
+/* Alt sekme çubuğu */
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bar { padding: 10px 16px 4px; max-width: 640px; margin: 0 auto; }
+.tabs { display: flex; max-width: 640px; margin: 0 auto; }
+.tab {
+  position: relative; flex: 1; border: 0; background: transparent; cursor: pointer;
+  padding: 9px 0 12px; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 0.86rem; font-weight: 700; color: var(--muted);
+}
+.tab + .tab::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 1px; background: var(--line); }
+.tab svg { width: 28px; height: 28px; }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"] svg { color: var(--gold); }
+.tab[aria-selected="true"]::after { content: ""; position: absolute; bottom: 4px; left: 32%; right: 32%; height: 3px; border-radius: 3px; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+#earSection:not([hidden]) ~ .x {}
+.app.ear-on { padding-bottom: calc(205px + env(safe-area-inset-bottom, 0px)); }
+
+/* Konservatuvar */
+.hero-k { color: var(--gold); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.ear-card.soon { opacity: 0.55; cursor: default; }
+.ear-card.soon .pill { background: rgba(255,255,255,0.08); color: var(--muted); }
+.tap-pad {
+  align-self: center; width: min(50vw, 190px); aspect-ratio: 1; border-radius: 50%; cursor: pointer;
+  border: 2px solid color-mix(in srgb, var(--ex) 60%, transparent);
+  background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--ex) 35%, #1A2047), #0F1331 70%);
+  color: var(--ink); font-size: 1.3rem; font-weight: 800; letter-spacing: 0.04em;
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--ex) 10%, transparent), 0 18px 40px -18px var(--ex);
+  touch-action: manipulation; -webkit-user-select: none; user-select: none;
+}
+.tap-pad:disabled { opacity: 0.45; cursor: default; }
+.tap-pad.hit { animation: tap 160ms ease-out; }
+@keyframes tap { from { transform: scale(0.94); background: color-mix(in srgb, var(--ex) 55%, #1A2047); } to { transform: scale(1); } }
+.chip.done { background: var(--surface-3); color: var(--ink); }
+.area-row { display: flex; flex-direction: column; gap: 6px; }
+.area .pctv { color: var(--gold); font-variant-numeric: tabular-nums; }
+.area-bar { height: 8px; border-radius: 8px; background: var(--surface-3); overflow: hidden; }
+.area-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-2), var(--gold-hi)); }
+
+/* Kulak sekmesi */
+.ear { gap: 18px; }
+.ear-col { display: flex; flex-direction: column; gap: 16px; }
+.ear-hero {
+  display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: center;
+  text-align: left; cursor: pointer; color: var(--ink);
+  background: radial-gradient(120% 90% at 90% 0%, rgba(242,197,102,0.2), transparent 55%), linear-gradient(170deg, #1A2047, #0F1331 70%);
+  border: 1px solid var(--line); border-radius: 26px; padding: 20px 18px; box-shadow: 0 18px 40px -20px rgba(0,0,0,0.8);
+}
+.hero-ico { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--gold); }
+.hero-ico svg { width: 34px; height: 34px; }
+.hero-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hero-txt b { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+.hero-txt span { color: var(--muted); font-size: 0.95rem; }
+.hero-txt em { font-style: normal; color: var(--gold); font-weight: 700; font-size: 0.92rem; margin-top: 4px; }
+.hero-cta {
+  grid-column: 1 / -1; justify-self: stretch; text-align: center; margin-top: 10px;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 45%, var(--gold-2)); color: var(--gold-ink);
+  font-weight: 800; font-size: 1.08rem; padding: 13px 16px; border-radius: 16px; box-shadow: 0 10px 24px -12px var(--gold);
+}
+.ear-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 560px) { .ear-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ear-card {
+  --c: var(--ex);
+  background: linear-gradient(170deg, var(--surface-2), var(--surface)); border: 1.5px solid var(--line); border-radius: var(--radius);
+  padding: 14px; text-align: left; cursor: pointer; min-width: 0; display: flex; flex-direction: column; gap: 4px;
+}
+.ear-card:hover { border-color: color-mix(in srgb, var(--c) 55%, var(--line)); }
+.ear-ico { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); margin-bottom: 6px; }
+.ear-ico svg { width: 26px; height: 26px; }
+.ear-name { font-weight: 700; font-size: 1.04rem; line-height: 1.15; }
+.ear-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.3; }
+.ear-best { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; font-size: 0.74rem; font-weight: 700; }
+.ear-best .pill { padding: 3px 8px; border-radius: 99px; background: color-mix(in srgb, var(--c) 20%, transparent); color: color-mix(in srgb, var(--c) 50%, #fff); }
+.ear-best .dim { color: var(--dim); }
+.ear-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ear-prog { color: var(--muted); font-weight: 700; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.ear-bar { height: 6px; border-radius: 6px; background: var(--surface-2); overflow: hidden; }
+.ear-bar i { display: block; height: 100%; width: 0; background: var(--ex); box-shadow: 0 0 10px var(--ex); transition: width 250ms; }
+.ear-stage { gap: 10px; text-align: center; align-items: stretch; }
+.ear-kicker { color: var(--muted); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.ear-big { font-family: var(--font-display); font-size: clamp(2.6rem, 12vw, 3.6rem); font-weight: 700; line-height: 1.05; color: var(--ex); min-height: 1.1em; }
+.big-ico svg { width: 68px; height: 68px; }
+.ear-prompt { margin: 0; color: var(--ink); font-size: 1.02rem; }
+.ear-fb { min-height: 1.4em; font-weight: 800; font-size: 1.05rem; }
+.ear-fb.ok { color: var(--good); }
+.ear-fb.no { color: var(--warn); }
+.sing-row { display: flex; justify-content: center; gap: 8px; }
+.chip { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: rgba(255,255,255,0.07); color: var(--muted); transition: background 120ms; }
+.chip.now { background: var(--ex); color: var(--gold-ink); }
+.chip.good { background: var(--good); color: #fff; }
+.chip.bad { background: var(--warn); color: #fff; }
+.answers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.answers.many { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ans {
+  border: 1.5px solid var(--line-2); background: linear-gradient(170deg, var(--surface-2), var(--surface)); border-radius: 16px;
+  padding: 14px 8px; font-weight: 700; cursor: pointer; font-size: 1.02rem; min-height: 58px;
+}
+.answers.many .ans { font-size: 0.88rem; padding: 10px 4px; }
+.ans:hover:not(:disabled) { border-color: var(--ex); }
+.ans.good { border-color: var(--good); background: color-mix(in srgb, var(--good) 22%, var(--surface)); }
+.ans.bad { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--surface)); }
+.ans:disabled { cursor: default; }
+.ans:disabled:not(.good):not(.bad) { opacity: 0.5; }
+.res-stage { text-align: center; align-items: center; gap: 6px; padding: 28px 18px; }
+.res-big { font-family: var(--font-display); font-size: clamp(2.4rem, 11vw, 3.3rem); font-weight: 700; line-height: 1.1;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.res-pct { font-weight: 800; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.res-text { margin: 4px 0 0; color: var(--muted); max-width: 34ch; }
+.areas { gap: 12px; }
+.area { display: flex; justify-content: space-between; gap: 12px; font-weight: 700; }
+.area .dots { color: var(--gold); letter-spacing: 3px; }
+.res-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ghost-btn { flex: 1 1 auto; border: 1px solid var(--line-2); background: var(--surface); border-radius: 16px; padding: 14px; font-weight: 800; cursor: pointer; }
+
+/* iPad / geniş ekran */
+@media (min-width: 820px) {
+  .app { max-width: 760px; padding: 28px 28px calc(120px + env(safe-area-inset-bottom, 0px)); gap: 22px; }
+  .keyboard { height: 170px; }
+  .contour-col svg { height: 130px; }
+  .ex-row { grid-auto-columns: calc(33.333% - 8px); }
+  .now-note { font-size: 5.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="header">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 1024 1024" aria-hidden="true">
+        <defs>
+          <linearGradient id="mbg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#232042"/><stop offset="1" stop-color="#0B0A16"/></linearGradient>
+          <linearGradient id="mgold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B98A3E"/><stop offset="0.55" stop-color="#F3D28A"/><stop offset="1" stop-color="#FFF1C9"/></linearGradient>
+        </defs>
+        <rect width="1024" height="1024" rx="230" fill="url(#mbg)"/>
+        <g fill="#ECE6DA"><rect x="182" y="690" width="92" height="190" rx="18"/><rect x="290" y="690" width="92" height="190" rx="18"/><rect x="398" y="690" width="92" height="190" rx="18"/><rect x="506" y="690" width="92" height="190" rx="18"/><rect x="614" y="690" width="92" height="190" rx="18"/><rect x="722" y="690" width="92" height="190" rx="18"/></g>
+        <g fill="#0E0D1C"><rect x="248" y="686" width="58" height="118" rx="12"/><rect x="356" y="686" width="58" height="118" rx="12"/><rect x="572" y="686" width="58" height="118" rx="12"/><rect x="680" y="686" width="58" height="118" rx="12"/></g>
+        <path d="M170 560 C 230 560, 250 520, 300 520 S 370 590, 420 560 S 480 430, 540 440 S 620 560, 670 500 S 740 270, 840 250" fill="none" stroke="url(#mgold)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="840" cy="250" r="36" fill="#FFF1C9"/>
+      </svg>
+      <div>
+        <h1>Ses Açma</h1>
+        <p data-i18n="tagline"></p>
+      </div>
+    </div>
+    <button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button>
+  </header>
+
+  <nav class="switcher" role="tablist">
+    <button type="button" id="sw-voice" role="tab" aria-selected="true">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c2.5 0 3-4 5.5-4s3 4.5 5.5 2.5 2.5-8 5-9.5S22 7 25 5"/><circle cx="25" cy="5" r="1.6" fill="currentColor"/></svg>
+      <span data-i18n="tabVoice"></span>
+    </button>
+    <button type="button" id="sw-ear" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21c0-6 10-5 10-11a5 5 0 0 0-10 0"/><path d="M13 21a2.5 2.5 0 0 1-5 0"/><path d="M13 10.5a1.5 1.5 0 0 1 3 0c0 1.5-2 2-2 3.5"/></svg>
+      <span data-i18n="tabEar"></span>
+    </button>
+    <button type="button" id="sw-cons" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l11-6 11 6-11 6z"/><path d="M8 13.5V19c3 2.5 9 2.5 12 0v-5.5M25 11v7"/></svg>
+      <span data-i18n="tabCons"></span>
+    </button>
+  </nav>
+
+  <div id="voiceView" class="section" style="gap:18px">
+    <div id="homeView" class="section" style="gap:18px">
+      <section class="stage" id="stage">
+        <div class="stage-top">
+          <div class="start-col">
+            <div class="kicker" id="kicker" data-i18n="startNote"></div>
+            <div class="now-note" id="nowNote">Do4</div>
+            <div class="hz" id="hz"></div>
+            <div class="round-btns">
+              <button type="button" class="round-btn" id="stageDown" aria-label="−"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+              <button type="button" class="round-btn" id="stageUp" aria-label="+"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+          <div class="contour-col">
+            <div id="stageContour"></div>
+          </div>
+        </div>
+        <div class="syllables" id="syllables"></div>
+
+        <div class="meter" id="meter" hidden>
+          <div class="meter-row">
+            <span><span data-i18n="target"></span> <b id="mTarget">—</b></span>
+            <span><span data-i18n="you"></span> <b id="mYou">—</b></span>
+          </div>
+          <div class="track" aria-hidden="true"><div class="zone"></div><div class="mid"></div><div class="dot" id="mDot" hidden></div></div>
+          <div class="meter-msg" id="mMsg"></div>
+        </div>
+
+        <div class="keyboard" id="keyboard"></div>
+        <div class="stage-status"><span id="status"></span><span class="score" id="score" hidden></span></div>
+      </section>
+
+      <section class="section" id="exerciseSection">
+        <div class="section-head">
+          <h2 data-i18n="exercise"></h2>
+          <button type="button" class="link-btn" id="seeAll"><span data-i18n="seeAll"></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="ex-row" id="exercises"></div>
+      </section>
+
+      <section class="section" id="settingsSection">
+        <div class="section-head"><h2 data-i18n="settings"></h2></div>
+    <div class="panel" id="settings">
+          <div class="field">
+            <div class="label" id="lblRange" data-i18n="voice"></div>
+            <div class="seg" id="ranges" role="group" aria-labelledby="lblRange"></div>
+          </div>
+          <div class="steppers">
+            <div class="field">
+              <div class="label" data-i18n="start"></div>
+              <div class="stepper"><button type="button" id="startDown" aria-label="−">−</button><b id="startVal">Do4</b><button type="button" id="startUp" aria-label="+">+</button></div>
+            </div>
+            <div class="field">
+              <div class="label" data-i18n="top"></div>
+              <div class="stepper"><button type="button" id="endDown" aria-label="−">−</button><b id="endVal">Sol4</b><button type="button" id="endUp" aria-label="+">+</button></div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="label" data-i18n="tempo"></div>
+            <div class="stepper"><button type="button" id="tempoDown" aria-label="−">−</button><b id="bpmVal">100 BPM</b><button type="button" id="tempoUp" aria-label="+">+</button></div>
+          </div>
+          <div class="field">
+            <div class="label" id="lblDir" data-i18n="direction"></div>
+            <div class="seg" id="dirs" role="group" aria-labelledby="lblDir"></div>
+          </div>
+          <label class="toggle" for="melody">
+            <span><span data-i18n="melody"></span><small data-i18n="melodySub"></small></span>
+            <span class="switch"><input type="checkbox" id="melody" checked><span></span></span>
+          </label>
+          <label class="toggle" for="mic">
+            <span><span data-i18n="mic"></span><small data-i18n="micSub"></small></span>
+            <span class="switch"><input type="checkbox" id="mic"><span></span></span>
+          </label>
+          <p class="hint" id="micHint" hidden></p>
+          <div class="field">
+            <div class="label" id="lblLang" data-i18n="language"></div>
+            <div class="seg" id="langs" role="group" aria-labelledby="lblLang"></div>
+          </div>
+        </div>
+      </section>
+
+      <button type="button" class="play" id="play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path id="playIcon" d="M6 3.5v17l15-8.5z" fill="currentColor"/></svg>
+        <span id="playLabel"></span>
+      </button>
+      <button type="button" class="ghost-lg" id="demo">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v4.5h4.5"/></svg>
+        <span data-i18n="demo"></span>
+      </button>
+    </div>
+
+    <div id="allView" class="section" style="gap:18px" hidden>
+      <button type="button" class="back" id="allBack"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tabVoice"></span></button>
+      <div class="all-head"><h1 data-i18n="exercise"></h1><p data-i18n="allSub"></p></div>
+      <div class="chips" id="levelChips" role="group"></div>
+      <div class="all-grid" id="allGrid"></div>
+      <div class="summary" id="summary">
+        <div class="mini" id="sumChart"></div>
+        <div><div class="ex-name" id="sumName"></div><div class="ex-meta" id="sumMeta"></div></div>
+        <button type="button" class="play" id="sumPlay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5v17l15-8.5z" fill="currentColor"/></svg><span class="long" data-i18n="playLong"></span><span class="short" data-i18n="play"></span></button>
+      </div>
+      <div class="note-hint"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6v.5" stroke-linecap="round"/></svg><span data-i18n="contourHint"></span></div>
+    </div>
+  </div>
+
+  <section class="section ear" id="earSection" hidden>
+    <div class="ear-col" id="earHome">
+      <button type="button" class="ear-hero" id="earTestBtn"></button>
+      <div class="section-head"><h2 id="earExTitle"></h2><span id="earExHint"></span></div>
+      <div class="ear-grid" id="earGrid"></div>
+      <p class="note-hint" id="earNote" hidden></p>
+    </div>
+
+    <div class="ear-col" id="earRun" hidden>
+      <div class="ear-top">
+        <button type="button" class="back" id="earBack">‹ <span id="earBackLbl"></span></button>
+        <span class="ear-prog" id="earProg"></span>
+      </div>
+      <div class="ear-bar" aria-hidden="true"><i id="earBarFill"></i></div>
+      <section class="stage ear-stage" aria-live="polite">
+        <div class="ear-kicker" id="earKicker"></div>
+        <div class="ear-big" id="earBig"></div>
+        <p class="ear-prompt" id="earPrompt"></p>
+        <div class="sing-row" id="singRow" hidden></div>
+        <button type="button" class="tap-pad" id="tapPad" hidden></button>
+        <div class="meter" id="earMeter" hidden>
+          <div class="track" aria-hidden="true"><div class="zone"></div><div class="mid"></div><div class="dot" id="earDot" hidden></div></div>
+          <div class="meter-msg" id="earMsg"></div>
+        </div>
+        <div class="keyboard" id="earKeys" hidden></div>
+        <div class="ear-fb" id="earFeedback"></div>
+      </section>
+      <div class="field" id="earLevelField"><div class="label" id="earLevelLbl"></div><div class="seg" id="earLevels" role="group"></div></div>
+      <div class="field" id="earMicField" hidden><div class="seg" id="earMics" role="group"></div></div>
+      <div class="answers" id="earAnswers"></div>
+    </div>
+
+    <div class="ear-col" id="earResult" hidden></div>
+  </section>
+</div>
+
+<div class="dock">
+  <div class="bar" id="earBar" hidden>
+    <button type="button" class="play" id="earPlay">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path id="earPlayIcon" d="M7 4.5v15l13-7.5z" fill="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="earPlayLabel"></span>
+    </button>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button type="button" class="tab" id="tab-voice" role="tab" aria-selected="true">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c2.5 0 3-4 5.5-4s3 4.5 5.5 2.5 2.5-8 5-9.5S22 7 25 5"/></svg>
+      <span data-i18n="tabVoice"></span>
+    </button>
+    <button type="button" class="tab" id="tab-ear" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21c0-6 10-5 10-11a5 5 0 0 0-10 0"/><path d="M13 21a2.5 2.5 0 0 1-5 0"/><path d="M13 10.5a1.5 1.5 0 0 1 3 0c0 1.5-2 2-2 3.5"/></svg>
+      <span data-i18n="tabEar"></span>
+    </button>
+    <button type="button" class="tab" id="tab-cons" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l11-6 11 6-11 6z"/><path d="M8 13.5V19c3 2.5 9 2.5 12 0v-5.5M25 11v7"/></svg>
+      <span data-i18n="tabCons"></span>
+    </button>
+  </nav>
+</div>
+
+<div class="sheet-wrap" id="about" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="sheet-head">
+      <h2 id="aboutTitle">Ses Açma: Piyano Isınma</h2>
+      <span class="ver" id="aboutVer"></span>
+    </div>
+    <p data-i18n="aboutText"></p>
+    <h3 data-i18n="privacyTitle"></h3>
+    <p data-i18n="privacyText"></p>
+    <h3 data-i18n="howTitle"></h3>
+    <p data-i18n="howText"></p>
+    <p id="supportLine" hidden></p>
+    <button type="button" class="sheet-close" id="aboutClose" data-i18n="close"></button>
+  </div>
+</div>
+
+<script id="core">
+// ---------- Saf mantık (testlenebilir) ----------
+const APP_VERSION = "1.1";
+const SUPPORT_EMAIL = ""; // ör. "destek@alanadiniz.com" — doluysa Hakkında ekranında görünür
+
+const NOTE_NAMES = {
+  tr: ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"],
+  en: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+};
+
+const EXERCISES = [
+  { id: "uclu", name: { tr: "Mırıldanma", en: "Humming" }, syllables: { tr: "Mm – Mm – Mm", en: "Mm – mm – mm" }, pattern: [0, 2, 4, 2, 0], last: 2, staccato: false, level: "easy", color: "#E2B862" },
+  { id: "besli", name: { tr: "Beşli Merdiven", en: "Five-Note Ladder" }, syllables: { tr: "Mi – Me – Ma – Mo – Mu", en: "Mee – May – Mah – Moh – Moo" }, pattern: [0, 2, 4, 5, 7, 5, 4, 2, 0], last: 2, staccato: false, level: "easy", color: "#E8956B" },
+  { id: "staccato", name: { tr: "Staccato", en: "Staccato" }, syllables: { tr: "Ha – Ha – Ha – Ha – Ha", en: "Ha – ha – ha – ha – ha" }, pattern: [0, 4, 7, 4, 0], last: 1, staccato: true, level: "easy", color: "#7FBF9E" },
+  { id: "arpej", name: { tr: "Arpej", en: "Arpeggio" }, syllables: { tr: "Ya – Ya – Ya – Ya", en: "Yah – yah – yah – yah" }, pattern: [0, 4, 7, 12, 7, 4, 0], last: 2, staccato: false, level: "mid", color: "#D97A8A" },
+  { id: "oktav", name: { tr: "Oktav Sıçrama", en: "Octave Leap" }, syllables: { tr: "Ah – a – a – a – a", en: "Ah – a – a – a – a" }, pattern: [0, 12, 7, 4, 0], last: 2, staccato: false, level: "mid", color: "#6FA8D6" },
+  { id: "dokuzlu", name: { tr: "Dokuzlu Gam", en: "Nine-Note Scale" }, syllables: { tr: "A – a – a – a …", en: "Ah – a – a – a …" }, pattern: [0, 2, 4, 5, 7, 9, 11, 12, 14, 12, 11, 9, 7, 5, 4, 2, 0], last: 2, staccato: false, level: "adv", color: "#A08BD9" }
+];
+
+const RANGES = [
+  { id: "child", start: 60, end: 67 },
+  { id: "soprano", start: 60, end: 72 },
+  { id: "alto", start: 55, end: 67 },
+  { id: "tenor", start: 48, end: 60 },
+  { id: "bass", start: 43, end: 55 }
+];
+
+const STRINGS = {
+  tr: {
+    tagline: "Sesini bugüne hazırla", about: "Hakkında",
+    exercise: "Egzersizler", contourHint: "Eğriler, melodinin şeklini gösterir.", settings: "Ayarlar",
+    startNote: "Başlangıç notası", seeAll: "Tümünü gör", allSub: "Sesini adım adım geliştir.", filterAll: "Tümü", rangeTitle: "Ses aralığı",
+    demo: "Örneği dinle", playLong: "Egzersize Başla", tabEarLong: "Kulak Eğitimi", okBtn: "Tamam",
+    voice: "Ses grubu", start: "Başlangıç", top: "En yüksek", tempo: "Tempo", direction: "Yön",
+    up: "Sadece çık", upDown: "Çık ve in",
+    melody: "Melodiyi piyano çalsın", melodySub: "Kapalıyken yalnızca ton akoru çalar, notalar klavyede yanar",
+    mic: "Mikrofonla dinle", micSub: "Söylediğin notanın doğru olup olmadığını gösterir",
+    language: "Dil",
+    play: "Başla", stop: "Durdur", previewing: "Örnek çalıyor…",
+    ready: "Bir egzersiz seç ve başla", getReady: "Hazırlan…", stopped: "Durduruldu", done: "Isınma bitti", bravo: "Bravo!",
+    round: (a, b) => `${a} / ${b} tur`, notesScore: (h, s) => `${h} / ${s} nota`, notesCount: (n) => `${n} nota`,
+    target: "Hedef", you: "Sen", cantHear: "Seni duyamıyorum", listenChord: "Akoru dinle…", listening: "Dinliyorum",
+    perfect: "Harika, tam isabet!", lower: "Biraz aşağı ↓", higher: "Biraz yukarı ↑",
+    micTip: "İpucu: Kulaklık tak ya da melodiyi kapat; yoksa mikrofon piyanoyu da duyabilir.",
+    micDenied: "Mikrofon izni kapalı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
+    micFail: "Mikrofon açılamadı. Başka bir uygulama kullanıyor olabilir; kapatıp tekrar dene.",
+    levels: { easy: "Kolay", mid: "Orta", adv: "İleri" },
+    ranges: { child: "Çocuk", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bas" },
+    keyboardLabel: "Piyano klavyesi; tuşlara dokununca nota çalar",
+    aboutText: "Şan öğrencileri, şarkıcılar ve koro üyeleri için piyano eşliğinde ses açma egzersizleri ve kulak eğitimi. Ses Açma sekmesinde her turda önce ton akoru çalar, sonra egzersiz yarım ton yarım ton yükselir. Kulak sekmesinde nota, aralık ve akor tanıma egzersizleri ile seviyeni ölçen bir kulak testi var. Konservatuvar sekmesi özel yetenek sınavlarına yönelik tek-iki-üç ses, ezgi ve ritim tekrarı çalışmaları ile bir sınav provası sunar.",
+    privacyTitle: "Gizlilik",
+    privacyText: "Bu uygulama hiçbir kişisel veri toplamaz, hesap istemez, reklam ve takip içermez. Mikrofon yalnızca sen açtığında kullanılır; ses cihazında anlık işlenir, kaydedilmez ve hiçbir yere gönderilmez. İnternet bağlantısı gerekmez.",
+    howTitle: "İpuçları",
+    howText: "Ses grubunu seç, başlangıç ve en yüksek notayı sesine göre ayarla. Mikrofonla çalışırken kulaklık takmak en doğru sonucu verir. Oktav farkı önemsenmez: bir oktav aşağıdan söylemek de doğru sayılır.",
+    support: (e) => `Destek: ${e}`,
+    close: "Kapat",
+    tabVoice: "Ses Açma", tabEar: "Kulak",
+    tabCons: "Konservatuvar",
+    cons: {
+      title: "Konservatuvara Hazırlık",
+      examTitle: "Sınav Provası", examSub: "11 soru · her soruyu en fazla 2 kez dinlersin · sonuç en sonda", examCta: "Provaya başla",
+      examLast: (p) => `Son provan: %${p}`,
+      examIntro: "Gerçek sınavdaki gibi: önce tek ses, iki ses ve üç ses; sonra ezgi ve ritim tekrarı. Her soruyu en fazla iki kez dinlersin ve sınav bitene kadar doğru-yanlış görmezsin. Mikrofon gerekir; kulaklık takarsan sonuç daha doğru olur.",
+      exercises: "Çalışmalar", exHint: "Her biri 10 soru", soon: "Yakında",
+      disclaimer: "Bu bölümdeki puanlar çalışma ölçümüdür, jüri puanı değildir. Sınav içeriği okula ve bölüme göre değişir; başvurduğun okulun kılavuzunu mutlaka oku.",
+      types: {
+        c_one: { name: "Tek Sesi Yakala", desc: "Duyduğun sesi \"na\" ile söyle" },
+        c_two: { name: "İki Sesi Ayır", desc: "Aynı anda çalan iki sesi sırayla söyle" },
+        c_three: { name: "Üç Ses", desc: "Akorun seslerini alttan üste söyle" },
+        c_melody: { name: "Melodiyi Hatırla", desc: "Ezgiyi dinle, aynen tekrar et" },
+        c_rhythm: { name: "Ritmi Tekrarla", desc: "Duyduğun ritmi ekrana vurarak tekrarla" },
+        c_four: { name: "Dört Ses", desc: "Dört sesli akoru ayrıştır" },
+        c_sight: { name: "Deşifre Solfej", desc: "İlk kez gördüğün notayı oku" },
+        c_mdict: { name: "Melodi Diktesi", desc: "Duyduğun ezgiyi portede yaz" },
+        c_rdict: { name: "Ritim Diktesi", desc: "Ritmi nota ve suslarla yaz" },
+        c_theory: { name: "Teori", desc: "Anahtar, donanım, ölçü, dizi, akor" }
+      },
+      prompts: {
+        c_one: "Sesi dinle, sonra \"na\" diyerek aynı sesi söyle.",
+        c_two: (help) => `İki ses aynı anda çalacak${help ? " (sonra ayrı ayrı da duyacaksın)" : ""}. Önce alttakini, sonra üsttekini söyle.`,
+        c_three: (help) => `Üç sesli bir akor çalacak${help ? " (sonra sesleri tek tek de duyacaksın)" : ""}. Sesleri alttan üste söyle.`,
+        c_melody: (n) => `${n} notalık ezgiyi dinle, sonra aynen tekrar et.`,
+        c_rhythm: "Önce iki sayış vuruşu, sonra ritim gelir. Ritmi dinle, sonra aşağıdaki alana aynı ritimle vur."
+      },
+      tapNow: "Şimdi sen vur", tap: "Vur", rhythmScore: (a, b) => `${a} / ${b} vuruş zamanında`, rhythmCount: (a, b) => `${a} vuruş yaptın, ritimde ${b} vuruş vardı`,
+      playsLeft: (n) => `Tekrar dinle (${n} hak)`, noPlays: "Dinleme hakkın bitti",
+      recorded: "Cevabın kaydedildi",
+      needMicExam: "Sınav provası için mikrofon gerekir. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
+      resultKicker: "Prova sonucu", overall: "Genel çalışma puanı",
+      areas: { pitch: "Ses doğruluğu", memory: "Ezgi hafızası", rhythm: "Ritim" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `En çok çalışman gereken: ${n}`,
+      back: "Konservatuvar"
+    },
+    ear: {
+      testTitle: "Kulak Testi", testSub: "15 kısa soruyla kulağının seviyesini ölç", testCta: "Teste başla",
+      testLast: (p, r) => `Son sonucun: %${p} · ${r}`,
+      exercises: "Egzersizler", exHint: "Her biri 10 soru",
+      types: {
+        note: { name: "Nota Bulma", desc: "Gizli notayı klavyede bul" },
+        interval: { name: "Aralık Tanıma", desc: "İki nota arası mesafe" },
+        higher: { name: "Hangisi Yüksek?", desc: "İki sesi karşılaştır" },
+        chord: { name: "Akor Tanıma", desc: "Majör mü, minör mü?" },
+        sing: { name: "Duyduğunu Söyle", desc: "Dinle, aynısını söyle" }
+      },
+      prompts: {
+        note: "Önce referans Do çalar, sonra gizli nota. Gizli nota hangisi? Klavyede dokun.",
+        noteAdv: (r) => `Önce referans ${r} çalar, sonra gizli nota. Gizli nota hangisi? Klavyede dokun.`,
+        interval: "İki notayı dinle. Aralarındaki mesafe ne?",
+        intervalDown: "İki notayı dinle (ikincisi aşağıda). Aralarındaki mesafe ne?",
+        intervalHarm: "İki nota aynı anda çalıyor. Aralarındaki mesafe ne?",
+        higher: "İki ses çalacak. Hangisi daha yüksek?",
+        chord: "Akoru dinle. Hangi akor?",
+        sing: (n) => (n === 1 ? "Notayı dinle, sonra aynısını söyle." : `${n} notalık melodiyi dinle, sonra aynısını söyle.`)
+      },
+      level: "Seviye", notPlayed: "Henüz denenmedi",
+      start: "Başla", listen: "Tekrar dinle", next: "Sonraki soru", results: "Sonucu gör", back: "Kulak", listening: "Dinliyorum…",
+      q: (a, b) => `Soru ${a} / ${b}`,
+      correct: "Doğru!", wrong: (x) => `Doğrusu: ${x}`, first: "Birinci", second: "İkinci",
+      singNow: "Şimdi sen söyle", singGet: "Dinle…", singNote: (a, b) => `${a}. nota / ${b}`, singScore: (a, b) => `${a} / ${b} nota doğru`,
+      needMic: "Bu egzersiz mikrofonu kullanır. Kulaklık takarsan daha doğru sonuç alırsın.",
+      micFail: "Mikrofon açılamadı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
+      micSkip: "Mikrofon açılamadı; test 'Duyduğunu Söyle' olmadan devam ediyor.",
+      result: "Sonuç", score: (a, b) => `${a} / ${b} doğru`, again: "Tekrar dene", home: "Kulak'a dön", newBest: "Yeni rekor!",
+      testIntro: "Her alandan önce kolay, sonra orta, sonra zor sorular gelir. Mikrofonla seçersen 'Duyduğunu Söyle' de teste katılır.",
+      withMic: "Mikrofonla", withoutMic: "Mikrofonsuz",
+      ranks: { easy: "Başlangıç", mid: "Orta", adv: "İleri" },
+      rankText: {
+        easy: "Kulağın gelişmeye açık. Kolay seviyeden başla; her gün birkaç dakika yeter.",
+        mid: "İyi bir kulağın var. Orta seviye egzersizlerle keskinleştir.",
+        adv: "Kulağın çok iyi! Zor seviyede kendini zorlamaya devam et."
+      },
+      focus: (n) => `En çok çalışman gereken: ${n}`,
+      kulakLevel: "Kulak seviyen"
+    }
+  },
+  en: {
+    tagline: "Get your voice ready for today", about: "About",
+    exercise: "Exercises", contourHint: "The curves show the shape of each melody.", settings: "Settings",
+    startNote: "Starting note", seeAll: "See all", allSub: "Build your voice step by step.", filterAll: "All", rangeTitle: "Voice range",
+    demo: "Hear an example", playLong: "Start Exercise", tabEarLong: "Ear Training", okBtn: "Done",
+    voice: "Voice type", start: "Start", top: "Highest", tempo: "Tempo", direction: "Direction",
+    up: "Up only", upDown: "Up and down",
+    melody: "Piano plays the melody", melodySub: "When off, only the starting chord plays and the notes light up on the keyboard",
+    mic: "Listen with microphone", micSub: "Shows whether you are singing the right note",
+    language: "Language",
+    play: "Start", stop: "Stop", previewing: "Playing an example…",
+    ready: "Pick an exercise and start", getReady: "Get ready…", stopped: "Stopped", done: "Warm-up complete", bravo: "Bravo!",
+    round: (a, b) => `Round ${a} of ${b}`, notesScore: (h, s) => `${h} / ${s} notes`, notesCount: (n) => `${n} notes`,
+    target: "Target", you: "You", cantHear: "I can't hear you", listenChord: "Listen to the chord…", listening: "Listening",
+    perfect: "Spot on!", lower: "A little lower ↓", higher: "A little higher ↑",
+    micTip: "Tip: Use headphones or turn off the melody, or the microphone may hear the piano too.",
+    micDenied: "Microphone access is off. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
+    micFail: "The microphone couldn't start. Another app may be using it; close it and try again.",
+    levels: { easy: "Easy", mid: "Medium", adv: "Advanced" },
+    ranges: { child: "Child", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bass" },
+    keyboardLabel: "Piano keyboard; tap a key to hear the note",
+    aboutText: "Piano-accompanied vocal warm-ups and ear training for singing students, singers and choir members. In Warm-up, each round starts with a chord, then the exercise moves up by a half step. In Ear, practise recognising notes, intervals and chords, and take an ear test that measures your level. Conservatory offers single-, two- and three-note, melody and rhythm repetition practice for music school entrance exams, plus a mock exam.",
+    privacyTitle: "Privacy",
+    privacyText: "This app collects no personal data, needs no account and has no ads or tracking. The microphone is used only when you turn it on; sound is analysed on your device in real time, never recorded and never sent anywhere. No internet connection is needed.",
+    howTitle: "Tips",
+    howText: "Choose your voice type and set the start and highest notes to suit your voice. Headphones give the most accurate results with the microphone. Octaves don't matter: singing an octave lower also counts as correct.",
+    support: (e) => `Support: ${e}`,
+    close: "Close",
+    tabVoice: "Warm-up", tabEar: "Ear",
+    tabCons: "Conservatory",
+    cons: {
+      title: "Conservatory Prep",
+      examTitle: "Mock Exam", examSub: "11 questions · hear each one at most twice · results at the end", examCta: "Start the mock exam",
+      examLast: (p) => `Your last mock exam: ${p}%`,
+      examIntro: "Like the real exam: single note, two notes and three notes first, then melody and rhythm repetition. You can hear each question at most twice and you won't see right or wrong until the end. A microphone is needed; headphones give more accurate results.",
+      exercises: "Practice", exHint: "10 questions each", soon: "Coming soon",
+      disclaimer: "Scores in this section are practice measurements, not jury scores. Exam content varies by school and department; always read your school's official guide.",
+      types: {
+        c_one: { name: "Catch the Note", desc: "Sing the note you hear on \"na\"" },
+        c_two: { name: "Two Notes", desc: "Sing two notes played together, one by one" },
+        c_three: { name: "Three Notes", desc: "Sing the chord's notes from bottom to top" },
+        c_melody: { name: "Melody Memory", desc: "Hear a melody, sing it back exactly" },
+        c_rhythm: { name: "Rhythm Echo", desc: "Tap back the rhythm you hear" },
+        c_four: { name: "Four Notes", desc: "Pick apart a four-note chord" },
+        c_sight: { name: "Sight-Singing", desc: "Read music you've never seen" },
+        c_mdict: { name: "Melodic Dictation", desc: "Write the melody on the staff" },
+        c_rdict: { name: "Rhythmic Dictation", desc: "Write the rhythm with notes and rests" },
+        c_theory: { name: "Theory", desc: "Clefs, key signatures, meters, scales, chords" }
+      },
+      prompts: {
+        c_one: "Listen to the note, then sing the same note on \"na\".",
+        c_two: (help) => `Two notes will play together${help ? " (then you'll hear them separately)" : ""}. Sing the lower one first, then the upper one.`,
+        c_three: (help) => `A three-note chord will play${help ? " (then you'll hear each note)" : ""}. Sing its notes from bottom to top.`,
+        c_melody: (n) => `Listen to the ${n}-note melody, then sing it back exactly.`,
+        c_rhythm: "Two count-in clicks come first, then the rhythm. Listen, then tap the same rhythm on the pad below."
+      },
+      tapNow: "Now you tap", tap: "Tap", rhythmScore: (a, b) => `${a} of ${b} taps on time`, rhythmCount: (a, b) => `You tapped ${a} times; the rhythm had ${b}`,
+      playsLeft: (n) => `Listen again (${n} left)`, noPlays: "No listens left",
+      recorded: "Answer saved",
+      needMicExam: "The mock exam needs the microphone. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
+      resultKicker: "Mock exam result", overall: "Overall practice score",
+      areas: { pitch: "Pitch accuracy", memory: "Melodic memory", rhythm: "Rhythm" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Practise this most: ${n}`,
+      back: "Conservatory"
+    },
+    ear: {
+      testTitle: "Ear Test", testSub: "Measure your ear in 15 short questions", testCta: "Start the test",
+      testLast: (p, r) => `Your last result: ${p}% · ${r}`,
+      exercises: "Exercises", exHint: "10 questions each",
+      types: {
+        note: { name: "Find the Note", desc: "Find the hidden note on the keys" },
+        interval: { name: "Intervals", desc: "The distance between two notes" },
+        higher: { name: "Which Is Higher?", desc: "Compare two sounds" },
+        chord: { name: "Chords", desc: "Major or minor?" },
+        sing: { name: "Sing It Back", desc: "Listen, then sing the same" }
+      },
+      prompts: {
+        note: "A reference C plays first, then the hidden note. Which note is it? Tap it on the keys.",
+        noteAdv: (r) => `A reference ${r} plays first, then the hidden note. Which note is it? Tap it on the keys.`,
+        interval: "Listen to the two notes. What is the distance between them?",
+        intervalDown: "Listen to the two notes (the second is lower). What is the distance?",
+        intervalHarm: "Both notes play together. What is the distance between them?",
+        higher: "Two sounds will play. Which one is higher?",
+        chord: "Listen to the chord. Which chord is it?",
+        sing: (n) => (n === 1 ? "Listen to the note, then sing it back." : `Listen to the ${n}-note melody, then sing it back.`)
+      },
+      level: "Level", notPlayed: "Not tried yet",
+      start: "Start", listen: "Listen again", next: "Next question", results: "See results", back: "Ear", listening: "Listening…",
+      q: (a, b) => `Question ${a} of ${b}`,
+      correct: "Correct!", wrong: (x) => `Answer: ${x}`, first: "First", second: "Second",
+      singNow: "Now you sing", singGet: "Listen…", singNote: (a, b) => `Note ${a} of ${b}`, singScore: (a, b) => `${a} of ${b} notes right`,
+      needMic: "This exercise uses the microphone. Headphones give more accurate results.",
+      micFail: "The microphone couldn't start. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
+      micSkip: "The microphone couldn't start; the test continues without 'Sing It Back'.",
+      result: "Result", score: (a, b) => `${a} of ${b} correct`, again: "Try again", home: "Back to Ear", newBest: "New best!",
+      testIntro: "Each area asks an easy, then a medium, then a hard question. Choose 'With microphone' to include 'Sing It Back'.",
+      withMic: "With microphone", withoutMic: "No microphone",
+      ranks: { easy: "Beginner", mid: "Intermediate", adv: "Advanced" },
+      rankText: {
+        easy: "Your ear has room to grow. Start at the easy level; a few minutes a day is enough.",
+        mid: "You have a good ear. Sharpen it with the medium exercises.",
+        adv: "Your ear is excellent! Keep challenging yourself at the hard level."
+      },
+      focus: (n) => `Practise this most: ${n}`,
+      kulakLevel: "Your ear level"
+    }
+  }
+};
+
+const TOLERANCE_CENTS = 50;
+
+function pickLanguage(navLang) {
+  return /^tr\b/i.test(navLang || "") ? "tr" : "en";
+}
+
+function noteName(m, lang = "tr") {
+  const names = NOTE_NAMES[lang] || NOTE_NAMES.tr;
+  return names[((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1);
+}
+function isBlack(m) { return [1, 3, 6, 8, 10].includes(((m % 12) + 12) % 12); }
+
+function rootSequence(start, end, dir) {
+  if (start > end) return [start];
+  const up = [];
+  for (let r = start; r <= end; r++) up.push(r);
+  return dir === "up" ? up : up.concat(up.slice(0, -1).reverse());
+}
+
+// Bütün turun olay listesi (saniye cinsinden, başlangıç = 0)
+function buildTimeline(opts) {
+  const { exercise, start, end, dir, bpm, melody } = opts;
+  const beat = 60 / bpm;
+  const roots = rootSequence(start, end, dir);
+  const events = [];
+  let t = 0;
+  roots.forEach((root, ri) => {
+    events.push({ kind: "chord", t, dur: beat * 1.5, len: beat * 2, notes: [root, root + 4, root + 7], sound: true, root, round: ri });
+    t += beat * 2;
+    exercise.pattern.forEach((off, i) => {
+      const isLast = i === exercise.pattern.length - 1;
+      const len = isLast ? beat * exercise.last : beat;
+      const dur = exercise.staccato && !isLast ? len * 0.4 : len * 0.92;
+      events.push({ kind: "note", t, dur, len, notes: [root + off], target: root + off, sound: melody, root, round: ri, i });
+      t += len;
+    });
+    t += beat; // nefes
+  });
+  return { events, total: t, rounds: roots.length };
+}
+
+// Hedefe göre sent farkı; oktav farkı yok sayılır
+function centsOff(midi, target) {
+  let d = midi - target;
+  d -= 12 * Math.round(d / 12);
+  return d * 100;
+}
+
+function starsFor(hits, total) {
+  if (!total) return "";
+  const r = hits / total;
+  if (r >= 0.85) return "★★★";
+  if (r >= 0.6) return "★★☆";
+  if (r >= 0.3) return "★☆☆";
+  return "☆☆☆";
+}
+
+// YIN perde algılama → MIDI (ondalıklı) ya da null
+function detectMidi(buf, sampleRate) {
+  const n = buf.length;
+  let ms = 0;
+  for (let i = 0; i < n; i++) ms += buf[i] * buf[i];
+  if (Math.sqrt(ms / n) < 0.008) return null;
+
+  const maxTau = Math.min(n >> 1, Math.floor(sampleRate / 75));
+  const minTau = Math.max(2, Math.floor(sampleRate / 1200));
+  if (maxTau <= minTau + 2) return null;
+  const w = n - maxTau;
+
+  const diff = new Float32Array(maxTau + 1);
+  for (let tau = 1; tau <= maxTau; tau++) {
+    let s = 0;
+    for (let i = 0; i < w; i++) { const d = buf[i] - buf[i + tau]; s += d * d; }
+    diff[tau] = s;
+  }
+  const cmnd = new Float32Array(maxTau + 1);
+  cmnd[0] = 1;
+  let running = 0;
+  for (let tau = 1; tau <= maxTau; tau++) {
+    running += diff[tau];
+    cmnd[tau] = running > 0 ? diff[tau] * tau / running : 1;
+  }
+  let est = -1;
+  for (let tau = minTau; tau <= maxTau; tau++) {
+    if (cmnd[tau] < 0.15) {
+      while (tau + 1 <= maxTau && cmnd[tau + 1] < cmnd[tau]) tau++;
+      est = tau;
+      break;
+    }
+  }
+  if (est < 0) return null;
+  let refined = est;
+  if (est > 1 && est < maxTau) {
+    const s0 = cmnd[est - 1], s1 = cmnd[est], s2 = cmnd[est + 1];
+    const den = s0 + s2 - 2 * s1;
+    if (Math.abs(den) > 1e-9) refined += (s0 - s2) / (2 * den);
+  }
+  const f = sampleRate / refined;
+  return 69 + 12 * Math.log2(f / 440);
+}
+
+
+// ---------- Kulak eğitimi: saf mantık ----------
+const EAR_TYPES = ["note", "interval", "higher", "chord", "sing"];
+const EAR_LEVELS = ["easy", "mid", "adv"];
+const EAR_QUESTIONS = 10;
+
+const INTERVAL_NAMES = {
+  tr: ["Aynı", "Küçük 2'li", "Büyük 2'li", "Küçük 3'lü", "Büyük 3'lü", "Tam 4'lü", "Triton", "Tam 5'li", "Küçük 6'lı", "Büyük 6'lı", "Küçük 7'li", "Büyük 7'li", "Oktav"],
+  en: ["Unison", "Minor 2nd", "Major 2nd", "Minor 3rd", "Major 3rd", "Perfect 4th", "Tritone", "Perfect 5th", "Minor 6th", "Major 6th", "Minor 7th", "Major 7th", "Octave"]
+};
+const INTERVAL_SETS = { easy: [4, 7, 12], mid: [2, 3, 4, 5, 7, 12], adv: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] };
+
+const CHORD_TYPES = {
+  maj: [0, 4, 7], min: [0, 3, 7], aug: [0, 4, 8], dim: [0, 3, 6],
+  maj7: [0, 4, 7, 11], min7: [0, 3, 7, 10], dom7: [0, 4, 7, 10]
+};
+const CHORD_NAMES = {
+  tr: { maj: "Majör", min: "Minör", aug: "Artık", dim: "Eksik", maj7: "Majör 7", min7: "Minör 7", dom7: "Dominant 7" },
+  en: { maj: "Major", min: "Minor", aug: "Augmented", dim: "Diminished", maj7: "Major 7th", min7: "Minor 7th", dom7: "Dominant 7th" }
+};
+const CHORD_SETS = { easy: ["maj", "min"], mid: ["maj", "min", "aug", "dim"], adv: ["maj7", "min7", "dom7", "aug", "dim"] };
+
+const MAJOR_STEPS = [0, 2, 4, 5, 7, 9, 11];
+
+const pick = (arr, rng) => arr[Math.floor(rng() * arr.length) % arr.length];
+const randInt = (a, b, rng) => a + Math.floor(rng() * (b - a + 1)) % (b - a + 1);
+const pc = (m) => ((Math.round(m) % 12) + 12) % 12;
+
+/**
+ * Bir kulak sorusu üretir.
+ * Dönen nesne: { type, level, play: [{ t, dur, notes, vel }], len, answer, choices, ... }
+ * opts.voiceLo / opts.voiceHi: "Duyduğunu söyle" için kullanıcının ses aralığı (MIDI).
+ */
+function makeEarQuestion(type, level, rng = Math.random, opts = {}) {
+  if (type.startsWith("c_")) return makeConsQuestion(type, level, rng, opts);
+  const q = { type, level, play: [] };
+  const note = (t, notes, dur = 0.9, vel = 0.85) => q.play.push({ t, dur, notes: [].concat(notes), vel });
+
+  if (type === "note") {
+    // Önce referans nota, sonra gizli nota. Cevap: perde sınıfı (oktav önemsiz).
+    let ref = 60, lo = 60, hi = 72, target;
+    if (level === "easy") target = 60 + pick([2, 4, 5, 7, 9, 11, 12], rng);
+    else if (level === "mid") target = 60 + randInt(1, 11, rng);
+    else { lo = 48; hi = 72; ref = randInt(53, 67, rng); do { target = randInt(48, 72, rng); } while (pc(target) === pc(ref)); }
+    note(0, ref, 0.9); note(1.4, target, 1.1);
+    Object.assign(q, { ref, target, lo, hi, answer: pc(target), len: 2.6 });
+  } else if (type === "interval") {
+    const semis = pick(INTERVAL_SETS[level], rng);
+    const down = level === "adv" && rng() < 0.4;
+    const harmonic = level === "adv" && !down && rng() < 0.3;
+    const a = down ? randInt(60, 67, rng) : randInt(53, 62, rng);
+    const b = down ? a - semis : a + semis;
+    if (harmonic) note(0, [a, b], 1.6, 0.7);
+    else { note(0, a, 0.9); note(1.0, b, 1.1); }
+    Object.assign(q, { a, b, down, harmonic, answer: semis, choices: INTERVAL_SETS[level].slice(), len: harmonic ? 1.8 : 2.2 });
+  } else if (type === "higher") {
+    // Hangisi daha yüksek? Zor seviyede fark yarım tondan küçük (sent).
+    const diff = level === "easy" ? randInt(3, 7, rng) : level === "mid" ? randInt(1, 2, rng) : randInt(25, 60, rng) / 100;
+    const base = randInt(57, 69, rng);
+    const firstHigher = rng() < 0.5;
+    const n1 = firstHigher ? base + diff : base, n2 = firstHigher ? base : base + diff;
+    note(0, n1, 0.8); note(1.1, n2, 0.8);
+    Object.assign(q, { n1, n2, diff, answer: firstHigher ? 1 : 2, choices: [1, 2], len: 2.0 });
+  } else if (type === "chord") {
+    const kind = pick(CHORD_SETS[level], rng);
+    const root = randInt(52, 60, rng);
+    const notes = CHORD_TYPES[kind].map((i) => root + i);
+    note(0, notes, 1.5, 0.6);
+    let len = 1.7;
+    if (level !== "adv") { notes.forEach((n, i) => note(1.8 + i * 0.42, n, 0.5, 0.75)); len = 1.8 + notes.length * 0.42 + 0.4; }
+    Object.assign(q, { kind, root, notes, answer: kind, choices: CHORD_SETS[level].slice(), len });
+  } else if (type === "sing") {
+    // Dinle, sonra aynısını söyle. Notalar kullanıcının ses aralığından, majör dizide küçük adımlarla.
+    const count = level === "easy" ? 1 : level === "mid" ? 3 : 5;
+    const vLo = opts.voiceLo ?? 55, vHi = opts.voiceHi ?? 67;
+    const span = Math.max(5, vHi - vLo);
+    const tonic = vLo + randInt(0, Math.max(0, Math.min(5, span - 7)), rng);
+    let deg = randInt(0, 4, rng);
+    const targets = [];
+    for (let i = 0; i < count; i++) {
+      if (i > 0) deg = Math.max(0, Math.min(7, deg + pick(level === "adv" ? [-2, -1, 1, 2] : [-1, 1], rng)));
+      const m = tonic + (deg === 7 ? 12 : MAJOR_STEPS[deg]);
+      targets.push(Math.min(m, vHi + 2));
+    }
+    const step = 0.75;
+    targets.forEach((m, i) => note(i * step, m, step * 0.9));
+    Object.assign(q, { targets, step, answer: null, len: targets.length * step + 0.2 });
+  } else throw new Error("bilinmeyen soru türü: " + type);
+  return q;
+}
+
+function checkEarAnswer(q, ans) {
+  if (q.type === "note") return pc(ans) === q.answer;
+  return ans === q.answer;
+}
+
+/** Söylenen bir nota doğru mu? samples: o pencerede okunan MIDI değerleri (null = sessiz). */
+function gradeSungNote(samples, target, tolerance = 50) {
+  const voiced = samples.filter((m) => m != null);
+  if (voiced.length < 3) return false;
+  const ok = voiced.filter((m) => Math.abs(centsOff(m, target)) <= tolerance).length;
+  return ok >= Math.max(2, voiced.length * 0.4);
+}
+/** Söyleme sorusu: notaların en az 2/3'ü doğruysa soru doğru sayılır. */
+function singPassed(hits, count) { return hits >= Math.ceil(count * (2 / 3)); }
+
+/** Kulak testi: her alandan kolay, orta, zor birer soru; önce bütün kolaylar, sonra ortalar, sonra zorlar. */
+function earTestPlan(includeSing = true) {
+  const types = EAR_TYPES.filter((t) => includeSing || t !== "sing");
+  const plan = [];
+  for (const level of EAR_LEVELS) for (const type of types) plan.push({ type, level });
+  return plan;
+}
+
+function earTestSummary(answers) {
+  // answers: [{ type, level, ok }]
+  const byType = {};
+  let pts = 0, max = 0;
+  const w = { easy: 1, mid: 2, adv: 3 };
+  for (const a of answers) {
+    byType[a.type] = byType[a.type] || { ok: 0, total: 0 };
+    byType[a.type].total++;
+    if (a.ok) { byType[a.type].ok++; pts += w[a.level]; }
+    max += w[a.level];
+  }
+  const pct = max ? Math.round((pts / max) * 100) : 0;
+  const rank = pct >= 75 ? "adv" : pct >= 45 ? "mid" : "easy";
+  let weakest = null, low = Infinity;
+  for (const t of EAR_TYPES) if (byType[t] && byType[t].ok / byType[t].total < low) { low = byType[t].ok / byType[t].total; weakest = t; }
+  return { pct, rank, byType, weakest: low < 1 ? weakest : null };
+}
+
+// ---------- Konservatuvara hazırlık: saf mantık ----------
+const CONS_TYPES = ["c_one", "c_two", "c_three", "c_melody", "c_rhythm"];
+const CONS_SOON = ["c_four", "c_sight", "c_mdict", "c_rdict", "c_theory"];
+const CONS_SING = ["c_one", "c_two", "c_three", "c_melody"];
+const CONS_PLAYS = 2; // sınav provasında bir soru en fazla kaç kez dinlenir
+const TWO_SETS = { easy: [4, 5, 7, 12], mid: [3, 4, 5, 7, 8, 9], adv: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11] };
+const THREE_SETS = { easy: ["maj", "min"], mid: ["maj", "min"], adv: ["maj", "min", "aug", "dim"] };
+const RHYTHM_CELLS = {
+  easy: [[0], [0], [0, 0.5]],
+  mid: [[0], [0, 0.5], [0, 0.75], [0.5], []],
+  adv: [[0], [0, 0.5], [0, 0.75], [0, 0.25, 0.5, 0.75], [0, 0.25, 0.5], [0.5], [0, 0.5, 0.75]]
+};
+const RHYTHM_BPM = { easy: 80, mid: 88, adv: 96 };
+const RHYTHM_TOL = { easy: 0.14, mid: 0.12, adv: 0.1 };
+
+/** Ses aralığına sığan alt notayı seçer (aralık dar ise alt sınırdan başlar). */
+function lowInRange(span, vLo, vHi, rng) { return vLo + randInt(0, Math.max(0, vHi - vLo - span), rng); }
+
+function makeRhythm(level, rng = Math.random) {
+  const beats = level === "adv" ? 6 : 4;
+  const cells = RHYTHM_CELLS[level];
+  let onsets;
+  do {
+    onsets = [];
+    for (let b = 0; b < beats; b++) {
+      const cell = b === 0 ? pick(cells.filter((c) => c[0] === 0), rng) : pick(cells, rng);
+      for (const o of cell) onsets.push(b + o);
+    }
+  } while (onsets.length < 4 || onsets.length > beats * 3 || onsets[onsets.length - 1] < beats - 1.5);
+  return { onsets, bpm: RHYTHM_BPM[level], beats };
+}
+
+/** Ritim tekrarı: vuruşlar ilk vuruşa göre karşılaştırılır (başlama anı serbest). */
+function gradeRhythm(taps, onsetsSec, tol = 0.12) {
+  if (taps.length !== onsetsSec.length || !taps.length) return { ok: false, hits: 0, errs: [] };
+  const errs = taps.map((t, i) => (t - taps[0]) - (onsetsSec[i] - onsetsSec[0]));
+  const hits = errs.filter((e) => Math.abs(e) <= tol).length;
+  return { ok: hits === taps.length, hits, errs };
+}
+
+function makeConsQuestion(type, level, rng = Math.random, opts = {}) {
+  const vLo = opts.voiceLo ?? 55, vHi = Math.max(vLo + 7, opts.voiceHi ?? 67);
+  const q = { type, level, play: [] };
+  const note = (t, notes, dur, vel = 0.85) => q.play.push({ t, dur, notes: [].concat(notes), vel });
+  if (type === "c_one") {
+    const m = randInt(vLo, vHi, rng);
+    note(0, m, 1.3);
+    Object.assign(q, { targets: [m], step: 1.0, len: 1.5 });
+  } else if (type === "c_two") {
+    const iv = pick(TWO_SETS[level], rng);
+    const lo = lowInRange(iv, vLo, vHi, rng);
+    const targets = [lo, lo + iv];
+    note(0, targets, 2.0, 0.7);
+    let len = 2.2;
+    if (level === "easy") { note(2.4, lo, 0.8); note(3.3, lo + iv, 0.8); len = 4.3; }
+    Object.assign(q, { targets, interval: iv, step: 1.0, len });
+  } else if (type === "c_three") {
+    const kind = pick(THREE_SETS[level], rng);
+    let shape = CHORD_TYPES[kind].slice();
+    const inv = level === "easy" ? 0 : randInt(0, 2, rng);
+    for (let k = 0; k < inv; k++) shape = shape.slice(1).concat(shape[0] + 12);
+    const base = shape[0];
+    shape = shape.map((x) => x - base);
+    const lo = lowInRange(shape[2], vLo, vHi, rng);
+    const targets = shape.map((x) => lo + x);
+    note(0, targets, 2.2, 0.62);
+    let len = 2.4;
+    if (level === "easy") { targets.forEach((m, i) => note(2.6 + i * 0.85, m, 0.75)); len = 2.6 + 3 * 0.85 + 0.3; }
+    Object.assign(q, { targets, kind, inversion: inv, step: 1.0, len });
+  } else if (type === "c_melody") {
+    const count = level === "easy" ? 4 : level === "mid" ? 6 : 8;
+    const steps = level === "adv" ? [-3, -2, -1, 1, 2, 3] : level === "mid" ? [-2, -1, 1, 2] : [-1, 1];
+    const tonic = vLo + randInt(0, Math.max(0, Math.min(4, vHi - vLo - 9)), rng);
+    let deg = randInt(0, 4, rng);
+    const targets = [];
+    for (let i = 0; i < count; i++) {
+      if (i > 0) { let nd; do { nd = deg + pick(steps, rng); } while (nd < 0 || nd > 7); deg = nd; }
+      targets.push(Math.min(tonic + (deg === 7 ? 12 : MAJOR_STEPS[deg]), vHi + 2));
+    }
+    const step = 0.62;
+    targets.forEach((m, i) => note(i * step, m, step * 0.9));
+    Object.assign(q, { targets, step, len: count * step + 0.2 });
+  } else if (type === "c_rhythm") {
+    const r = makeRhythm(level, rng);
+    const beat = 60 / r.bpm;
+    // iki ölçü sayışı (tok-tok), sonra ritim
+    const lead = 2 * beat;
+    note(0, 72, 0.06, 0.45); note(beat, 72, 0.06, 0.45);
+    const onsetsSec = r.onsets.map((b) => lead + b * beat);
+    onsetsSec.forEach((t) => note(t, 84, 0.12, 0.95));
+    Object.assign(q, { onsets: r.onsets, bpm: r.bpm, beat, onsetsSec, tol: RHYTHM_TOL[level], len: lead + r.beats * beat + 0.2 });
+  } else throw new Error("bilinmeyen konservatuvar sorusu: " + type);
+  q.answer = null;
+  return q;
+}
+
+/** Sınav provası: tek ses, iki ses, üç ses, ezgi, ritim — gerçek sınav sırasına yakın. */
+function consExamPlan() {
+  return [
+    { type: "c_one", level: "easy" }, { type: "c_one", level: "mid" },
+    { type: "c_two", level: "easy" }, { type: "c_two", level: "mid" },
+    { type: "c_three", level: "easy" }, { type: "c_three", level: "mid" },
+    { type: "c_melody", level: "easy" }, { type: "c_melody", level: "mid" },
+    { type: "c_rhythm", level: "easy" }, { type: "c_rhythm", level: "mid" }, { type: "c_rhythm", level: "adv" }
+  ];
+}
+const CONS_AREA = { c_one: "pitch", c_two: "pitch", c_three: "pitch", c_melody: "memory", c_rhythm: "rhythm" };
+function consExamSummary(log) {
+  // log: [{ type, ok, part }] — part: o sorudaki doğru nota/vuruş oranı (0–1)
+  const areas = {};
+  for (const a of log) {
+    const k = CONS_AREA[a.type];
+    areas[k] = areas[k] || { sum: 0, n: 0, ok: 0 };
+    areas[k].sum += a.part ?? (a.ok ? 1 : 0); areas[k].n++; if (a.ok) areas[k].ok++;
+  }
+  const out = {};
+  let tot = 0, cnt = 0;
+  for (const k of ["pitch", "memory", "rhythm"]) if (areas[k]) {
+    out[k] = { pct: Math.round((areas[k].sum / areas[k].n) * 100), ok: areas[k].ok, total: areas[k].n };
+    tot += out[k].pct; cnt++;
+  }
+  const pct = cnt ? Math.round(tot / cnt) : 0;
+  let weakest = null, low = 101;
+  for (const k of Object.keys(out)) if (out[k].pct < low) { low = out[k].pct; weakest = k; }
+  return { pct, areas: out, weakest: low < 100 ? weakest : null };
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
+}
+</script>
+
+<script>
+// ---------- Ayarlar ----------
+const state = { tab: "voice", ex: "besli", range: "child", start: 60, end: 67, bpm: 100, dir: "upDown", melody: true, lang: pickLanguage(navigator.language) };
+try {
+  const saved = JSON.parse(localStorage.getItem("sesacma") || "null");
+  if (saved && typeof saved === "object") Object.assign(state, saved);
+} catch (e) {}
+if (!STRINGS[state.lang]) state.lang = "en";
+function save() { try { localStorage.setItem("sesacma", JSON.stringify(state)); } catch (e) {} }
+
+const $ = (id) => document.getElementById(id);
+const S = () => STRINGS[state.lang];
+const nn = (m) => noteName(m, state.lang);
+const exercise = () => EXERCISES.find((e) => e.id === state.ex) || EXERCISES[1];
+
+// iPhone: sessiz moddayken de çalsın (destekleyen sürümlerde)
+function setAudioSessionType(type) {
+  try { if (navigator.audioSession) navigator.audioSession.type = type; } catch (e) {}
+}
+
+// ---------- Piyano sesi (Web Audio) ----------
+const piano = {
+  ctx: null, master: null, wave: null, voices: new Set(),
+  ensure() {
+    if (!this.ctx) {
+      setAudioSessionType(mic.on ? "play-and-record" : "playback");
+      const AC = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AC();
+      const comp = this.ctx.createDynamicsCompressor();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = 0.55;
+      this.master.connect(comp).connect(this.ctx.destination);
+      const imag = new Float32Array([0, 1, 0.5, 0.28, 0.14, 0.07, 0.035]);
+      this.wave = this.ctx.createPeriodicWave(new Float32Array(imag.length), imag);
+    }
+    if (this.ctx.state !== "running") this.ctx.resume();
+    return this.ctx;
+  },
+  play(midi, when, dur, vel) {
+    const ctx = this.ctx;
+    const f = 440 * Math.pow(2, (midi - 69) / 12);
+    const osc = ctx.createOscillator();
+    osc.setPeriodicWave(this.wave);
+    osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter();
+    filt.type = "lowpass";
+    filt.frequency.setValueAtTime(Math.min(9000, f * 9), when);
+    filt.frequency.setTargetAtTime(Math.min(3500, f * 3), when, 0.35);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, when);
+    g.gain.linearRampToValueAtTime(vel * 0.32, when + 0.005);
+    g.gain.setTargetAtTime(0, when + 0.005, 0.9);
+    g.gain.setTargetAtTime(0, when + dur, 0.06);
+    osc.connect(filt).connect(g).connect(this.master);
+    osc.start(when);
+    osc.stop(when + dur + 0.5);
+    const v = { osc, g };
+    this.voices.add(v);
+    osc.onended = () => this.voices.delete(v);
+  },
+  stopAll() {
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    for (const v of this.voices) {
+      try {
+        if (v.g.gain.cancelAndHoldAtTime) v.g.gain.cancelAndHoldAtTime(now);
+        else v.g.gain.cancelScheduledValues(now);
+        v.g.gain.setTargetAtTime(0, now, 0.03);
+        v.osc.stop(now + 0.25);
+      } catch (e) {}
+    }
+  }
+};
+
+// ---------- Mikrofon ----------
+const mic = {
+  on: false, stream: null, src: null, an: null, buf: null, midi: null, silent: 0, lastRead: 0,
+  async start() {
+    setAudioSessionType("play-and-record");
+    const ctx = piano.ensure();
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: false }
+    });
+    this.src = ctx.createMediaStreamSource(this.stream);
+    this.an = ctx.createAnalyser();
+    this.an.fftSize = 4096;
+    this.buf = new Float32Array(this.an.fftSize);
+    this.src.connect(this.an);
+    this.on = true;
+  },
+  stop() {
+    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+    if (this.src) this.src.disconnect();
+    this.on = false; this.stream = null; this.src = null; this.an = null; this.midi = null;
+    setAudioSessionType("playback");
+  },
+  read() {
+    this.an.getFloatTimeDomainData(this.buf);
+    const m = detectMidi(this.buf, piano.ctx.sampleRate);
+    if (m == null) {
+      this.silent++;
+      if (this.silent >= 3) this.midi = null;
+    } else {
+      this.silent = 0;
+      this.midi = this.midi != null && Math.abs(this.midi - m) < 0.7 ? this.midi * 0.6 + m * 0.4 : m;
+    }
+    return m;
+  }
+};
+
+// ---------- Oynatma ----------
+let run = null;
+let wakeLock = null;
+let lastResult = null; // bitişte gösterilen puan (dil değişince yeniden yazmak için)
+
+function start(demo = false) {
+  const ctx = piano.ensure();
+  stop(true);
+  const ex = exercise();
+  const tl = buildTimeline(demo
+    ? { exercise: ex, start: state.start, end: state.start, dir: "up", bpm: state.bpm, melody: true }
+    : { exercise: ex, start: state.start, end: state.end, dir: state.dir, bpm: state.bpm, melody: state.melody });
+  const t0 = ctx.currentTime + 0.15;
+  for (const ev of tl.events) {
+    if (!ev.sound) continue;
+    for (const n of ev.notes) piano.play(n, t0 + ev.t, ev.dur, ev.kind === "chord" ? 0.55 : 0.85);
+  }
+  run = { t0, tl, ex, scored: 0, hits: 0, nextScore: 0, listening: mic.on && !demo, demo };
+  for (const ev of tl.events) { ev.voiced = 0; ev.inTune = 0; }
+  if (navigator.wakeLock) navigator.wakeLock.request("screen").then((l) => (wakeLock = l)).catch(() => {});
+  lastResult = null;
+  setPlaying(true);
+  $("status").textContent = demo ? S().previewing : S().getReady;
+  $("score").hidden = true;
+  ensureLoop();
+}
+
+function releaseWake() { if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
+
+function stop(silent) {
+  if (!run) return;
+  piano.stopAll();
+  run = null;
+  releaseWake();
+  setPlaying(false);
+  clearKeys();
+  $("nowNote").textContent = nn(state.start);
+  $("hz").textContent = hzLabel(state.start);
+  $("kicker").textContent = S().startNote;
+  if (!silent) $("status").textContent = S().stopped;
+}
+
+function finish() {
+  const r = run;
+  run = null;
+  releaseWake();
+  setPlaying(false);
+  clearKeys();
+  if (r.demo) { render(); return; }
+  lastResult = { hits: r.hits, scored: r.scored };
+  showResult();
+}
+
+function showResult() {
+  $("nowNote").textContent = S().bravo;
+  $("status").textContent = S().done;
+  const sc = $("score");
+  sc.hidden = !(lastResult && lastResult.scored > 0);
+  if (!sc.hidden) sc.textContent = `${starsFor(lastResult.hits, lastResult.scored)}  ${S().notesScore(lastResult.hits, lastResult.scored)}`;
+}
+
+function preview(midi) {
+  if (run) return;
+  const ctx = piano.ensure();
+  piano.play(midi, ctx.currentTime + 0.01, 0.6, 0.85);
+  const el = keyEls.get(midi);
+  if (el) { el.classList.add("on"); setTimeout(() => el.classList.remove("on"), 600); }
+}
+
+// ---------- Döngü (görsel + perde) ----------
+let looping = false;
+function ensureLoop() {
+  if (looping) return;
+  looping = true;
+  requestAnimationFrame(loop);
+}
+
+function loop() {
+  if (!run && !mic.on) { looping = false; return; }
+  const nowAbs = piano.ctx.currentTime;
+  let target = null;
+
+  if (mic.on && nowAbs - mic.lastRead > 0.045) {
+    mic.lastRead = nowAbs;
+    const m = mic.read();
+    if (run && run.listening && m != null) {
+      const t = nowAbs - run.t0;
+      for (const ev of run.tl.events) {
+        if (ev.kind === "note" && t >= ev.t + 0.12 && t < ev.t + ev.len) {
+          ev.voiced++;
+          if (Math.abs(centsOff(m, ev.target)) <= TOLERANCE_CENTS) ev.inTune++;
+          break;
+        }
+      }
+    }
+  }
+
+  if (run) {
+    const t = nowAbs - run.t0;
+    const lit = new Set();
+    let cur = null;
+    for (const ev of run.tl.events) {
+      if (ev.t > t) break;
+      if (t < ev.t + ev.dur) ev.notes.forEach((n) => lit.add(n));
+      if (ev.kind === "note" && t < ev.t + ev.len) target = ev.target;
+      cur = ev;
+    }
+    if (run.listening) {
+      const evs = run.tl.events;
+      while (run.nextScore < evs.length && evs[run.nextScore].t + evs[run.nextScore].len <= t) {
+        const ev = evs[run.nextScore++];
+        if (ev.kind !== "note") continue;
+        run.scored++;
+        if (ev.voiced >= 2 && ev.inTune >= ev.voiced * 0.5) run.hits++;
+      }
+      $("score").hidden = run.scored === 0;
+      $("score").textContent = S().notesScore(run.hits, run.scored);
+    }
+    setKeys(lit, target);
+    if (cur) {
+      $("nowNote").textContent = nn(cur.root);
+      $("hz").textContent = hzLabel(cur.root);
+      $("kicker").textContent = S().round(cur.round + 1, run.tl.rounds);
+      if (!run.demo) $("status").textContent = "";
+      setDot(cur.kind === "note" && t < cur.t + cur.len ? cur.i : -1);
+    }
+    if (t >= run.tl.total) finish();
+  }
+
+  if (mic.on) renderMeter(target);
+  requestAnimationFrame(loop);
+}
+
+function renderMeter(target) {
+  $("mTarget").textContent = target != null ? nn(target) : "—";
+  $("mYou").textContent = mic.midi != null ? nn(Math.round(mic.midi)) : "—";
+  const dot = $("mDot"), msg = $("mMsg");
+  if (mic.midi == null) {
+    dot.hidden = true; msg.textContent = S().cantHear; msg.classList.remove("ok"); return;
+  }
+  if (target == null) {
+    dot.hidden = true; msg.textContent = run ? S().listenChord : S().listening; msg.classList.remove("ok"); return;
+  }
+  const c = Math.max(-100, Math.min(100, centsOff(mic.midi, target)));
+  const ok = Math.abs(c) <= TOLERANCE_CENTS;
+  dot.hidden = false;
+  dot.style.left = `${(c + 100) / 2}%`;
+  dot.classList.toggle("ok", ok);
+  msg.textContent = ok ? S().perfect : c > 0 ? S().lower : S().higher;
+  msg.classList.toggle("ok", ok);
+}
+
+// ---------- Klavye ----------
+let keyEls = new Map();
+function keyboardBounds() {
+  const ex = exercise();
+  const lo = state.start - (((state.start % 12) + 12) % 12);
+  const top = Math.max(state.start, state.end) + Math.max(Math.max(...ex.pattern), 7);
+  return [lo, top + (11 - (((top % 12) + 12) % 12))];
+}
+function buildKeyboard() {
+  const [lo, hi] = keyboardBounds();
+  const kb = $("keyboard");
+  kb.innerHTML = "";
+  kb.setAttribute("aria-label", S().keyboardLabel);
+  keyEls = new Map();
+  const whites = [];
+  for (let m = lo; m <= hi; m++) if (!isBlack(m)) whites.push(m);
+  const row = document.createElement("div");
+  row.className = "whites";
+  for (const m of whites) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "key-w";
+    b.setAttribute("aria-label", nn(m));
+    if (m % 12 === 0) b.textContent = nn(m);
+    b.addEventListener("pointerdown", (e) => { e.preventDefault(); preview(m); });
+    row.appendChild(b);
+    keyEls.set(m, b);
+  }
+  kb.appendChild(row);
+  const W = whites.length;
+  for (let m = lo; m <= hi; m++) {
+    if (!isBlack(m)) continue;
+    const idx = whites.indexOf(m - 1);
+    if (idx < 0) continue;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "key-b";
+    b.setAttribute("aria-label", nn(m));
+    const bw = 62 / W;
+    b.style.width = `${bw}%`;
+    b.style.left = `${((idx + 1) / W) * 100 - bw / 2}%`;
+    b.addEventListener("pointerdown", (e) => { e.preventDefault(); preview(m); });
+    kb.appendChild(b);
+    keyEls.set(m, b);
+  }
+}
+function setKeys(lit, target) {
+  for (const [m, el] of keyEls) {
+    el.classList.toggle("on", lit.has(m));
+    el.classList.toggle("target", m === target && !lit.has(m));
+  }
+}
+function clearKeys() { setKeys(new Set(), null); }
+
+// ---------- Arayüz ----------
+// Melodi eğrisi: degrade çizgi, parlayan noktalar; isteğe bağlı derece ekseni ve dikey kesik çizgiler
+const DEG = { 0: 1, 2: 2, 4: 3, 5: 4, 7: 5, 9: 6, 11: 7, 12: 8, 14: 9 };
+let chartSeq = 0;
+function chartSVG(pattern, color, o = {}) {
+  const W = o.w || 240, H = o.h || 100;
+  const padL = o.axis ? 26 : 10, padR = 10, padT = 10, padB = 10;
+  const degs = pattern.map((p) => DEG[p] ?? 1 + p * 0.55);
+  const lo = Math.min(1, ...degs), hi = Math.max(o.axis ? 7 : 1, ...degs);
+  const span = Math.max(1, hi - lo);
+  const X = (i) => padL + (pattern.length === 1 ? 0.5 : i / (pattern.length - 1)) * (W - padL - padR);
+  const Y = (d) => H - padB - ((d - lo) / span) * (H - padT - padB);
+  const id = `g${++chartSeq}`;
+  const pts = degs.map((d, i) => [X(i), Y(d)]);
+  let path = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length; i++) path += ` L${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
+  let grid = "";
+  if (o.axis) {
+    for (const g of [1, 3, 5, 7, 9].filter((v) => v <= Math.ceil(hi))) {
+      grid += `<line x1="${padL}" x2="${W - padR}" y1="${Y(g).toFixed(1)}" y2="${Y(g).toFixed(1)}" stroke="rgba(160,170,230,.16)" stroke-dasharray="3 4"/>`;
+      grid += `<text x="${padL - 10}" y="${(Y(g) + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#8E94BA" font-family="system-ui,sans-serif">${g}</text>`;
+    }
+  }
+  const drops = o.drops ? pts.map(([x, y]) => `<line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${(y + 6).toFixed(1)}" y2="${H}" stroke="${color}" stroke-opacity=".28" stroke-dasharray="2 4"/>`).join("") : "";
+  const r = o.r || 4.2;
+  const dots = pts.map(([x, y], i) => `<circle class="cdot" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="url(#${id}d)" stroke="${color}" stroke-width="1" filter="url(#${id}f)"/>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true" class="chart">
+    <defs>
+      <linearGradient id="${id}l" x1="0" x2="1"><stop offset="0" stop-color="${color}" stop-opacity=".75"/><stop offset=".55" stop-color="${color}"/><stop offset="1" stop-color="${color}" stop-opacity=".8"/></linearGradient>
+      <radialGradient id="${id}d" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".35" stop-color="${color}"/><stop offset="1" stop-color="${color}"/></radialGradient>
+      <filter id="${id}f" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    ${grid}${drops}<path d="${path}" fill="none" stroke="url(#${id}l)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>${dots}</svg>`;
+}
+const CHECK = '<span class="check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+const PLAY_D = "M6 3.5v17l15-8.5z";
+
+function pickExercise(id) { state.ex = id; lastResult = null; save(); render(); buildKeyboard(); }
+
+function buildExercises() {
+  const box = $("exercises");
+  box.innerHTML = "";
+  for (const ex of EXERCISES) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "ex-card";
+    b.id = `ex-${ex.id}`;
+    b.style.setProperty("--c", ex.color);
+    b.innerHTML = `${CHECK}${chartSVG(ex.pattern, ex.color, { w: 200, h: 70, r: 4 })}<div class="ex-name">${ex.name[state.lang]}</div><div class="ex-meta"><span>${S().notesCount(ex.pattern.length)}</span><i></i><span class="level">${S().levels[ex.level]}</span></div>`;
+    b.addEventListener("click", () => pickExercise(ex.id));
+    box.appendChild(b);
+  }
+}
+
+let levelFilter = "all";
+function buildAllList() {
+  const chips = $("levelChips");
+  chips.innerHTML = "";
+  for (const id of ["all", "easy", "mid", "adv"]) {
+    const c = document.createElement("button");
+    c.type = "button"; c.id = `lf-${id}`;
+    c.textContent = id === "all" ? S().filterAll : S().levels[id];
+    c.setAttribute("aria-pressed", String(levelFilter === id));
+    c.onclick = () => { levelFilter = id; buildAllList(); };
+    chips.appendChild(c);
+  }
+  const grid = $("allGrid");
+  grid.innerHTML = "";
+  for (const ex of EXERCISES) {
+    if (levelFilter !== "all" && ex.level !== levelFilter) continue;
+    const card = document.createElement("div");
+    card.className = "ex-card big-card"; card.id = `exl-${ex.id}`;
+    card.style.setProperty("--c", ex.color);
+    card.setAttribute("role", "button"); card.tabIndex = 0;
+    card.setAttribute("aria-pressed", String(ex.id === state.ex));
+    card.innerHTML = `${CHECK}${chartSVG(ex.pattern, ex.color, { w: 300, h: 120, axis: true, r: 5 })}
+      <div class="big-foot"><div><div class="ex-name">${ex.name[state.lang]}</div><div class="sub">${S().notesCount(ex.pattern.length)}</div></div>
+      <span class="level">${S().levels[ex.level]}</span>
+      <button type="button" class="play-dot" aria-label="${S().play}: ${ex.name[state.lang]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${PLAY_D}" fill="currentColor"/></svg></button></div>`;
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".play-dot")) { pickExercise(ex.id); showAll(false); start(); return; }
+      pickExercise(ex.id); renderAllSelection();
+    });
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickExercise(ex.id); renderAllSelection(); } });
+    grid.appendChild(card);
+  }
+  renderAllSelection();
+}
+function renderAllSelection() {
+  const ex = exercise();
+  for (const e of EXERCISES) { const c = $(`exl-${e.id}`); if (c) c.setAttribute("aria-pressed", String(e.id === state.ex)); }
+  $("sumChart").innerHTML = chartSVG(ex.pattern, ex.color, { w: 120, h: 50, r: 3.4 });
+  $("sumName").textContent = ex.name[state.lang];
+  $("sumMeta").innerHTML = `<span>${S().notesCount(ex.pattern.length)}</span><i></i><span>${S().levels[ex.level]}</span>`;
+}
+function showAll(on) {
+  $("homeView").hidden = on; $("allView").hidden = !on;
+  if (on) buildAllList();
+  window.scrollTo(0, 0);
+}
+
+function buildSeg(boxId, items, onPick) {
+  const box = $(boxId);
+  box.innerHTML = "";
+  for (const it of items) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.id = `${boxId}-${it.id}`;
+    b.textContent = it.name;
+    b.addEventListener("click", () => { onPick(it); save(); buildAll(); });
+    box.appendChild(b);
+  }
+}
+
+function buildAll() {
+  document.documentElement.lang = state.lang;
+  for (const el of document.querySelectorAll("[data-i18n]")) {
+    const v = S()[el.dataset.i18n];
+    if (typeof v === "string") el.textContent = v;
+  }
+  $("aboutBtn").setAttribute("aria-label", S().about);
+  $("aboutVer").textContent = `v${APP_VERSION}`;
+  const sl = $("supportLine");
+  sl.hidden = !SUPPORT_EMAIL;
+  if (SUPPORT_EMAIL) sl.textContent = S().support(SUPPORT_EMAIL);
+  buildExercises();
+  if (!$("allView").hidden) buildAllList();
+  buildSeg("ranges", RANGES.map((r) => ({ ...r, name: S().ranges[r.id] })), (r) => { state.range = r.id; state.start = r.start; state.end = r.end; lastResult = null; });
+  buildSeg("dirs", [{ id: "up", name: S().up }, { id: "upDown", name: S().upDown }], (d) => { state.dir = d.id; });
+  buildSeg("langs", [{ id: "tr", name: "Türkçe" }, { id: "en", name: "English" }], (l) => { state.lang = l.id; });
+  render();
+  buildKeyboard();
+}
+
+function render() {
+  const ex = exercise();
+  document.documentElement.style.setProperty("--ex", ex.color);
+  $("syllables").textContent = ex.syllables[state.lang];
+  for (const e of EXERCISES) $(`ex-${e.id}`).setAttribute("aria-pressed", String(e.id === state.ex));
+  $("stageContour").innerHTML = chartSVG(ex.pattern, ex.color, { w: 260, h: 100, drops: true, r: 5.2 });
+  $("hz").textContent = hzLabel(state.start);
+
+  for (const r of RANGES) $(`ranges-${r.id}`).setAttribute("aria-pressed", String(r.id === state.range));
+  for (const d of ["up", "upDown"]) $(`dirs-${d}`).setAttribute("aria-pressed", String(d === state.dir));
+  for (const l of ["tr", "en"]) $(`langs-${l}`).setAttribute("aria-pressed", String(l === state.lang));
+  $("startVal").textContent = nn(state.start);
+  $("endVal").textContent = nn(state.end);
+  $("bpmVal").textContent = `${state.bpm} BPM`;
+  $("melody").checked = state.melody;
+  setPlaying(!!run);
+  if (!run) {
+    if (lastResult) showResult();
+    else { $("nowNote").textContent = nn(state.start); $("kicker").textContent = S().startNote; $("status").textContent = S().ready; $("score").hidden = true; }
+  }
+  updateMicHint();
+}
+
+let micError = null;
+function updateMicHint() {
+  const h = $("micHint");
+  if (micError) { h.hidden = false; h.className = "hint err"; h.textContent = S()[micError]; return; }
+  if (mic.on && state.melody) { h.hidden = false; h.className = "hint"; h.textContent = S().micTip; }
+  else h.hidden = true;
+}
+
+function setPlaying(on) {
+  const demo = on && run && run.demo;
+  $("play").classList.toggle("stop", on);
+  $("playLabel").textContent = on ? S().stop : S().playLong;
+  $("playIcon").setAttribute("d", on ? "M6 6h12v12H6z" : PLAY_D);
+  $("settings").setAttribute("aria-disabled", String(on));
+  $("exercises").setAttribute("aria-disabled", String(on));
+  $("stageDown").disabled = on; $("stageUp").disabled = on;
+  $("demo").disabled = on && !demo;
+  if (!on) setDot(-1);
+}
+function hzLabel(m) {
+  const f = 440 * Math.pow(2, (m - 69) / 12);
+  return `${f.toFixed(1).replace(".", state.lang === "tr" ? "," : ".")} Hz`;
+}
+let litDot = -2;
+function setDot(i) {
+  if (i === litDot) return;
+  litDot = i;
+  for (const c of $("stageContour").querySelectorAll(".cdot")) {
+    const on = Number(c.dataset.i) === i;
+    c.classList.toggle("cur", on);
+    c.setAttribute("r", on ? "8" : "5.2");
+  }
+}
+
+function step(key, delta) {
+  state[key] = Math.max(36, Math.min(84, state[key] + delta));
+  lastResult = null;
+  save(); render(); buildKeyboard();
+}
+
+// ---------- Olaylar ----------
+$("startDown").onclick = () => step("start", -1);
+$("startUp").onclick = () => step("start", 1);
+$("endDown").onclick = () => step("end", -1);
+$("endUp").onclick = () => step("end", 1);
+const tempo = (d) => { state.bpm = Math.max(60, Math.min(160, state.bpm + d)); save(); render(); };
+$("tempoDown").onclick = () => tempo(-5);
+$("tempoUp").onclick = () => tempo(5);
+$("stageDown").onclick = () => step("start", -1);
+$("stageUp").onclick = () => step("start", 1);
+$("seeAll").onclick = () => showAll(true);
+$("allBack").onclick = () => showAll(false);
+$("sumPlay").onclick = () => { showAll(false); start(); };
+$("demo").onclick = () => (run && run.demo ? stop() : start(true));
+$("melody").onchange = (e) => { state.melody = e.target.checked; save(); render(); };
+
+$("mic").onchange = async (e) => {
+  if (e.target.checked) {
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("unsupported");
+      await mic.start();
+      micError = null;
+      $("meter").hidden = false;
+      ensureLoop();
+    } catch (err) {
+      e.target.checked = false;
+      $("meter").hidden = true;
+      micError = err && err.name === "NotAllowedError" ? "micDenied" : "micFail";
+    }
+  } else {
+    mic.stop();
+    micError = null;
+    $("meter").hidden = true;
+  }
+  updateMicHint();
+};
+
+$("play").onclick = () => (run ? stop() : start());
+$("aboutBtn").onclick = () => { $("about").hidden = false; $("aboutClose").focus(); };
+$("aboutClose").onclick = () => { $("about").hidden = true; $("aboutBtn").focus(); };
+$("about").addEventListener("click", (e) => { if (e.target.id === "about") $("about").hidden = true; });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") $("about").hidden = true;
+  if (e.code === "Space" && e.target === document.body) { e.preventDefault(); run ? stop() : start(); }
+});
+// Uygulama arka plana geçince durdur (telefon çaldığında vb.)
+document.addEventListener("visibilitychange", () => { if (document.hidden && run) stop(); });
+
+buildAll();
+</script>
+<script>
+// ---------- Kulak ve Konservatuvar sekmeleri (arayüz) ----------
+const EAR_COLORS = {
+  note: "#E2B862", interval: "#6FA8D6", higher: "#7FBF9E", chord: "#D97A8A", sing: "#A08BD9", test: "#F2C566",
+  c_one: "#F2C566", c_two: "#6FA8D6", c_three: "#E8956B", c_melody: "#A08BD9", c_rhythm: "#7FBF9E",
+  c_four: "#8E94BA", c_sight: "#8E94BA", c_mdict: "#8E94BA", c_rdict: "#8E94BA", c_theory: "#8E94BA", cons: "#F2C566"
+};
+const EAR_ICONS = {
+  note: '<rect x="4" y="6" width="6" height="14" rx="1.5"/><rect x="11" y="6" width="6" height="14" rx="1.5" fill="currentColor"/><rect x="18" y="6" width="6" height="14" rx="1.5"/>',
+  interval: '<circle cx="7" cy="18" r="3" fill="currentColor"/><circle cx="21" cy="9" r="3" fill="currentColor"/><path d="M9.5 16.5 18.5 10.5"/>',
+  higher: '<path d="M14 22V6M8 12l6-6 6 6"/>',
+  chord: '<circle cx="14" cy="7" r="2.6" fill="currentColor"/><circle cx="14" cy="14" r="2.6" fill="currentColor"/><circle cx="14" cy="21" r="2.6" fill="currentColor"/>',
+  sing: '<rect x="10" y="3.5" width="8" height="13" rx="4"/><path d="M6.5 13a7.5 7.5 0 0 0 15 0M14 20.5V24.5"/>',
+  test: '<path d="M9 21c0-6 10-5 10-11a5 5 0 0 0-10 0"/><path d="M13 21a2.5 2.5 0 0 1-5 0"/>',
+  c_one: '<circle cx="11" cy="19" r="4" fill="currentColor"/><path d="M15 19V5l7 3"/>',
+  c_two: '<circle cx="9" cy="19" r="3" fill="currentColor"/><circle cx="19" cy="11" r="3" fill="currentColor"/><path d="M4 23h20M4 15h20M4 7h20" opacity=".45"/>',
+  c_three: '<circle cx="14" cy="21" r="2.8" fill="currentColor"/><circle cx="14" cy="14" r="2.8" fill="currentColor"/><circle cx="14" cy="7" r="2.8" fill="currentColor"/><path d="M5 21h4M5 14h4M5 7h4" opacity=".5"/>',
+  c_melody: '<path d="M3 18c3 0 3-6 6-6s3 8 6 8 3-12 6-12 3 4 4 4"/>',
+  c_rhythm: '<path d="M7 21V7M14 21V9M21 21V5"/><circle cx="5" cy="21" r="2.4" fill="currentColor"/><circle cx="12" cy="21" r="2.4" fill="currentColor"/><circle cx="19" cy="21" r="2.4" fill="currentColor"/>',
+  c_four: '<circle cx="14" cy="5" r="2.2" fill="currentColor"/><circle cx="14" cy="11" r="2.2" fill="currentColor"/><circle cx="14" cy="17" r="2.2" fill="currentColor"/><circle cx="14" cy="23" r="2.2" fill="currentColor"/>',
+  c_sight: '<path d="M3 8h22M3 12h22M3 16h22M3 20h22" opacity=".5"/><circle cx="11" cy="18" r="2.6" fill="currentColor"/><path d="M13.5 18V6"/>',
+  c_mdict: '<path d="M4 22l3-1L21 7l-2-2L5 19z"/><path d="M17 7l2 2"/>',
+  c_rdict: '<path d="M7 21V8l12-3v13"/><circle cx="5" cy="21" r="2.4" fill="currentColor"/><circle cx="17" cy="18" r="2.4" fill="currentColor"/>',
+  c_theory: '<path d="M5 5h8a3 3 0 0 1 3 3v15a2 2 0 0 0-2-2H5zM23 5h-4a3 3 0 0 0-3 3v15a2 2 0 0 1 2-2h5z"/>',
+  cons: '<path d="M3 11l11-6 11 6-11 6z"/><path d="M8 13.5V19c3 2.5 9 2.5 12 0v-5.5M25 11v7"/>'
+};
+const icon = (k) => `<svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${EAR_ICONS[k] || EAR_ICONS.test}</svg>`;
+
+const ES = () => S().ear;
+const CS = () => S().cons;
+const isCons = (t) => typeof t === "string" && t.startsWith("c_");
+const info = (t) => (isCons(t) ? CS().types[t] : ES().types[t]);
+const isSingQ = (q) => Array.isArray(q.targets);
+const needsMic = (t) => t === "sing" || CONS_SING.includes(t);
+
+const ear = {
+  data: { best: {}, test: null, level: {}, consExam: null },
+  section: "ear", view: "home", type: null, isTest: false, exam: false, level: "easy", testMic: true,
+  plan: [], idx: 0, q: null, answered: false, log: [], ownMic: false, plays: 0,
+  timers: [], tick: null, sing: null, tap: null, notice: null
+};
+try { const d = JSON.parse(localStorage.getItem("sesacma-kulak") || "null"); if (d && typeof d === "object") Object.assign(ear.data, d); } catch (e) {}
+function earSave() { try { localStorage.setItem("sesacma-kulak", JSON.stringify(ear.data)); } catch (e) {} }
+
+// ---------- Sekmeler ----------
+function showTab(tab) {
+  if (!["voice", "ear", "cons"].includes(tab)) tab = "voice";
+  if (tab !== "voice" && run) stop(true);
+  if (tab !== state.tab || tab === "voice") earAbort();
+  if (tab !== "voice" && ear.section !== tab) { ear.section = tab; ear.view = "home"; }
+  state.tab = tab; save();
+  const isVoice = tab === "voice";
+  $("voiceView").hidden = !isVoice;
+  $("earSection").hidden = isVoice;
+  $("app").classList.toggle("ear-on", !isVoice);
+  if (isVoice) $("earBar").hidden = true;
+  for (const t of ["voice", "ear", "cons"]) {
+    $(`tab-${t}`).setAttribute("aria-selected", String(t === tab));
+    $(`sw-${t}`).setAttribute("aria-selected", String(t === tab));
+  }
+  if (!isVoice) { document.documentElement.style.setProperty("--ex", EAR_COLORS[ear.type || (tab === "cons" ? "cons" : "test")]); earRender(); }
+  else render();
+  window.scrollTo(0, 0);
+}
+for (const t of ["voice", "ear", "cons"]) { $(`tab-${t}`).onclick = () => showTab(t); $(`sw-${t}`).onclick = () => showTab(t); }
+
+// ---------- Ana ekranlar ----------
+function earCard(type, soon) {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "ear-card" + (soon ? " soon" : ""); b.style.setProperty("--c", EAR_COLORS[type]);
+  const bests = soon ? `<span class="pill">${CS().soon}</span>` : EAR_LEVELS.filter((l) => ear.data.best[`${type}-${l}`] != null)
+    .map((l) => `<span class="pill">${S().levels[l]} ${ear.data.best[`${type}-${l}`]}/${EAR_QUESTIONS}</span>`).join("");
+  b.innerHTML = `<span class="ear-ico">${icon(type)}</span><span class="ear-name">${info(type).name}</span>
+    <span class="ear-desc">${info(type).desc}</span><span class="ear-best">${bests || `<span class="dim">${ES().notPlayed}</span>`}</span>`;
+  if (soon) { b.disabled = true; b.setAttribute("aria-disabled", "true"); }
+  else b.onclick = () => earOpen(type, false);
+  return b;
+}
+function earBuildHome() {
+  const s = ES(), c = CS(), cons = ear.section === "cons";
+  const t = cons ? ear.data.consExam : ear.data.test;
+  $("earTestBtn").innerHTML = `
+    <span class="hero-ico">${icon(cons ? "cons" : "test")}</span>
+    <span class="hero-txt">${cons ? `<small class="hero-k">${c.title}</small>` : ""}<b>${cons ? c.examTitle : s.testTitle}</b><span>${cons ? c.examSub : s.testSub}</span>
+    ${t ? `<em>${cons ? c.examLast(t.pct) : s.testLast(t.pct, s.ranks[t.rank])}</em>` : ""}</span>
+    <span class="hero-cta">${cons ? c.examCta : s.testCta} →</span>`;
+  $("earExTitle").textContent = cons ? c.exercises : s.exercises;
+  $("earExHint").textContent = cons ? c.exHint : s.exHint;
+  const grid = $("earGrid");
+  grid.innerHTML = "";
+  for (const type of cons ? CONS_TYPES : EAR_TYPES) grid.appendChild(earCard(type, false));
+  if (cons) for (const type of CONS_SOON) grid.appendChild(earCard(type, true));
+  $("earNote").hidden = !cons;
+  if (cons) $("earNote").textContent = c.disclaimer;
+}
+$("earTestBtn").onclick = () => earOpen(null, true);
+
+// ---------- Kurulum ----------
+function earOpen(type, isTest) {
+  earAbort();
+  Object.assign(ear, { view: "setup", type, isTest, exam: isTest && ear.section === "cons", level: (type && ear.data.level[type]) || "easy", plan: [], idx: 0, log: [], q: null, answered: false });
+  document.documentElement.style.setProperty("--ex", EAR_COLORS[type || (ear.section === "cons" ? "cons" : "test")]);
+  earRender();
+  window.scrollTo(0, 0);
+}
+
+function earRender() {
+  const s = ES(), c = CS(), cons = ear.section === "cons";
+  $("earHome").hidden = ear.view !== "home";
+  $("earRun").hidden = ear.view !== "setup" && ear.view !== "q";
+  $("earResult").hidden = ear.view !== "result";
+  $("earBar").hidden = ear.view === "home";
+  $("earBackLbl").textContent = cons ? c.back : s.back;
+  if (ear.view === "home") { earBuildHome(); return; }
+  if (ear.view === "result") return;
+  const setup = ear.view === "setup";
+  $("earLevelField").hidden = !setup || ear.isTest;
+  $("earMicField").hidden = !setup || !ear.isTest || cons;
+  $("earLevelLbl").textContent = s.level;
+  buildSegInto("earLevels", EAR_LEVELS.map((l) => ({ id: l, name: S().levels[l] })), ear.level, (l) => { ear.level = l; if (ear.type) { ear.data.level[ear.type] = l; earSave(); } earRender(); });
+  buildSegInto("earMics", [{ id: "on", name: s.withMic }, { id: "off", name: s.withoutMic }], ear.testMic ? "on" : "off", (v) => { ear.testMic = v === "on"; earRender(); });
+  if (setup) {
+    $("earKicker").textContent = ear.isTest ? (cons ? c.examTitle : s.testTitle) : `${info(ear.type).name} · ${S().levels[ear.level]}`;
+    $("earBig").innerHTML = `<span class="big-ico">${icon(ear.type || (cons ? "cons" : "test"))}</span>`;
+    $("earPrompt").textContent = ear.isTest ? (cons ? c.examIntro : s.testIntro) : needsMic(ear.type) ? `${info(ear.type).desc}. ${s.needMic}` : info(ear.type).desc;
+    $("earProg").textContent = ""; $("earBarFill").style.width = "0%";
+    $("earAnswers").innerHTML = ""; $("earKeys").hidden = true; $("singRow").hidden = true; $("earMeter").hidden = true; $("tapPad").hidden = true;
+    $("earFeedback").textContent = ear.notice || ""; $("earFeedback").className = "ear-fb" + (ear.notice ? " no" : ""); ear.notice = null;
+    setEarPlay(s.start, "play");
+  }
+}
+
+function buildSegInto(boxId, items, current, onPick) {
+  const box = $(boxId);
+  box.innerHTML = "";
+  for (const it of items) {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = it.name;
+    b.setAttribute("aria-pressed", String(it.id === current));
+    b.onclick = () => onPick(it.id);
+    box.appendChild(b);
+  }
+}
+
+function setEarPlay(label, iconKind, disabled = false) {
+  $("earPlayLabel").textContent = label;
+  $("earPlayIcon").setAttribute("d", iconKind === "replay" ? "M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" : iconKind === "next" ? "M9 5l7 7-7 7" : "M7 4.5v15l13-7.5z");
+  $("earPlayIcon").setAttribute("fill", iconKind === "next" ? "none" : "currentColor");
+  $("earPlayIcon").setAttribute("stroke", iconKind === "next" ? "currentColor" : "none");
+  $("earPlay").disabled = disabled;
+}
+function replayLabel() {
+  if (!ear.exam) return setEarPlay(ES().listen, "replay");
+  const left = CONS_PLAYS - ear.plays;
+  setEarPlay(left > 0 ? CS().playsLeft(left) : CS().noPlays, "replay", left <= 0);
+}
+
+// ---------- Mikrofon ----------
+async function earMicOn() {
+  if (mic.on) return true;
+  try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("unsupported");
+    await mic.start();
+    ear.ownMic = true;
+    ensureLoop();
+    return true;
+  } catch (e) { return false; }
+}
+function earMicRelease() {
+  if (ear.ownMic && mic.on && !$("mic").checked) mic.stop();
+  ear.ownMic = false;
+}
+
+// ---------- Başlat / soru akışı ----------
+async function earBegin() {
+  const s = ES(), c = CS();
+  piano.ensure();
+  const cons = ear.section === "cons";
+  let withSing = ear.isTest ? (cons ? true : ear.testMic) : needsMic(ear.type);
+  if (withSing) {
+    const ok = await earMicOn();
+    if (!ok) {
+      if (!ear.isTest || cons) { ear.notice = cons && ear.isTest ? c.needMicExam : s.micFail; earRender(); return; }
+      withSing = false;
+      ear.notice = s.micSkip;
+    }
+  }
+  ear.plan = ear.isTest ? (cons ? consExamPlan() : earTestPlan(withSing)) : Array.from({ length: EAR_QUESTIONS }, () => ({ type: ear.type, level: ear.level }));
+  ear.idx = 0; ear.log = [];
+  ear.view = "q";
+  earRender();
+  earNext();
+}
+
+function earNext() {
+  earClearTimers();
+  const s = ES(), c = CS();
+  const step = ear.plan[ear.idx];
+  const q = makeEarQuestion(step.type, step.level, Math.random, { voiceLo: Math.min(state.start, state.end), voiceHi: Math.max(state.start, state.end) });
+  ear.q = q; ear.answered = false; ear.plays = 0;
+  document.documentElement.style.setProperty("--ex", EAR_COLORS[q.type]);
+  $("earProg").textContent = s.q(ear.idx + 1, ear.plan.length);
+  $("earBarFill").style.width = `${(ear.idx / ear.plan.length) * 100}%`;
+  $("earKicker").textContent = `${info(q.type).name} · ${S().levels[q.level]}`;
+  $("earBig").textContent = "?";
+  $("earFeedback").textContent = ear.notice || ""; $("earFeedback").className = "ear-fb"; ear.notice = null;
+  const p = s.prompts, cp = c.prompts;
+  $("earPrompt").textContent =
+    q.type === "note" ? (q.level === "adv" ? p.noteAdv(nn(q.ref)) : p.note) :
+    q.type === "interval" ? (q.harmonic ? p.intervalHarm : q.down ? p.intervalDown : p.interval) :
+    q.type === "sing" ? p.sing(q.targets.length) :
+    q.type === "c_two" || q.type === "c_three" ? cp[q.type](q.level === "easy") :
+    q.type === "c_melody" ? cp.c_melody(q.targets.length) :
+    isCons(q.type) ? cp[q.type] : p[q.type];
+  const box = $("earAnswers");
+  box.innerHTML = "";
+  box.className = "answers" + (q.choices && q.choices.length > 6 ? " many" : "");
+  $("earKeys").hidden = q.type !== "note";
+  $("singRow").hidden = !isSingQ(q) && q.type !== "c_rhythm";
+  $("earMeter").hidden = !isSingQ(q) || ear.exam;
+  $("tapPad").hidden = q.type !== "c_rhythm";
+  $("tapPad").disabled = true;
+  if (q.type === "note") buildEarKeys(q.lo, q.hi);
+  else if (isSingQ(q)) buildChips(q.targets.length);
+  else if (q.type === "c_rhythm") buildChips(q.onsets.length);
+  else {
+    for (const ch of q.choices) {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "ans"; b.dataset.v = String(ch);
+      b.textContent = earLabel(q, ch);
+      b.onclick = () => earAnswer(ch, b);
+      box.appendChild(b);
+    }
+  }
+  earPlayQ();
+}
+
+function earLabel(q, v) {
+  const s = ES();
+  if (q.type === "interval") return INTERVAL_NAMES[state.lang][v];
+  if (q.type === "chord") return CHORD_NAMES[state.lang][v];
+  if (q.type === "higher") return v === 1 ? s.first : s.second;
+  if (q.type === "note") return NOTE_NAMES[state.lang][v];
+  return String(v);
+}
+
+function earPlayQ() {
+  const q = ear.q;
+  if (ear.exam && ear.plays >= CONS_PLAYS) return;
+  ear.plays++;
+  const ctx = piano.ensure();
+  piano.stopAll();
+  earClearTimers();
+  const t0 = ctx.currentTime + 0.12;
+  for (const ev of q.play) for (const n of ev.notes) piano.play(n, t0 + ev.t, ev.dur, ev.vel);
+  if (isSingQ(q)) { earSingStart(q, (q.len + 0.45) * 1000); return; }
+  if (q.type === "c_rhythm") { earTapStart(q, (q.len + 0.2) * 1000); return; }
+  if (!ear.answered) replayLabel();
+}
+
+function earAnswer(v, btn) {
+  if (ear.answered) return;
+  const q = ear.q, s = ES();
+  const ok = checkEarAnswer(q, v);
+  earRecord(ok, ok ? 1 : 0);
+  if (q.type !== "note") {
+    for (const b of $("earAnswers").children) {
+      const bv = Number.isNaN(Number(b.dataset.v)) ? b.dataset.v : Number(b.dataset.v);
+      if (bv === q.answer) b.classList.add("good");
+      else if (b === btn) b.classList.add("bad");
+      b.disabled = true;
+    }
+  }
+  const right = q.type === "note" ? NOTE_NAMES[state.lang][q.answer] : earLabel(q, q.answer);
+  $("earBig").textContent = ok ? "✓" : right;
+  $("earFeedback").textContent = ok ? s.correct : s.wrong(right);
+  $("earFeedback").className = "ear-fb " + (ok ? "ok" : "no");
+}
+
+function earRecord(ok, part) {
+  ear.answered = true;
+  ear.log.push({ type: ear.q.type, level: ear.q.level, ok, part });
+  $("earBarFill").style.width = `${((ear.idx + 1) / ear.plan.length) * 100}%`;
+  const last = ear.idx >= ear.plan.length - 1;
+  setEarPlay(last ? ES().results : ES().next, "next");
+}
+function examNeutral() {
+  $("earBig").textContent = "✓";
+  $("earFeedback").textContent = CS().recorded;
+  $("earFeedback").className = "ear-fb";
+}
+
+$("earPlay").onclick = () => {
+  if (ear.view === "result") { earOpen(ear.type, ear.isTest); return earBegin(); }
+  if (ear.view === "setup") return earBegin();
+  if (ear.view !== "q") return;
+  if (!ear.answered) return earPlayQ();
+  if (ear.idx < ear.plan.length - 1) { ear.idx++; earNext(); }
+  else earFinish();
+};
+
+// ---------- Nota bulma klavyesi ----------
+let earKeyEls = new Map();
+function buildEarKeys(lo, hi) {
+  const kb = $("earKeys");
+  kb.innerHTML = ""; earKeyEls = new Map();
+  kb.setAttribute("aria-label", S().keyboardLabel);
+  const whites = [];
+  for (let m = lo; m <= hi; m++) if (!isBlack(m)) whites.push(m);
+  const row = document.createElement("div"); row.className = "whites";
+  const press = (m) => (e) => {
+    e.preventDefault();
+    const ctx = piano.ensure();
+    piano.play(m, ctx.currentTime + 0.01, 0.6, 0.85);
+    if (!ear.answered && ear.q && ear.q.type === "note") {
+      const ok = checkEarAnswer(ear.q, m);
+      earAnswer(m);
+      for (const [km, el] of earKeyEls) if (pc(km) === ear.q.answer) el.classList.add("good");
+      if (!ok) earKeyEls.get(m).classList.add("bad");
+    } else {
+      const el = earKeyEls.get(m); el.classList.add("on"); setTimeout(() => el.classList.remove("on"), 500);
+    }
+  };
+  for (const m of whites) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "key-w"; b.setAttribute("aria-label", nn(m));
+    if (m % 12 === 0) b.textContent = nn(m);
+    b.addEventListener("pointerdown", press(m));
+    row.appendChild(b); earKeyEls.set(m, b);
+  }
+  kb.appendChild(row);
+  const W = whites.length;
+  for (let m = lo; m <= hi; m++) {
+    if (!isBlack(m)) continue;
+    const idx = whites.indexOf(m - 1);
+    if (idx < 0) continue;
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "key-b"; b.setAttribute("aria-label", nn(m));
+    const bw = 62 / W;
+    b.style.width = `${bw}%`; b.style.left = `${((idx + 1) / W) * 100 - bw / 2}%`;
+    b.addEventListener("pointerdown", press(m));
+    kb.appendChild(b); earKeyEls.set(m, b);
+  }
+}
+
+// ---------- Söyleme soruları (Kulak + Konservatuvar) ----------
+function buildChips(n) {
+  $("singRow").innerHTML = Array.from({ length: n }, (_, i) => `<span class="chip" id="sc-${i}">${i + 1}</span>`).join("");
+}
+function chip(i) { return $(`sc-${i}`); }
+function earSingStart(q, delayMs) {
+  const s = ES();
+  setEarPlay(s.listening, "replay", true);
+  $("earBig").textContent = "♪";
+  $("earMsg").textContent = s.singGet; $("earMsg").classList.remove("ok");
+  $("earDot").hidden = true;
+  q.targets.forEach((_, i) => { const c = chip(i); if (c) c.className = "chip"; });
+  ear.timers.push(setTimeout(() => {
+    const win = Math.max(0.9, q.step * 1.3);
+    ear.sing = { q, t0: performance.now(), win, samples: q.targets.map(() => []), hits: 0 };
+    $("earBig").textContent = s.singNow;
+    earSingTick();
+  }, delayMs));
+}
+function earSingTick() {
+  const sg = ear.sing;
+  if (!sg || sg.q !== ear.q) return;
+  const s = ES();
+  const t = (performance.now() - sg.t0) / 1000;
+  const i = Math.floor(t / sg.win);
+  if (i >= sg.q.targets.length) return earSingEnd();
+  const local = t - i * sg.win;
+  const target = sg.q.targets[i];
+  for (let k = 0; k < sg.q.targets.length; k++) { const c = chip(k); if (c) c.classList.toggle("now", k === i); }
+  if (local > 0.2 && local < sg.win - 0.05) sg.samples[i].push(mic.midi);
+  $("earBig").textContent = sg.q.targets.length > 1 ? s.singNote(i + 1, sg.q.targets.length) : s.singNow;
+  if (!ear.exam) {
+    const dot = $("earDot"), msg = $("earMsg");
+    if (mic.midi == null) { dot.hidden = true; msg.textContent = S().cantHear; msg.classList.remove("ok"); }
+    else {
+      const c = Math.max(-100, Math.min(100, centsOff(mic.midi, target)));
+      const ok = Math.abs(c) <= TOLERANCE_CENTS;
+      dot.hidden = false; dot.style.left = `${(c + 100) / 2}%`; dot.classList.toggle("ok", ok);
+      msg.textContent = ok ? S().perfect : c > 0 ? S().lower : S().higher; msg.classList.toggle("ok", ok);
+    }
+  }
+  if (i > 0) { const prev = chip(i - 1); if (prev && !prev.dataset.done) earMarkSung(i - 1, sg); }
+  clearTimeout(ear.tick); ear.tick = setTimeout(earSingTick, 40);
+}
+function earMarkSung(k, sg) {
+  const ok = gradeSungNote(sg.samples[k], sg.q.targets[k]);
+  if (ok) sg.hits++;
+  const c = chip(k);
+  if (c) { c.dataset.done = "1"; c.classList.remove("now"); c.classList.add(ear.exam ? "done" : ok ? "good" : "bad"); }
+}
+function earSingEnd() {
+  const sg = ear.sing; ear.sing = null;
+  const s = ES();
+  const last = sg.q.targets.length - 1;
+  const c = chip(last);
+  if (c && !c.dataset.done) earMarkSung(last, sg);
+  const n = sg.q.targets.length;
+  const ok = singPassed(sg.hits, n);
+  earRecord(ok, sg.hits / n);
+  $("earDot").hidden = true;
+  if (ear.exam) return examNeutral();
+  $("earBig").textContent = ok ? "✓" : "✗";
+  $("earFeedback").textContent = `${ok ? s.correct + " " : ""}${s.singScore(sg.hits, n)}`;
+  $("earFeedback").className = "ear-fb " + (ok ? "ok" : "no");
+}
+
+// ---------- Ritim tekrarı ----------
+function earTapStart(q, delayMs) {
+  const s = ES(), c = CS();
+  $("tapPad").textContent = c.tap;
+  setEarPlay(s.listening, "replay", true);
+  $("earBig").textContent = "♩";
+  $("tapPad").disabled = true;
+  $("tapPad").classList.remove("hit");
+  q.onsets.forEach((_, i) => { const ch = chip(i); if (ch) { ch.className = "chip"; delete ch.dataset.done; } });
+  ear.tap = null;
+  ear.timers.push(setTimeout(() => {
+    ear.tap = { q, taps: [] };
+    $("earBig").textContent = c.tapNow;
+    $("tapPad").disabled = false;
+    if (ear.exam) replayLabel(); else setEarPlay(s.listen, "replay");
+    clearTimeout(ear.tick); ear.tick = setTimeout(earTapEnd, 7000);
+  }, delayMs));
+}
+function earTapHit(e) {
+  e.preventDefault();
+  const tp = ear.tap;
+  if (!tp || ear.answered) return;
+  const ctx = piano.ensure();
+  piano.play(84, ctx.currentTime + 0.005, 0.1, 0.8);
+  tp.taps.push(performance.now() / 1000);
+  const pad = $("tapPad"); pad.classList.remove("hit"); void pad.offsetWidth; pad.classList.add("hit");
+  const ch = chip(tp.taps.length - 1); if (ch) ch.classList.add("now");
+  clearTimeout(ear.tick);
+  if (tp.taps.length >= tp.q.onsets.length) { ear.tick = setTimeout(earTapEnd, 250); return; }
+  ear.tick = setTimeout(earTapEnd, Math.max(2200, tp.q.beat * 3000));
+}
+function earTapEnd() {
+  const tp = ear.tap; ear.tap = null;
+  if (!tp || ear.answered || tp.q !== ear.q) return;
+  $("tapPad").disabled = true;
+  const q = tp.q, c = CS(), s = ES();
+  const g = gradeRhythm(tp.taps, q.onsetsSec, q.tol);
+  const n = q.onsets.length;
+  earRecord(g.ok, g.hits / n);
+  q.onsets.forEach((_, i) => {
+    const ch = chip(i); if (!ch) return;
+    ch.classList.remove("now");
+    ch.classList.add(ear.exam ? "done" : g.errs.length === n && Math.abs(g.errs[i]) <= q.tol ? "good" : "bad");
+  });
+  if (ear.exam) return examNeutral();
+  $("earBig").textContent = g.ok ? "✓" : "✗";
+  $("earFeedback").textContent = tp.taps.length !== n ? c.rhythmCount(tp.taps.length, n) : `${g.ok ? s.correct + " " : ""}${c.rhythmScore(g.hits, n)}`;
+  $("earFeedback").className = "ear-fb " + (g.ok ? "ok" : "no");
+}
+$("tapPad").addEventListener("pointerdown", earTapHit);
+
+// ---------- Sonuç ----------
+function earFinish() {
+  earClearTimers();
+  const s = ES(), c = CS();
+  const box = $("earResult");
+  if (ear.isTest && ear.section === "cons") {
+    const sum = consExamSummary(ear.log);
+    ear.data.consExam = { pct: sum.pct, at: Date.now() };
+    earSave();
+    const rows = Object.entries(sum.areas).map(([k, a]) => `<div class="area-row"><div class="area"><span>${c.areas[k]}</span><span class="pctv">%${a.pct}</span></div><div class="area-bar"><i style="width:${a.pct}%"></i></div></div>`).join("");
+    const focusType = sum.weakest ? c.areaFocus[sum.weakest] : null;
+    box.innerHTML = `<section class="stage res-stage">
+        <div class="ear-kicker">${c.resultKicker}</div>
+        <div class="res-big">%${sum.pct}</div>
+        <div class="res-pct">${c.overall}</div>
+      </section>
+      <div class="panel areas">${rows}${sum.weakest ? `<p class="hint">${c.focus(c.areas[sum.weakest])}</p>` : ""}</div>
+      <p class="note-hint">${c.disclaimer}</p>
+      <div class="res-actions">
+        ${focusType ? `<button type="button" class="ghost-btn" id="resFocus">${c.types[focusType].name} →</button>` : ""}
+        <button type="button" class="ghost-btn" id="resHome">${c.back}</button></div>`;
+    if (focusType) $("resFocus").onclick = () => earOpen(focusType, false);
+  } else if (ear.isTest) {
+    const sum = earTestSummary(ear.log);
+    ear.data.test = { pct: sum.pct, rank: sum.rank, at: Date.now() };
+    earSave();
+    const rows = EAR_TYPES.filter((t) => sum.byType[t]).map((t) => {
+      const r = sum.byType[t];
+      return `<div class="area"><span>${s.types[t].name}</span><span class="dots">${"●".repeat(r.ok)}${"○".repeat(r.total - r.ok)}</span></div>`;
+    }).join("");
+    box.innerHTML = `<section class="stage res-stage">
+        <div class="ear-kicker">${s.kulakLevel}</div>
+        <div class="res-big">${s.ranks[sum.rank]}</div>
+        <div class="res-pct">%${sum.pct}</div>
+        <p class="res-text">${s.rankText[sum.rank]}</p>
+      </section>
+      <div class="panel areas">${rows}${sum.weakest ? `<p class="hint">${s.focus(s.types[sum.weakest].name)}</p>` : ""}</div>
+      <div class="res-actions">
+        ${sum.weakest ? `<button type="button" class="ghost-btn" id="resFocus">${s.types[sum.weakest].name} →</button>` : ""}
+        <button type="button" class="ghost-btn" id="resHome">${s.home}</button></div>`;
+    if (sum.weakest) $("resFocus").onclick = () => earOpen(sum.weakest, false);
+  } else {
+    const hits = ear.log.filter((a) => a.ok).length;
+    const key = `${ear.type}-${ear.level}`;
+    const prev = ear.data.best[key];
+    const isBest = prev == null || hits > prev;
+    if (isBest) { ear.data.best[key] = hits; earSave(); }
+    box.innerHTML = `<section class="stage res-stage">
+        <div class="ear-kicker">${info(ear.type).name} · ${S().levels[ear.level]}</div>
+        <div class="res-big">${starsFor(hits, ear.log.length)}</div>
+        <div class="res-pct">${s.score(hits, ear.log.length)}</div>
+        ${isBest && prev != null ? `<p class="res-text">${s.newBest}</p>` : ""}
+      </section>
+      <div class="res-actions"><button type="button" class="ghost-btn" id="resHome">${ear.section === "cons" ? c.back : s.home}</button></div>`;
+  }
+  $("resHome").onclick = () => { ear.view = "home"; earRender(); window.scrollTo(0, 0); };
+  earMicRelease();
+  ear.view = "result";
+  earRender();
+  $("earBar").hidden = false;
+  setEarPlay(s.again, "replay");
+  window.scrollTo(0, 0);
+}
+
+function earClearTimers() { ear.timers.forEach(clearTimeout); clearTimeout(ear.tick); ear.timers = []; ear.sing = null; ear.tap = null; }
+function earAbort() {
+  earClearTimers();
+  if (piano.ctx) piano.stopAll();
+  earMicRelease();
+  ear.view = "home";
+}
+$("earBack").onclick = () => { earAbort(); earRender(); window.scrollTo(0, 0); };
+
+// Dil değişince bu sekmelerin metinleri de yenilensin
+const _buildAll = buildAll;
+buildAll = function () {
+  _buildAll();
+  if (state.tab !== "voice") showTab(state.tab);
+};
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && ear.view === "q") { earClearTimers(); if (piano.ctx) piano.stopAll(); if (!ear.answered) { if (ear.exam) ear.plays = Math.max(0, ear.plays - 1); replayLabel(); } }
+});
+
+showTab(state.tab);
+</script>
+</body>
+</html>
