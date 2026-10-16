@@ -8,7 +8,9 @@ name: Masaüstü kurulum dosyaları
 on:
   workflow_dispatch:
   push:
-    tags: ["v*"]
+    # Uygulama ya da masaüstü dosyaları değişince otomatik de derlenir
+    branches: ["main", "surum-*"]
+    paths: ["src/**", "desktop/**", ".github/workflows/desktop.yml"]
 
 jobs:
   build:
