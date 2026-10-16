@@ -51,8 +51,9 @@ Bitince derleme sayfasının **Artifacts** kısmından `app-release.aab` dosyas�
 
 ## 3. Windows — kurulum sihirbazı (Setup.exe)
 
-1. github.com/emccreationsstudio/ses-acma → **Actions** sekmesi → soldan **Masaüstü kurulum dosyaları** → **Run workflow** → branch `surum-1.1` → Run.
-2. ~10 dakika sonra işin sayfasının altında **Artifacts** → `SesAcma-win` (zip) → içinde `SesAcma-PianoWarmUp-Setup-1.1.0.exe`.
+1. github.com/emccreationsstudio/ses-acma → **Actions** sekmesi → soldan **Masaüstü kurulum dosyaları** → en üstteki (yeşil tikli) işi aç.
+   Uygulama kodu her güncellendiğinde bu iş kendiliğinden çalışır. Elle başlatmak için **Run workflow** düğmesi de var (bu düğme, dal `main`'e birleştirildikten sonra görünür).
+2. İş bitince (~10 dakika) sayfanın altında **Artifacts** → `SesAcma-win` (zip) → içinde `SesAcma-PianoWarmUp-Setup-1.1.0.exe`.
 3. Çift tıkla: dil seçimi (10 dil) → kurulum klasörü → masaüstü ve Başlat menüsü kısayolu → bitir, uygulama açılır.
 
 **"Windows kişisel bilgisayarınızı korudu" uyarısı:** Kurulum dosyası henüz kod imzalı olmadığı için çıkar. **Ek bilgi → Yine de çalıştır**. Uyarının hiç çıkmaması için ileride bir kod imzalama sertifikası alınabilir ya da uygulama Microsoft Store'a konabilir.
