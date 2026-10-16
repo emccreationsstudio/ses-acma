@@ -1,4 +1,4 @@
-<title>Ses Açma</title>
+<title>Ses Açma - Piano Warm Up</title>
 <style>
 /* Tasarım: taslaklardaki gece laciverti + altın. Tek koyu tema; kartlar yumuşak kenarlı cam paneller.
    Başlıklar SF Pro (sistem), büyük nota adı serif altın. Dış font yüklenmez. */
@@ -274,6 +274,7 @@ button.qcard { cursor: pointer; }
 .label { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .seg { display: flex; flex-wrap: wrap; gap: 4px; background: var(--bg); padding: 4px; border-radius: 14px; border: 1px solid var(--line); }
 .seg button { flex: 1 1 auto; border: 0; background: transparent; padding: 9px 10px; border-radius: 10px; font-weight: 700; cursor: pointer; color: var(--muted); }
+.seg.langs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .seg button[aria-pressed="true"] { background: var(--surface-3); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
 .steppers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .stepper { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 6px; }
@@ -327,6 +328,13 @@ button.qcard { cursor: pointer; }
 }
 .tab + .tab::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 1px; background: var(--line); }
 .tab svg { width: 28px; height: 28px; }
+/* Uzun dillerde (Almanca, Rusça, İtalyanca…) sekme yazıları taşmasın */
+.ear-card { min-width: 0; }
+.ear-name, .ear-desc, .ex-name, h1, h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
+.switcher button, .tab { min-width: 0; }
+.switcher button { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tab span { max-width: 100%; padding: 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 400px) { .switcher button { font-size: 0.82rem; } .tab { font-size: 0.78rem; } }
 .tab[aria-selected="true"] { color: var(--ink); }
 .tab[aria-selected="true"] svg { color: var(--gold); }
 .tab[aria-selected="true"]::after { content: ""; position: absolute; bottom: 4px; left: 32%; right: 32%; height: 3px; border-radius: 3px; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
@@ -577,7 +585,7 @@ button.qcard { cursor: pointer; }
           <p class="hint" id="micHint" hidden></p>
           <div class="field">
             <div class="label" id="lblLang" data-i18n="language"></div>
-            <div class="seg" id="langs" role="group" aria-labelledby="lblLang"></div>
+            <div class="seg langs" id="langs" role="group" aria-labelledby="lblLang"></div>
           </div>
         </div>
       </section>
@@ -668,7 +676,7 @@ button.qcard { cursor: pointer; }
 <div class="sheet-wrap" id="about" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
     <div class="sheet-head">
-      <h2 id="aboutTitle">Ses Açma: Piyano Isınma</h2>
+      <h2 id="aboutTitle">Ses Açma - Piano Warm Up</h2>
       <span class="ver" id="aboutVer"></span>
     </div>
     <p data-i18n="aboutText"></p>
@@ -934,7 +942,8 @@ const STRINGS = {
 const TOLERANCE_CENTS = 50;
 
 function pickLanguage(navLang) {
-  return /^tr\b/i.test(navLang || "") ? "tr" : "en";
+  const l = String(navLang || "").toLowerCase().split(/[-_]/)[0];
+  return LANGS.some(([c]) => c === l) ? l : "en";
 }
 
 function noteName(m, lang = "tr") {
@@ -1297,8 +1306,1011 @@ function consExamSummary(log) {
   return { pct, areas: out, weakest: low < 100 ? weakest : null };
 }
 
+// LANGPACK-START (build-ear/lang/*.js dosyalarından üretilir)
+const LANG_PACK = {
+  de: {
+  langName: "Deutsch",
+  notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"],
+  strings: {
+    tagline: "Mach deine Stimme bereit für heute", about: "Info",
+    exercise: "Übungen", contourHint: "Die Kurven zeigen den Verlauf jeder Melodie.", settings: "Einstellungen",
+    startNote: "Startton", seeAll: "Alle ansehen", allSub: "Bau deine Stimme Schritt für Schritt auf.", filterAll: "Alle", rangeTitle: "Stimmumfang",
+    demo: "Beispiel anhören", playLong: "Übung starten", tabEarLong: "Gehörbildung", okBtn: "Fertig",
+    voice: "Stimmlage", start: "Start", top: "Höchster Ton", tempo: "Tempo", direction: "Richtung",
+    up: "Nur aufwärts", upDown: "Auf- und abwärts",
+    melody: "Klavier spielt die Melodie", melodySub: "Wenn aus, erklingt nur der Anfangsakkord und die Töne leuchten auf der Tastatur",
+    mic: "Mit Mikrofon zuhören", micSub: "Zeigt dir, ob du den richtigen Ton singst",
+    language: "Sprache",
+    play: "Start", stop: "Stopp", previewing: "Beispiel wird gespielt…",
+    ready: "Wähle eine Übung und leg los", getReady: "Mach dich bereit…", stopped: "Gestoppt", done: "Einsingen abgeschlossen", bravo: "Bravo!",
+    round: (a, b) => `Runde ${a} von ${b}`, notesScore: (h, s) => `${h} / ${s} Töne`, notesCount: (n) => `${n} Töne`,
+    target: "Ziel", you: "Du", cantHear: "Ich höre dich nicht", listenChord: "Hör dir den Akkord an…", listening: "Hört zu",
+    perfect: "Genau richtig!", lower: "Etwas tiefer ↓", higher: "Etwas höher ↑",
+    micTip: "Tipp: Nutze Kopfhörer oder schalte die Melodie aus, sonst hört das Mikrofon auch das Klavier.",
+    micDenied: "Der Mikrofonzugriff ist deaktiviert. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
+    micFail: "Das Mikrofon konnte nicht gestartet werden. Vielleicht nutzt es gerade eine andere App; schließ sie und versuch es erneut.",
+    levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten" },
+    ranges: { child: "Kind", soprano: "Sopran", alto: "Alt", tenor: "Tenor", bass: "Bass" },
+    keyboardLabel: "Klaviertastatur; tippe auf eine Taste, um den Ton zu hören",
+    aboutText: "Einsingübungen mit Klavierbegleitung und Gehörbildung für Gesangsschüler, Sänger und Chormitglieder. Beim Einsingen beginnt jede Runde mit einem Akkord, danach steigt die Übung um einen Halbton. Unter Gehör übst du, Töne, Intervalle und Akkorde zu erkennen, und machst einen Gehörtest, der dein Niveau misst. Musikhochschule bietet Übungen zum Nachsingen von einem, zwei und drei Tönen sowie zum Nachsingen von Melodien und Nachklopfen von Rhythmen für Aufnahmeprüfungen an Musikhochschulen – plus eine Probeprüfung.",
+    privacyTitle: "Datenschutz",
+    privacyText: "Diese App erfasst keine personenbezogenen Daten, braucht kein Konto und enthält weder Werbung noch Tracking. Das Mikrofon wird nur verwendet, wenn du es einschaltest; der Klang wird in Echtzeit auf deinem Gerät analysiert, nie aufgenommen und nirgendwohin gesendet. Eine Internetverbindung ist nicht nötig.",
+    howTitle: "Tipps",
+    howText: "Wähle deine Stimmlage und stell Start- und Höchstton passend zu deiner Stimme ein. Mit Kopfhörern liefert das Mikrofon die genauesten Ergebnisse. Die Oktave spielt keine Rolle: Singst du eine Oktave tiefer, zählt das auch als richtig.",
+    support: (e) => `Support: ${e}`,
+    close: "Schließen",
+    tabVoice: "Einsingen", tabEar: "Gehör",
+    tabCons: "Hochschule",
+    cons: {
+      title: "Vorbereitung Musikhochschule",
+      examTitle: "Probeprüfung", examSub: "11 Fragen · jede höchstens zweimal anhören · Ergebnis am Ende", examCta: "Probeprüfung starten",
+      examLast: (p) => `Deine letzte Probeprüfung: ${p}%`,
+      examIntro: "Wie in der echten Prüfung: zuerst ein Ton, zwei Töne und drei Töne, dann Melodie und Rhythmus nachmachen. Du kannst jede Frage höchstens zweimal anhören und siehst erst am Ende, was richtig oder falsch war. Ein Mikrofon ist nötig; mit Kopfhörern werden die Ergebnisse genauer.",
+      exercises: "Übungen", exHint: "je 10 Fragen", soon: "Demnächst",
+      disclaimer: "Die Punkte in diesem Bereich sind Übungswerte, keine Bewertung einer Jury. Die Prüfungsinhalte unterscheiden sich je nach Hochschule und Studiengang; lies immer die offiziellen Informationen deiner Hochschule.",
+      types: {
+        c_one: { name: "Fang den Ton", desc: "Sing den gehörten Ton auf \"na\"" },
+        c_two: { name: "Zwei Töne", desc: "Sing zwei zusammen gespielte Töne nacheinander" },
+        c_three: { name: "Drei Töne", desc: "Sing die Akkordtöne von unten nach oben" },
+        c_melody: { name: "Melodiegedächtnis", desc: "Hör eine Melodie und sing sie genau nach" },
+        c_rhythm: { name: "Rhythmus-Echo", desc: "Klopf den gehörten Rhythmus nach" },
+        c_four: { name: "Vier Töne", desc: "Zerleg einen vierstimmigen Akkord" },
+        c_sight: { name: "Vom-Blatt-Singen", desc: "Sing Noten, die du noch nie gesehen hast" },
+        c_mdict: { name: "Melodiediktat", desc: "Schreib die Melodie ins Notensystem" },
+        c_rdict: { name: "Rhythmusdiktat", desc: "Schreib den Rhythmus mit Noten und Pausen" },
+        c_theory: { name: "Musiktheorie", desc: "Schlüssel, Vorzeichen, Taktarten, Tonleitern, Akkorde" }
+      },
+      prompts: {
+        c_one: "Hör dir den Ton an und sing dann denselben Ton auf \"na\".",
+        c_two: (help) => `Zwei Töne erklingen zusammen${help ? " (danach hörst du sie einzeln)" : ""}. Sing zuerst den tieferen, dann den höheren.`,
+        c_three: (help) => `Ein Dreiklang erklingt${help ? " (danach hörst du jeden Ton einzeln)" : ""}. Sing seine Töne von unten nach oben.`,
+        c_melody: (n) => `Hör dir die Melodie mit ${n} Tönen an und sing sie dann genau nach.`,
+        c_rhythm: "Zuerst kommen zwei Einzähl-Klicks, dann der Rhythmus. Hör zu und klopf denselben Rhythmus auf dem Feld unten."
+      },
+      tapNow: "Jetzt du", tap: "Tippen", rhythmScore: (a, b) => `${a} von ${b} Schlägen im Takt`, rhythmCount: (a, b) => `Du hast ${a}-mal getippt; der Rhythmus hatte ${b}`,
+      playsLeft: (n) => `Nochmal anhören (noch ${n})`, noPlays: "Keine Wiederholung mehr",
+      recorded: "Antwort gespeichert",
+      needMicExam: "Für die Probeprüfung brauchst du das Mikrofon. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
+      resultKicker: "Ergebnis der Probeprüfung", overall: "Gesamte Übungspunktzahl",
+      areas: { pitch: "Intonation", memory: "Melodiegedächtnis", rhythm: "Rhythmus" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Übe das am meisten: ${n}`,
+      back: "Musikhochschule"
+    },
+    ear: {
+      testTitle: "Gehörtest", testSub: "Miss dein Gehör mit 15 kurzen Fragen", testCta: "Test starten",
+      testLast: (p, r) => `Dein letztes Ergebnis: ${p}% · ${r}`,
+      exercises: "Übungen", exHint: "je 10 Fragen",
+      types: {
+        note: { name: "Finde den Ton", desc: "Finde den versteckten Ton auf den Tasten" },
+        interval: { name: "Intervalle", desc: "Der Abstand zwischen zwei Tönen" },
+        higher: { name: "Welcher ist höher?", desc: "Vergleiche zwei Klänge" },
+        chord: { name: "Akkorde", desc: "Dur oder Moll?" },
+        sing: { name: "Nachsingen", desc: "Hör zu und sing es nach" }
+      },
+      prompts: {
+        note: "Zuerst erklingt ein Referenzton C, dann der versteckte Ton. Welcher Ton ist es? Tippe ihn auf den Tasten an.",
+        noteAdv: (r) => `Zuerst erklingt ein Referenzton ${r}, dann der versteckte Ton. Welcher Ton ist es? Tippe ihn auf den Tasten an.`,
+        interval: "Hör dir die beiden Töne an. Wie groß ist der Abstand zwischen ihnen?",
+        intervalDown: "Hör dir die beiden Töne an (der zweite ist tiefer). Wie groß ist der Abstand?",
+        intervalHarm: "Beide Töne erklingen zusammen. Wie groß ist der Abstand zwischen ihnen?",
+        higher: "Zwei Klänge erklingen. Welcher ist höher?",
+        chord: "Hör dir den Akkord an. Welcher Akkord ist es?",
+        sing: (n) => (n === 1 ? "Hör dir den Ton an und sing ihn dann nach." : `Hör dir die Melodie mit ${n} Tönen an und sing sie dann nach.`)
+      },
+      level: "Stufe", notPlayed: "Noch nicht probiert",
+      start: "Start", listen: "Nochmal anhören", next: "Nächste Frage", results: "Ergebnis ansehen", back: "Gehör", listening: "Hört zu…",
+      q: (a, b) => `Frage ${a} von ${b}`,
+      correct: "Richtig!", wrong: (x) => `Lösung: ${x}`, first: "Erster", second: "Zweiter",
+      singNow: "Jetzt singst du",
+      singYourTurn: "Du bist dran, sing", singNext: "Weiter zum nächsten Ton", lightOk: "Sauber", lightUp: "Etwas höher", lightUpMore: "Höher", lightDown: "Etwas tiefer", lightDownMore: "Tiefer",
+      noVoice: "Keine Stimme gehört", reviewTarget: "Ziel", reviewYou: "Du", review: "Was du gesungen hast", cents: "Cent", wasLow: "zu tief", wasHigh: "zu hoch", singGet: "Hör zu…", singNote: (a, b) => `Ton ${a} von ${b}`, singScore: (a, b) => `${a} von ${b} Tönen richtig`,
+      needMic: "Diese Übung nutzt das Mikrofon. Mit Kopfhörern werden die Ergebnisse genauer.",
+      micFail: "Das Mikrofon konnte nicht gestartet werden. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
+      micSkip: "Das Mikrofon konnte nicht gestartet werden; der Test läuft ohne „Nachsingen“ weiter.",
+      result: "Ergebnis", score: (a, b) => `${a} von ${b} richtig`, again: "Nochmal versuchen", home: "Zurück zu Gehör", newBest: "Neuer Rekord!",
+      testIntro: "Jeder Bereich stellt eine leichte, dann eine mittlere und dann eine schwere Frage. Wähle „Mit Mikrofon“, um „Nachsingen“ einzubeziehen.",
+      withMic: "Mit Mikrofon", withoutMic: "Ohne Mikrofon",
+      ranks: { easy: "Einsteiger", mid: "Mittelstufe", adv: "Fortgeschritten" },
+      rankText: {
+        easy: "Dein Gehör hat noch Luft nach oben. Fang mit der leichten Stufe an; ein paar Minuten am Tag reichen.",
+        mid: "Du hast ein gutes Gehör. Schärfe es mit den mittleren Übungen.",
+        adv: "Dein Gehör ist ausgezeichnet! Fordere dich weiter mit der schweren Stufe."
+      },
+      focus: (n) => `Übe das am meisten: ${n}`,
+      kulakLevel: "Dein Gehörniveau"
+    }
+  },
+  intervals: ["Prime", "Kleine Sekunde", "Große Sekunde", "Kleine Terz", "Große Terz", "Reine Quarte", "Tritonus", "Reine Quinte", "Kleine Sexte", "Große Sexte", "Kleine Septime", "Große Septime", "Oktave"],
+  chords: { maj: "Dur", min: "Moll", aug: "Übermäßig", dim: "Vermindert", maj7: "Dur 7 (maj7)", min7: "Moll 7", dom7: "Dominantseptakkord" },
+  exercises: {
+    uclu: { name: "Summen", syllables: "Mm – mm – mm" },
+    besli: { name: "Fünfton-Leiter", syllables: "Mi – Me – Ma – Mo – Mu" },
+    staccato: { name: "Staccato", syllables: "Ha – ha – ha – ha – ha" },
+    arpej: { name: "Arpeggio", syllables: "Ja – ja – ja – ja" },
+    oktav: { name: "Oktavsprung", syllables: "A – a – a – a – a" },
+    dokuzlu: { name: "Neunton-Skala", syllables: "A – a – a – a …" }
+  }
+},
+  fr: {
+  langName: "Français",
+  notes: ["Do", "Do#", "Ré", "Ré#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"],
+  strings: {
+    tagline: "Prépare ta voix pour aujourd'hui", about: "À propos",
+    exercise: "Exercices", contourHint: "Les courbes montrent la forme de chaque mélodie.", settings: "Réglages",
+    startNote: "Note de départ", seeAll: "Tout voir", allSub: "Construis ta voix pas à pas.", filterAll: "Tous", rangeTitle: "Tessiture",
+    demo: "Écouter un exemple", playLong: "Lancer l'exercice", tabEarLong: "Formation de l'oreille", okBtn: "OK",
+    voice: "Type de voix", start: "Début", top: "Plus aiguë", tempo: "Tempo", direction: "Sens",
+    up: "Montée seule", upDown: "Montée et descente",
+    melody: "Le piano joue la mélodie", melodySub: "Désactivé, seul l'accord de départ est joué et les notes s'allument sur le clavier",
+    mic: "Écoute au micro", micSub: "Indique si tu chantes la bonne note",
+    language: "Langue",
+    play: "Démarrer", stop: "Arrêter", previewing: "Exemple en cours…",
+    ready: "Choisis un exercice et lance-toi", getReady: "Prépare-toi…", stopped: "Arrêté", done: "Échauffement terminé", bravo: "Bravo !",
+    round: (a, b) => `Tour ${a} sur ${b}`, notesScore: (h, s) => `${h} / ${s} notes`, notesCount: (n) => `${n} notes`,
+    target: "Cible", you: "Toi", cantHear: "Je ne t'entends pas", listenChord: "Écoute l'accord…", listening: "À l'écoute",
+    perfect: "Pile juste !", lower: "Un peu plus bas ↓", higher: "Un peu plus haut ↑",
+    micTip: "Astuce : mets un casque ou coupe la mélodie, sinon le micro risque d'entendre aussi le piano.",
+    micDenied: "L'accès au micro est désactivé. Sur ton iPhone, va dans Réglages > Ses Açma > Micro, puis réessaie.",
+    micFail: "Impossible de démarrer le micro. Une autre app l'utilise peut-être ; ferme-la et réessaie.",
+    levels: { easy: "Facile", mid: "Moyen", adv: "Avancé" },
+    ranges: { child: "Enfant", soprano: "Soprano", alto: "Alto", tenor: "Ténor", bass: "Basse" },
+    keyboardLabel: "Clavier de piano ; touche une note pour l'entendre",
+    aboutText: "Échauffements vocaux accompagnés au piano et formation de l'oreille pour élèves en chant, chanteurs et choristes. Dans Échauffement, chaque tour commence par un accord, puis l'exercice monte d'un demi-ton. Dans Oreille, entraîne-toi à reconnaître les notes, les intervalles et les accords, et passe un test d'oreille qui mesure ton niveau. Conservatoire propose des exercices de répétition à une, deux et trois notes, de mélodie et de rythme pour préparer les concours d'entrée, ainsi qu'un examen blanc.",
+    privacyTitle: "Confidentialité",
+    privacyText: "Cette app ne collecte aucune donnée personnelle, ne demande aucun compte et ne contient ni publicité ni pistage. Le micro n'est utilisé que lorsque tu l'actives ; le son est analysé en temps réel sur ton appareil, jamais enregistré ni envoyé nulle part. Aucune connexion internet n'est nécessaire.",
+    howTitle: "Conseils",
+    howText: "Choisis ton type de voix et règle les notes de début et la plus aiguë selon ta voix. Avec le micro, un casque donne les résultats les plus précis. L'octave n'a pas d'importance : chanter une octave plus bas compte aussi comme juste.",
+    support: (e) => `Assistance : ${e}`,
+    close: "Fermer",
+    tabVoice: "Échauffement", tabEar: "Oreille",
+    tabCons: "Conservatoire",
+    cons: {
+      title: "Préparation au conservatoire",
+      examTitle: "Examen blanc", examSub: "11 questions · deux écoutes max par question · résultats à la fin", examCta: "Commencer l'examen blanc",
+      examLast: (p) => `Ton dernier examen blanc : ${p} %`,
+      examIntro: "Comme le vrai examen : d'abord une note, deux notes et trois notes, puis répétition de mélodie et de rythme. Tu peux écouter chaque question deux fois maximum et tu ne sauras pas si c'est juste ou faux avant la fin. Le micro est nécessaire ; un casque donne des résultats plus précis.",
+      exercises: "Entraînement", exHint: "10 questions chacun", soon: "Bientôt disponible",
+      disclaimer: "Les scores de cette section sont des mesures d'entraînement, pas des notes de jury. Le contenu des épreuves varie selon l'établissement et la filière ; consulte toujours le guide officiel de ton école.",
+      types: {
+        c_one: { name: "Attrape la note", desc: "Chante sur « na » la note entendue" },
+        c_two: { name: "Deux notes", desc: "Chante une à une deux notes jouées ensemble" },
+        c_three: { name: "Trois notes", desc: "Chante les notes de l'accord de bas en haut" },
+        c_melody: { name: "Mémoire mélodique", desc: "Écoute une mélodie, rechante-la à l'identique" },
+        c_rhythm: { name: "Écho rythmique", desc: "Retape le rythme entendu" },
+        c_four: { name: "Quatre notes", desc: "Décompose un accord de quatre notes" },
+        c_sight: { name: "Déchiffrage chanté", desc: "Lis une partition inconnue" },
+        c_mdict: { name: "Dictée mélodique", desc: "Écris la mélodie sur la portée" },
+        c_rdict: { name: "Dictée rythmique", desc: "Écris le rythme avec notes et silences" },
+        c_theory: { name: "Théorie", desc: "Clés, armures, mesures, gammes, accords" }
+      },
+      prompts: {
+        c_one: "Écoute la note, puis chante la même note sur « na ».",
+        c_two: (help) => `Deux notes vont être jouées ensemble${help ? " (puis tu les entendras séparément)" : ""}. Chante d'abord la plus grave, puis la plus aiguë.`,
+        c_three: (help) => `Un accord de trois notes va être joué${help ? " (puis tu entendras chaque note)" : ""}. Chante ses notes de bas en haut.`,
+        c_melody: (n) => `Écoute la mélodie de ${n} notes, puis rechante-la à l'identique.`,
+        c_rhythm: "Deux clics de décompte d'abord, puis le rythme. Écoute, puis tape le même rythme sur le pad ci-dessous."
+      },
+      tapNow: "À toi de taper", tap: "Tape", rhythmScore: (a, b) => `${a} frappes sur ${b} en rythme`, rhythmCount: (a, b) => `Tu as tapé ${a} fois ; le rythme en avait ${b}`,
+      playsLeft: (n) => `Réécouter (encore ${n})`, noPlays: "Plus d'écoute possible",
+      recorded: "Réponse enregistrée",
+      needMicExam: "L'examen blanc nécessite le micro. Sur ton iPhone, va dans Réglages > Ses Açma > Micro, puis réessaie.",
+      resultKicker: "Résultat de l'examen blanc", overall: "Score global d'entraînement",
+      areas: { pitch: "Justesse", memory: "Mémoire mélodique", rhythm: "Rythme" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `À travailler en priorité : ${n}`,
+      back: "Conservatoire"
+    },
+    ear: {
+      testTitle: "Test d'oreille", testSub: "Mesure ton oreille en 15 courtes questions", testCta: "Commencer le test",
+      testLast: (p, r) => `Ton dernier résultat : ${p} % · ${r}`,
+      exercises: "Exercices", exHint: "10 questions chacun",
+      types: {
+        note: { name: "Trouve la note", desc: "Trouve la note cachée sur le clavier" },
+        interval: { name: "Intervalles", desc: "La distance entre deux notes" },
+        higher: { name: "Laquelle est plus aiguë ?", desc: "Compare deux sons" },
+        chord: { name: "Accords", desc: "Majeur ou mineur ?" },
+        sing: { name: "Rechante", desc: "Écoute, puis chante pareil" }
+      },
+      prompts: {
+        note: "Un Do de référence est joué d'abord, puis la note cachée. Quelle est cette note ? Touche-la sur le clavier.",
+        noteAdv: (r) => `Un ${r} de référence est joué d'abord, puis la note cachée. Quelle est cette note ? Touche-la sur le clavier.`,
+        interval: "Écoute les deux notes. Quelle distance les sépare ?",
+        intervalDown: "Écoute les deux notes (la seconde est plus grave). Quelle est la distance ?",
+        intervalHarm: "Les deux notes sont jouées ensemble. Quelle distance les sépare ?",
+        higher: "Deux sons vont être joués. Lequel est le plus aigu ?",
+        chord: "Écoute l'accord. De quel accord s'agit-il ?",
+        sing: (n) => (n === 1 ? "Écoute la note, puis rechante-la." : `Écoute la mélodie de ${n} notes, puis rechante-la.`)
+      },
+      level: "Niveau", notPlayed: "Pas encore essayé",
+      start: "Commencer", listen: "Réécouter", next: "Question suivante", results: "Voir les résultats", back: "Oreille", listening: "À l'écoute…",
+      q: (a, b) => `Question ${a} sur ${b}`,
+      correct: "Juste !", wrong: (x) => `Réponse : ${x}`, first: "Premier", second: "Second",
+      singNow: "À toi de chanter",
+      singYourTurn: "À toi, chante", singNext: "Passe à la note suivante", lightOk: "Juste", lightUp: "Un peu plus haut", lightUpMore: "Plus haut", lightDown: "Un peu plus bas", lightDownMore: "Plus bas",
+      noVoice: "Aucune voix détectée", reviewTarget: "Cible", reviewYou: "Toi", review: "Ce que tu as chanté", cents: "cents", wasLow: "trop bas", wasHigh: "trop haut", singGet: "Écoute…", singNote: (a, b) => `Note ${a} sur ${b}`, singScore: (a, b) => `${a} notes justes sur ${b}`,
+      needMic: "Cet exercice utilise le micro. Un casque donne des résultats plus précis.",
+      micFail: "Impossible de démarrer le micro. Sur ton iPhone, va dans Réglages > Ses Açma > Micro, puis réessaie.",
+      micSkip: "Impossible de démarrer le micro ; le test continue sans « Rechante ».",
+      result: "Résultat", score: (a, b) => `${a} bonnes réponses sur ${b}`, again: "Réessayer", home: "Retour à Oreille", newBest: "Nouveau record !",
+      testIntro: "Chaque domaine pose une question facile, puis moyenne, puis difficile. Choisis « Avec micro » pour inclure « Rechante ».",
+      withMic: "Avec micro", withoutMic: "Sans micro",
+      ranks: { easy: "Débutant", mid: "Intermédiaire", adv: "Avancé" },
+      rankText: {
+        easy: "Ton oreille peut encore progresser. Commence au niveau facile ; quelques minutes par jour suffisent.",
+        mid: "Tu as une bonne oreille. Affine-la avec les exercices de niveau moyen.",
+        adv: "Ton oreille est excellente ! Continue à te défier au niveau difficile."
+      },
+      focus: (n) => `À travailler en priorité : ${n}`,
+      kulakLevel: "Ton niveau d'oreille"
+    }
+  },
+  intervals: ["Unisson", "Seconde mineure", "Seconde majeure", "Tierce mineure", "Tierce majeure", "Quarte juste", "Triton", "Quinte juste", "Sixte mineure", "Sixte majeure", "Septième mineure", "Septième majeure", "Octave"],
+  chords: { maj: "Majeur", min: "Mineur", aug: "Augmenté", dim: "Diminué", maj7: "Majeur 7", min7: "Mineur 7", dom7: "Septième de dominante" },
+  exercises: {
+    uclu: { name: "Bouche fermée", syllables: "Mm – mm – mm" },
+    besli: { name: "Échelle de cinq notes", syllables: "Mi – Mé – Ma – Mo – Mou" },
+    staccato: { name: "Staccato", syllables: "Ha – ha – ha – ha – ha" },
+    arpej: { name: "Arpège", syllables: "Ya – ya – ya – ya" },
+    oktav: { name: "Saut d'octave", syllables: "Ah – a – a – a – a" },
+    dokuzlu: { name: "Gamme de neuf notes", syllables: "Ah – a – a – a …" }
+  }
+},
+  es: {
+  langName: "Español",
+  notes: ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"],
+  strings: {
+    tagline: "Prepara tu voz para hoy", about: "Acerca de",
+    exercise: "Ejercicios", contourHint: "Las curvas muestran la forma de cada melodía.", settings: "Ajustes",
+    startNote: "Nota inicial", seeAll: "Ver todo", allSub: "Construye tu voz paso a paso.", filterAll: "Todos", rangeTitle: "Tesitura",
+    demo: "Escuchar un ejemplo", playLong: "Empezar ejercicio", tabEarLong: "Entrenamiento auditivo", okBtn: "Listo",
+    voice: "Tipo de voz", start: "Inicio", top: "Más aguda", tempo: "Tempo", direction: "Dirección",
+    up: "Solo subiendo", upDown: "Subiendo y bajando",
+    melody: "El piano toca la melodía", melodySub: "Si está desactivado, solo suena el acorde inicial y las notas se iluminan en el teclado",
+    mic: "Escuchar con el micrófono", micSub: "Te muestra si estás cantando la nota correcta",
+    language: "Idioma",
+    play: "Empezar", stop: "Detener", previewing: "Reproduciendo un ejemplo…",
+    ready: "Elige un ejercicio y empieza", getReady: "Prepárate…", stopped: "Detenido", done: "Calentamiento completado", bravo: "¡Bravo!",
+    round: (a, b) => `Ronda ${a} de ${b}`, notesScore: (h, s) => `${h} / ${s} notas`, notesCount: (n) => `${n} notas`,
+    target: "Objetivo", you: "Tú", cantHear: "No te oigo", listenChord: "Escucha el acorde…", listening: "Escuchando",
+    perfect: "¡Perfecto!", lower: "Un poco más grave ↓", higher: "Un poco más agudo ↑",
+    micTip: "Consejo: usa auriculares o desactiva la melodía; si no, el micrófono también puede captar el piano.",
+    micDenied: "El acceso al micrófono está desactivado. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
+    micFail: "No se pudo iniciar el micrófono. Puede que otra app lo esté usando; ciérrala y vuelve a intentarlo.",
+    levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado" },
+    ranges: { child: "Niño", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Bajo" },
+    keyboardLabel: "Teclado de piano; toca una tecla para oír la nota",
+    aboutText: "Calentamientos vocales con piano y entrenamiento auditivo para estudiantes de canto, cantantes y coristas. En Calentamiento, cada ronda empieza con un acorde y luego el ejercicio sube un semitono. En Oído, practica el reconocimiento de notas, intervalos y acordes, y haz un test auditivo que mide tu nivel. Conservatorio ofrece práctica de repetición de una, dos y tres notas, melodía y ritmo para las pruebas de acceso a escuelas de música, además de un examen simulado.",
+    privacyTitle: "Privacidad",
+    privacyText: "Esta app no recopila datos personales, no necesita cuenta y no tiene anuncios ni rastreo. El micrófono solo se usa cuando lo activas; el sonido se analiza en tu dispositivo en tiempo real, nunca se graba ni se envía a ningún sitio. No necesita conexión a internet.",
+    howTitle: "Consejos",
+    howText: "Elige tu tipo de voz y ajusta la nota inicial y la más aguda según tu voz. Con auriculares, el micrófono da resultados más precisos. Las octavas no importan: cantar una octava más grave también cuenta como correcto.",
+    support: (e) => `Soporte: ${e}`,
+    close: "Cerrar",
+    tabVoice: "Calentamiento", tabEar: "Oído",
+    tabCons: "Conservatorio",
+    cons: {
+      title: "Preparación para el conservatorio",
+      examTitle: "Examen simulado", examSub: "11 preguntas · escucha cada una dos veces como máximo · resultados al final", examCta: "Empezar el examen simulado",
+      examLast: (p) => `Tu último examen simulado: ${p}%`,
+      examIntro: "Como el examen real: primero una nota, dos notas y tres notas, y luego repetición de melodía y ritmo. Puedes escuchar cada pregunta dos veces como máximo y no verás aciertos ni errores hasta el final. Se necesita el micrófono; con auriculares los resultados son más precisos.",
+      exercises: "Práctica", exHint: "10 preguntas cada uno", soon: "Próximamente",
+      disclaimer: "Las puntuaciones de esta sección son mediciones de práctica, no notas de un tribunal. El contenido del examen varía según la escuela y el departamento; consulta siempre la guía oficial de tu escuela.",
+      types: {
+        c_one: { name: "Atrapa la nota", desc: "Canta la nota que oyes con \"na\"" },
+        c_two: { name: "Dos notas", desc: "Canta una a una dos notas que suenan juntas" },
+        c_three: { name: "Tres notas", desc: "Canta las notas del acorde de abajo arriba" },
+        c_melody: { name: "Memoria melódica", desc: "Escucha una melodía y repítela exactamente" },
+        c_rhythm: { name: "Eco rítmico", desc: "Repite con toques el ritmo que oyes" },
+        c_four: { name: "Cuatro notas", desc: "Descompón un acorde de cuatro notas" },
+        c_sight: { name: "Lectura a primera vista", desc: "Lee música que nunca has visto" },
+        c_mdict: { name: "Dictado melódico", desc: "Escribe la melodía en el pentagrama" },
+        c_rdict: { name: "Dictado rítmico", desc: "Escribe el ritmo con figuras y silencios" },
+        c_theory: { name: "Teoría", desc: "Claves, armaduras, compases, escalas, acordes" }
+      },
+      prompts: {
+        c_one: "Escucha la nota y luego canta la misma nota con \"na\".",
+        c_two: (help) => `Sonarán dos notas juntas${help ? " (luego las oirás por separado)" : ""}. Canta primero la más grave y luego la más aguda.`,
+        c_three: (help) => `Sonará un acorde de tres notas${help ? " (luego oirás cada nota)" : ""}. Canta sus notas de abajo arriba.`,
+        c_melody: (n) => `Escucha la melodía de ${n} notas y luego repítela exactamente.`,
+        c_rhythm: "Primero suenan dos clics de entrada y luego el ritmo. Escucha y luego toca el mismo ritmo en el panel de abajo."
+      },
+      tapNow: "Ahora toca tú", tap: "Toca", rhythmScore: (a, b) => `${a} de ${b} toques a tiempo`, rhythmCount: (a, b) => `Tocaste ${a} veces; el ritmo tenía ${b}`,
+      playsLeft: (n) => `Escuchar otra vez (quedan ${n})`, noPlays: "No quedan escuchas",
+      recorded: "Respuesta guardada",
+      needMicExam: "El examen simulado necesita el micrófono. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
+      resultKicker: "Resultado del examen simulado", overall: "Puntuación global de práctica",
+      areas: { pitch: "Afinación", memory: "Memoria melódica", rhythm: "Ritmo" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Practica sobre todo: ${n}`,
+      back: "Conservatorio"
+    },
+    ear: {
+      testTitle: "Test auditivo", testSub: "Mide tu oído con 15 preguntas cortas", testCta: "Empezar el test",
+      testLast: (p, r) => `Tu último resultado: ${p}% · ${r}`,
+      exercises: "Ejercicios", exHint: "10 preguntas cada uno",
+      types: {
+        note: { name: "Encuentra la nota", desc: "Encuentra la nota oculta en el teclado" },
+        interval: { name: "Intervalos", desc: "La distancia entre dos notas" },
+        higher: { name: "¿Cuál es más aguda?", desc: "Compara dos sonidos" },
+        chord: { name: "Acordes", desc: "¿Mayor o menor?" },
+        sing: { name: "Repite cantando", desc: "Escucha y canta lo mismo" }
+      },
+      prompts: {
+        note: "Primero suena un Do de referencia y luego la nota oculta. ¿Qué nota es? Tócala en el teclado.",
+        noteAdv: (r) => `Primero suena un ${r} de referencia y luego la nota oculta. ¿Qué nota es? Tócala en el teclado.`,
+        interval: "Escucha las dos notas. ¿Qué distancia hay entre ellas?",
+        intervalDown: "Escucha las dos notas (la segunda es más grave). ¿Qué distancia hay?",
+        intervalHarm: "Las dos notas suenan a la vez. ¿Qué distancia hay entre ellas?",
+        higher: "Sonarán dos sonidos. ¿Cuál es más agudo?",
+        chord: "Escucha el acorde. ¿Qué acorde es?",
+        sing: (n) => (n === 1 ? "Escucha la nota y luego cántala." : `Escucha la melodía de ${n} notas y luego cántala.`)
+      },
+      level: "Nivel", notPlayed: "Aún sin probar",
+      start: "Empezar", listen: "Escuchar otra vez", next: "Siguiente pregunta", results: "Ver resultados", back: "Oído", listening: "Escuchando…",
+      q: (a, b) => `Pregunta ${a} de ${b}`,
+      correct: "¡Correcto!", wrong: (x) => `Respuesta: ${x}`, first: "Primero", second: "Segundo",
+      singNow: "Ahora canta tú",
+      singYourTurn: "Tu turno, canta", singNext: "Pasa a la siguiente nota", lightOk: "Afinado", lightUp: "Un poco más agudo", lightUpMore: "Más agudo", lightDown: "Un poco más grave", lightDownMore: "Más grave",
+      noVoice: "No se oye la voz", reviewTarget: "Objetivo", reviewYou: "Tú", review: "Lo que cantaste", cents: "cents", wasLow: "bajo", wasHigh: "alto", singGet: "Escucha…", singNote: (a, b) => `Nota ${a} de ${b}`, singScore: (a, b) => `${a} de ${b} notas correctas`,
+      needMic: "Este ejercicio usa el micrófono. Con auriculares los resultados son más precisos.",
+      micFail: "No se pudo iniciar el micrófono. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
+      micSkip: "No se pudo iniciar el micrófono; el test continúa sin 'Repite cantando'.",
+      result: "Resultado", score: (a, b) => `${a} de ${b} correctas`, again: "Intentar de nuevo", home: "Volver a Oído", newBest: "¡Nuevo récord!",
+      testIntro: "Cada área plantea una pregunta fácil, luego una intermedia y luego una difícil. Elige 'Con micrófono' para incluir 'Repite cantando'.",
+      withMic: "Con micrófono", withoutMic: "Sin micrófono",
+      ranks: { easy: "Principiante", mid: "Intermedio", adv: "Avanzado" },
+      rankText: {
+        easy: "Tu oído tiene margen para crecer. Empieza por el nivel fácil; unos minutos al día bastan.",
+        mid: "Tienes buen oído. Afínalo con los ejercicios de nivel intermedio.",
+        adv: "¡Tu oído es excelente! Sigue retándote en el nivel difícil."
+      },
+      focus: (n) => `Practica sobre todo: ${n}`,
+      kulakLevel: "Tu nivel auditivo"
+    }
+  },
+  intervals: ["Unísono", "Segunda menor", "Segunda mayor", "Tercera menor", "Tercera mayor", "Cuarta justa", "Tritono", "Quinta justa", "Sexta menor", "Sexta mayor", "Séptima menor", "Séptima mayor", "Octava"],
+  chords: { maj: "Mayor", min: "Menor", aug: "Aumentado", dim: "Disminuido", maj7: "Mayor 7", min7: "Menor 7", dom7: "Séptima de dominante" },
+  exercises: {
+    uclu: { name: "Boca cerrada", syllables: "Mm – mm – mm" },
+    besli: { name: "Escalera de cinco notas", syllables: "Mi – Me – Ma – Mo – Mu" },
+    staccato: { name: "Staccato", syllables: "Ja – ja – ja – ja – ja" },
+    arpej: { name: "Arpegio", syllables: "Ya – ya – ya – ya" },
+    oktav: { name: "Salto de octava", syllables: "A – a – a – a – a" },
+    dokuzlu: { name: "Escala de nueve notas", syllables: "A – a – a – a …" }
+  }
+},
+  it: {
+  langName: "Italiano",
+  notes: ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"],
+  strings: {
+    tagline: "Prepara la tua voce per oggi", about: "Info",
+    exercise: "Esercizi", contourHint: "Le curve mostrano l'andamento di ogni melodia.", settings: "Impostazioni",
+    startNote: "Nota di partenza", seeAll: "Vedi tutti", allSub: "Costruisci la tua voce passo dopo passo.", filterAll: "Tutti", rangeTitle: "Estensione vocale",
+    demo: "Ascolta un esempio", playLong: "Inizia l'esercizio", tabEarLong: "Educazione dell'orecchio", okBtn: "Fatto",
+    voice: "Tipo di voce", start: "Inizio", top: "Più acuta", tempo: "Tempo", direction: "Direzione",
+    up: "Solo in salita", upDown: "Salita e discesa",
+    melody: "Il pianoforte suona la melodia", melodySub: "Se disattivato, suona solo l'accordo iniziale e le note si illuminano sulla tastiera",
+    mic: "Ascolta con il microfono", micSub: "Ti mostra se stai cantando la nota giusta",
+    language: "Lingua",
+    play: "Inizia", stop: "Stop", previewing: "Esempio in riproduzione…",
+    ready: "Scegli un esercizio e inizia", getReady: "Preparati…", stopped: "Interrotto", done: "Riscaldamento completato", bravo: "Bravo!",
+    round: (a, b) => `Giro ${a} di ${b}`, notesScore: (h, s) => `${h} / ${s} note`, notesCount: (n) => `${n} note`,
+    target: "Obiettivo", you: "Tu", cantHear: "Non ti sento", listenChord: "Ascolta l'accordo…", listening: "In ascolto",
+    perfect: "Perfetto!", lower: "Un po' più in basso ↓", higher: "Un po' più in alto ↑",
+    micTip: "Consiglio: usa le cuffie o disattiva la melodia, altrimenti il microfono potrebbe sentire anche il pianoforte.",
+    micDenied: "L'accesso al microfono è disattivato. Sul tuo iPhone vai su Impostazioni > Ses Açma > Microfono, poi riprova.",
+    micFail: "Impossibile avviare il microfono. Forse un'altra app lo sta usando: chiudila e riprova.",
+    levels: { easy: "Facile", mid: "Medio", adv: "Avanzato" },
+    ranges: { child: "Bambino", soprano: "Soprano", alto: "Contralto", tenor: "Tenore", bass: "Basso" },
+    keyboardLabel: "Tastiera del pianoforte; tocca un tasto per sentire la nota",
+    aboutText: "Riscaldamenti vocali con accompagnamento di pianoforte ed educazione dell'orecchio per studenti di canto, cantanti e coristi. Nel Riscaldamento ogni giro inizia con un accordo, poi l'esercizio sale di un semitono. In Orecchio ti alleni a riconoscere note, intervalli e accordi, e puoi fare un test che misura il tuo livello. Conservatorio offre esercizi di ripetizione di una, due e tre note, melodie e ritmi per gli esami di ammissione, più una simulazione d'esame.",
+    privacyTitle: "Privacy",
+    privacyText: "Questa app non raccoglie dati personali, non richiede un account e non ha pubblicità né tracciamento. Il microfono viene usato solo quando lo attivi; il suono viene analizzato sul tuo dispositivo in tempo reale, mai registrato né inviato altrove. Non serve una connessione a Internet.",
+    howTitle: "Consigli",
+    howText: "Scegli il tuo tipo di voce e imposta la nota iniziale e quella più acuta in base alla tua voce. Con il microfono, le cuffie danno i risultati più precisi. L'ottava non conta: anche cantare un'ottava sotto è considerato corretto.",
+    support: (e) => `Assistenza: ${e}`,
+    close: "Chiudi",
+    tabVoice: "Riscaldamento", tabEar: "Orecchio",
+    tabCons: "Conservatorio",
+    cons: {
+      title: "Preparazione al Conservatorio",
+      examTitle: "Simulazione d'esame", examSub: "11 domande · ascolti ogni domanda al massimo due volte · risultati alla fine", examCta: "Inizia la simulazione",
+      examLast: (p) => `La tua ultima simulazione: ${p}%`,
+      examIntro: "Come l'esame vero: prima una nota, due note e tre note, poi ripetizione di melodia e ritmo. Puoi ascoltare ogni domanda al massimo due volte e vedrai giusto o sbagliato solo alla fine. Serve il microfono; con le cuffie i risultati sono più precisi.",
+      exercises: "Esercitazioni", exHint: "10 domande ciascuno", soon: "In arrivo",
+      disclaimer: "I punteggi di questa sezione sono misurazioni di esercitazione, non voti della commissione. I contenuti d'esame variano a seconda dell'istituto e del corso; consulta sempre la guida ufficiale del tuo conservatorio.",
+      types: {
+        c_one: { name: "Prendi la nota", desc: "Canta su \"na\" la nota che senti" },
+        c_two: { name: "Due note", desc: "Canta una alla volta due note suonate insieme" },
+        c_three: { name: "Tre note", desc: "Canta le note dell'accordo dal basso verso l'alto" },
+        c_melody: { name: "Memoria melodica", desc: "Ascolta una melodia e ricantala uguale" },
+        c_rhythm: { name: "Eco ritmica", desc: "Ribatti il ritmo che senti" },
+        c_four: { name: "Quattro note", desc: "Scomponi un accordo di quattro note" },
+        c_sight: { name: "Lettura cantata", desc: "Leggi a prima vista musica mai vista" },
+        c_mdict: { name: "Dettato melodico", desc: "Scrivi la melodia sul pentagramma" },
+        c_rdict: { name: "Dettato ritmico", desc: "Scrivi il ritmo con note e pause" },
+        c_theory: { name: "Teoria", desc: "Chiavi, armature, tempi, scale, accordi" }
+      },
+      prompts: {
+        c_one: "Ascolta la nota, poi canta la stessa nota su \"na\".",
+        c_two: (help) => `Suoneranno due note insieme${help ? " (poi le sentirai separate)" : ""}. Canta prima la più bassa, poi la più alta.`,
+        c_three: (help) => `Suonerà un accordo di tre note${help ? " (poi sentirai ogni nota)" : ""}. Canta le sue note dal basso verso l'alto.`,
+        c_melody: (n) => `Ascolta la melodia di ${n} note, poi ricantala uguale.`,
+        c_rhythm: "Prima arrivano due clic di attacco, poi il ritmo. Ascolta, poi batti lo stesso ritmo sul pad qui sotto."
+      },
+      tapNow: "Ora tocca a te", tap: "Batti", rhythmScore: (a, b) => `${a} colpi su ${b} a tempo`, rhythmCount: (a, b) => `Hai battuto ${a} volte; il ritmo ne aveva ${b}`,
+      playsLeft: (n) => `Riascolta (ne restano ${n})`, noPlays: "Ascolti esauriti",
+      recorded: "Risposta salvata",
+      needMicExam: "La simulazione d'esame richiede il microfono. Sul tuo iPhone vai su Impostazioni > Ses Açma > Microfono, poi riprova.",
+      resultKicker: "Risultato della simulazione", overall: "Punteggio complessivo",
+      areas: { pitch: "Intonazione", memory: "Memoria melodica", rhythm: "Ritmo" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Esercitati soprattutto su: ${n}`,
+      back: "Conservatorio"
+    },
+    ear: {
+      testTitle: "Test dell'orecchio", testSub: "Misura il tuo orecchio con 15 brevi domande", testCta: "Inizia il test",
+      testLast: (p, r) => `Il tuo ultimo risultato: ${p}% · ${r}`,
+      exercises: "Esercizi", exHint: "10 domande ciascuno",
+      types: {
+        note: { name: "Trova la nota", desc: "Trova la nota nascosta sulla tastiera" },
+        interval: { name: "Intervalli", desc: "La distanza tra due note" },
+        higher: { name: "Quale è più acuto?", desc: "Confronta due suoni" },
+        chord: { name: "Accordi", desc: "Maggiore o minore?" },
+        sing: { name: "Ricanta", desc: "Ascolta e canta lo stesso" }
+      },
+      prompts: {
+        note: "Prima suona un Do di riferimento, poi la nota nascosta. Che nota è? Toccala sulla tastiera.",
+        noteAdv: (r) => `Prima suona un ${r} di riferimento, poi la nota nascosta. Che nota è? Toccala sulla tastiera.`,
+        interval: "Ascolta le due note. Qual è la distanza tra loro?",
+        intervalDown: "Ascolta le due note (la seconda è più bassa). Qual è la distanza?",
+        intervalHarm: "Le due note suonano insieme. Qual è la distanza tra loro?",
+        higher: "Suoneranno due suoni. Quale è più acuto?",
+        chord: "Ascolta l'accordo. Che accordo è?",
+        sing: (n) => (n === 1 ? "Ascolta la nota, poi ricantala." : `Ascolta la melodia di ${n} note, poi ricantala.`)
+      },
+      level: "Livello", notPlayed: "Non ancora provato",
+      start: "Inizia", listen: "Riascolta", next: "Domanda successiva", results: "Vedi i risultati", back: "Orecchio", listening: "In ascolto…",
+      q: (a, b) => `Domanda ${a} di ${b}`,
+      correct: "Giusto!", wrong: (x) => `Risposta: ${x}`, first: "Primo", second: "Secondo",
+      singNow: "Ora canta tu",
+      singYourTurn: "Tocca a te, canta", singNext: "Passa alla nota successiva", lightOk: "Intonato", lightUp: "Un po' più in alto", lightUpMore: "Sali", lightDown: "Un po' più in basso", lightDownMore: "Scendi",
+      noVoice: "Nessuna voce rilevata", reviewTarget: "Obiettivo", reviewYou: "Tu", review: "Cosa hai cantato", cents: "cent", wasLow: "calante", wasHigh: "crescente", singGet: "Ascolta…", singNote: (a, b) => `Nota ${a} di ${b}`, singScore: (a, b) => `${a} note giuste su ${b}`,
+      needMic: "Questo esercizio usa il microfono. Con le cuffie i risultati sono più precisi.",
+      micFail: "Impossibile avviare il microfono. Sul tuo iPhone vai su Impostazioni > Ses Açma > Microfono, poi riprova.",
+      micSkip: "Impossibile avviare il microfono; il test prosegue senza 'Ricanta'.",
+      result: "Risultato", score: (a, b) => `${a} giuste su ${b}`, again: "Riprova", home: "Torna a Orecchio", newBest: "Nuovo record!",
+      testIntro: "Ogni area propone una domanda facile, poi una media, poi una difficile. Scegli 'Con microfono' per includere 'Ricanta'.",
+      withMic: "Con microfono", withoutMic: "Senza microfono",
+      ranks: { easy: "Principiante", mid: "Intermedio", adv: "Avanzato" },
+      rankText: {
+        easy: "Il tuo orecchio può crescere. Comincia dal livello facile: bastano pochi minuti al giorno.",
+        mid: "Hai un buon orecchio. Affinalo con gli esercizi di livello medio.",
+        adv: "Il tuo orecchio è eccellente! Continua a metterti alla prova al livello difficile."
+      },
+      focus: (n) => `Esercitati soprattutto su: ${n}`,
+      kulakLevel: "Il livello del tuo orecchio"
+    }
+  },
+  intervals: ["Unisono", "Seconda minore", "Seconda maggiore", "Terza minore", "Terza maggiore", "Quarta giusta", "Tritono", "Quinta giusta", "Sesta minore", "Sesta maggiore", "Settima minore", "Settima maggiore", "Ottava"],
+  chords: { maj: "Maggiore", min: "Minore", aug: "Aumentato", dim: "Diminuito", maj7: "Maggiore 7", min7: "Minore 7", dom7: "Settima di dominante" },
+  exercises: {
+    uclu: { name: "A bocca chiusa", syllables: "Mm – mm – mm" },
+    besli: { name: "Scala di cinque note", syllables: "Mi – Me – Ma – Mo – Mu" },
+    staccato: { name: "Staccato", syllables: "Ha – ha – ha – ha – ha" },
+    arpej: { name: "Arpeggio", syllables: "Ia – ia – ia – ia" },
+    oktav: { name: "Salto d'ottava", syllables: "A – a – a – a – a" },
+    dokuzlu: { name: "Scala di nove note", syllables: "A – a – a – a …" }
+  }
+},
+  pt: {
+  langName: "Português",
+  notes: ["Dó", "Dó#", "Ré", "Ré#", "Mi", "Fá", "Fá#", "Sol", "Sol#", "Lá", "Lá#", "Si"],
+  strings: {
+    tagline: "Prepare sua voz para hoje", about: "Sobre",
+    exercise: "Exercícios", contourHint: "As curvas mostram o desenho de cada melodia.", settings: "Ajustes",
+    startNote: "Nota inicial", seeAll: "Ver tudo", allSub: "Desenvolva sua voz passo a passo.", filterAll: "Todos", rangeTitle: "Extensão vocal",
+    demo: "Ouvir um exemplo", playLong: "Iniciar exercício", tabEarLong: "Percepção musical", okBtn: "OK",
+    voice: "Tipo de voz", start: "Início", top: "Mais aguda", tempo: "Andamento", direction: "Direção",
+    up: "Só subindo", upDown: "Subindo e descendo",
+    melody: "Piano toca a melodia", melodySub: "Desligado, só o acorde inicial toca e as notas acendem no teclado",
+    mic: "Ouvir pelo microfone", micSub: "Mostra se você está cantando a nota certa",
+    language: "Idioma",
+    play: "Iniciar", stop: "Parar", previewing: "Tocando um exemplo…",
+    ready: "Escolha um exercício e comece", getReady: "Prepare-se…", stopped: "Parado", done: "Aquecimento concluído", bravo: "Bravo!",
+    round: (a, b) => `Rodada ${a} de ${b}`, notesScore: (h, s) => `${h} / ${s} notas`, notesCount: (n) => `${n} notas`,
+    target: "Alvo", you: "Você", cantHear: "Não estou ouvindo você", listenChord: "Ouça o acorde…", listening: "Ouvindo",
+    perfect: "Na mosca!", lower: "Um pouco mais grave ↓", higher: "Um pouco mais agudo ↑",
+    micTip: "Dica: use fones de ouvido ou desligue a melodia, senão o microfone pode captar o piano também.",
+    micDenied: "O acesso ao microfone está desativado. No iPhone, vá em Ajustes > Ses Açma > Microfone e tente novamente.",
+    micFail: "Não foi possível iniciar o microfone. Outro app pode estar usando; feche-o e tente novamente.",
+    levels: { easy: "Fácil", mid: "Médio", adv: "Avançado" },
+    ranges: { child: "Criança", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Baixo" },
+    keyboardLabel: "Teclado de piano; toque em uma tecla para ouvir a nota",
+    aboutText: "Aquecimentos vocais com piano e treino de percepção musical para estudantes de canto, cantores e coralistas. No Aquecimento, cada rodada começa com um acorde e o exercício sobe meio tom. Em Percepção, pratique o reconhecimento de notas, intervalos e acordes e faça um teste de ouvido que mede o seu nível. Conservatório oferece prática de repetição de uma, duas e três notas, melodia e ritmo para o vestibular de música, além de um simulado.",
+    privacyTitle: "Privacidade",
+    privacyText: "Este app não coleta dados pessoais, não exige conta e não tem anúncios nem rastreamento. O microfone só é usado quando você o ativa; o som é analisado no seu aparelho em tempo real, nunca é gravado nem enviado para lugar nenhum. Não é preciso conexão com a internet.",
+    howTitle: "Dicas",
+    howText: "Escolha seu tipo de voz e ajuste a nota inicial e a mais aguda de acordo com a sua voz. Com o microfone, fones de ouvido dão os resultados mais precisos. A oitava não importa: cantar uma oitava abaixo também conta como certo.",
+    support: (e) => `Suporte: ${e}`,
+    close: "Fechar",
+    tabVoice: "Aquecimento", tabEar: "Percepção",
+    tabCons: "Conservatório",
+    cons: {
+      title: "Preparação para o Conservatório",
+      examTitle: "Simulado", examSub: "11 questões · ouça cada uma no máximo duas vezes · resultado no final", examCta: "Iniciar o simulado",
+      examLast: (p) => `Seu último simulado: ${p}%`,
+      examIntro: "Como na prova real: primeiro uma nota, duas notas e três notas, depois repetição de melodia e ritmo. Você pode ouvir cada questão no máximo duas vezes e só verá os acertos e erros no final. É preciso usar o microfone; fones de ouvido dão resultados mais precisos.",
+      exercises: "Prática", exHint: "10 questões cada", soon: "Em breve",
+      disclaimer: "As notas desta seção são medições de prática, não notas de banca. O conteúdo da prova varia conforme a escola e o curso; sempre leia o edital oficial da sua instituição.",
+      types: {
+        c_one: { name: "Pegue a Nota", desc: "Cante em \"na\" a nota que você ouvir" },
+        c_two: { name: "Duas Notas", desc: "Cante, uma de cada vez, duas notas tocadas juntas" },
+        c_three: { name: "Três Notas", desc: "Cante as notas do acorde de baixo para cima" },
+        c_melody: { name: "Memória Melódica", desc: "Ouça uma melodia e cante-a exatamente igual" },
+        c_rhythm: { name: "Eco Rítmico", desc: "Repita com toques o ritmo que você ouvir" },
+        c_four: { name: "Quatro Notas", desc: "Decomponha um acorde de quatro notas" },
+        c_sight: { name: "Solfejo à Primeira Vista", desc: "Leia uma partitura que você nunca viu" },
+        c_mdict: { name: "Ditado Melódico", desc: "Escreva a melodia na pauta" },
+        c_rdict: { name: "Ditado Rítmico", desc: "Escreva o ritmo com figuras e pausas" },
+        c_theory: { name: "Teoria", desc: "Claves, armaduras, compassos, escalas, acordes" }
+      },
+      prompts: {
+        c_one: "Ouça a nota e depois cante a mesma nota em \"na\".",
+        c_two: (help) => `Duas notas vão tocar juntas${help ? " (depois você as ouvirá separadas)" : ""}. Cante primeiro a mais grave, depois a mais aguda.`,
+        c_three: (help) => `Um acorde de três notas vai tocar${help ? " (depois você ouvirá cada nota)" : ""}. Cante as notas de baixo para cima.`,
+        c_melody: (n) => `Ouça a melodia de ${n} notas e depois cante-a exatamente igual.`,
+        c_rhythm: "Primeiro vêm dois cliques de contagem, depois o ritmo. Ouça e toque o mesmo ritmo no pad abaixo."
+      },
+      tapNow: "Agora você toca", tap: "Tocar", rhythmScore: (a, b) => `${a} de ${b} toques no tempo`, rhythmCount: (a, b) => `Você tocou ${a} vezes; o ritmo tinha ${b}`,
+      playsLeft: (n) => `Ouvir de novo (restam ${n})`, noPlays: "Sem audições restantes",
+      recorded: "Resposta salva",
+      needMicExam: "O simulado precisa do microfone. No iPhone, vá em Ajustes > Ses Açma > Microfone e tente novamente.",
+      resultKicker: "Resultado do simulado", overall: "Pontuação geral de prática",
+      areas: { pitch: "Afinação", memory: "Memória melódica", rhythm: "Ritmo" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Pratique mais isto: ${n}`,
+      back: "Conservatório"
+    },
+    ear: {
+      testTitle: "Teste de Ouvido", testSub: "Avalie seu ouvido em 15 questões rápidas", testCta: "Iniciar o teste",
+      testLast: (p, r) => `Seu último resultado: ${p}% · ${r}`,
+      exercises: "Exercícios", exHint: "10 questões cada",
+      types: {
+        note: { name: "Encontre a Nota", desc: "Encontre a nota escondida no teclado" },
+        interval: { name: "Intervalos", desc: "A distância entre duas notas" },
+        higher: { name: "Qual É Mais Aguda?", desc: "Compare dois sons" },
+        chord: { name: "Acordes", desc: "Maior ou menor?" },
+        sing: { name: "Cante de Volta", desc: "Ouça e cante igual" }
+      },
+      prompts: {
+        note: "Primeiro toca um Dó de referência, depois a nota escondida. Qual é a nota? Toque-a no teclado.",
+        noteAdv: (r) => `Primeiro toca um ${r} de referência, depois a nota escondida. Qual é a nota? Toque-a no teclado.`,
+        interval: "Ouça as duas notas. Qual é a distância entre elas?",
+        intervalDown: "Ouça as duas notas (a segunda é mais grave). Qual é a distância?",
+        intervalHarm: "As duas notas tocam juntas. Qual é a distância entre elas?",
+        higher: "Dois sons vão tocar. Qual é o mais agudo?",
+        chord: "Ouça o acorde. Qual é o acorde?",
+        sing: (n) => (n === 1 ? "Ouça a nota e depois cante-a de volta." : `Ouça a melodia de ${n} notas e depois cante-a de volta.`)
+      },
+      level: "Nível", notPlayed: "Ainda não tentado",
+      start: "Iniciar", listen: "Ouvir de novo", next: "Próxima questão", results: "Ver resultados", back: "Percepção", listening: "Ouvindo…",
+      q: (a, b) => `Questão ${a} de ${b}`,
+      correct: "Correto!", wrong: (x) => `Resposta: ${x}`, first: "Primeiro", second: "Segundo",
+      singNow: "Agora você canta",
+      singYourTurn: "Sua vez, cante", singNext: "Passe para a próxima nota", lightOk: "Afinado", lightUp: "Um pouco mais agudo", lightUpMore: "Mais agudo", lightDown: "Um pouco mais grave", lightDownMore: "Mais grave",
+      noVoice: "Nenhuma voz ouvida", reviewTarget: "Alvo", reviewYou: "Você", review: "O que você cantou", cents: "cents", wasLow: "abaixo", wasHigh: "acima", singGet: "Ouça…", singNote: (a, b) => `Nota ${a} de ${b}`, singScore: (a, b) => `${a} de ${b} notas certas`,
+      needMic: "Este exercício usa o microfone. Fones de ouvido dão resultados mais precisos.",
+      micFail: "Não foi possível iniciar o microfone. No iPhone, vá em Ajustes > Ses Açma > Microfone e tente novamente.",
+      micSkip: "Não foi possível iniciar o microfone; o teste continua sem 'Cante de Volta'.",
+      result: "Resultado", score: (a, b) => `${a} de ${b} certas`, again: "Tentar de novo", home: "Voltar a Percepção", newBest: "Novo recorde!",
+      testIntro: "Cada área traz uma questão fácil, depois uma média e depois uma difícil. Escolha 'Com microfone' para incluir 'Cante de Volta'.",
+      withMic: "Com microfone", withoutMic: "Sem microfone",
+      ranks: { easy: "Iniciante", mid: "Intermediário", adv: "Avançado" },
+      rankText: {
+        easy: "Seu ouvido tem muito a evoluir. Comece pelo nível fácil; alguns minutos por dia já bastam.",
+        mid: "Você tem um bom ouvido. Aprimore-o com os exercícios de nível médio.",
+        adv: "Seu ouvido é excelente! Continue se desafiando no nível difícil."
+      },
+      focus: (n) => `Pratique mais isto: ${n}`,
+      kulakLevel: "Seu nível de ouvido"
+    }
+  },
+  intervals: ["Uníssono", "Segunda menor", "Segunda maior", "Terça menor", "Terça maior", "Quarta justa", "Trítono", "Quinta justa", "Sexta menor", "Sexta maior", "Sétima menor", "Sétima maior", "Oitava"],
+  chords: { maj: "Maior", min: "Menor", aug: "Aumentado", dim: "Diminuto", maj7: "Maior com sétima", min7: "Menor com sétima", dom7: "Sétima da dominante" },
+  exercises: {
+    uclu: { name: "Boca Chiusa", syllables: "Mm – mm – mm" },
+    besli: { name: "Escada de Cinco Notas", syllables: "Mi – Mê – Má – Mô – Mu" },
+    staccato: { name: "Staccato", syllables: "Ha – ha – ha – ha – ha" },
+    arpej: { name: "Arpejo", syllables: "Iá – iá – iá – iá" },
+    oktav: { name: "Salto de Oitava", syllables: "Á – a – a – a – a" },
+    dokuzlu: { name: "Escala de Nove Notas", syllables: "Á – a – a – a …" }
+  }
+},
+  ru: {
+  langName: "Русский",
+  notes: ["До", "До#", "Ре", "Ре#", "Ми", "Фа", "Фа#", "Соль", "Соль#", "Ля", "Ля#", "Си"],
+  strings: {
+    tagline: "Подготовь голос к сегодняшнему дню", about: "О приложении",
+    exercise: "Упражнения", contourHint: "Линии показывают форму каждой мелодии.", settings: "Настройки",
+    startNote: "Начальная нота", seeAll: "Все", allSub: "Развивай голос шаг за шагом.", filterAll: "Все", rangeTitle: "Диапазон голоса",
+    demo: "Послушать пример", playLong: "Начать упражнение", tabEarLong: "Тренировка слуха", okBtn: "Готово",
+    voice: "Тип голоса", start: "Начало", top: "Самая высокая", tempo: "Темп", direction: "Направление",
+    up: "Только вверх", upDown: "Вверх и вниз",
+    melody: "Фортепиано играет мелодию", melodySub: "Если выключено, звучит только начальный аккорд, а ноты подсвечиваются на клавиатуре",
+    mic: "Слушать через микрофон", micSub: "Показывает, попадаешь ли ты в ноту",
+    language: "Язык",
+    play: "Старт", stop: "Стоп", previewing: "Звучит пример…",
+    ready: "Выбери упражнение и начинай", getReady: "Приготовься…", stopped: "Остановлено", done: "Распевка завершена", bravo: "Браво!",
+    round: (a, b) => `Раунд ${a} из ${b}`, notesScore: (h, s) => `Нот: ${h} / ${s}`, notesCount: (n) => `${n} ${((n % 10 === 1 && n % 100 !== 11) ? "нота" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? "ноты" : "нот")}`,
+    target: "Цель", you: "Ты", cantHear: "Тебя не слышно", listenChord: "Послушай аккорд…", listening: "Слушаю",
+    perfect: "Точно в ноту!", lower: "Чуть ниже ↓", higher: "Чуть выше ↑",
+    micTip: "Совет: используй наушники или выключи мелодию, иначе микрофон будет слышать и фортепиано.",
+    micDenied: "Доступ к микрофону выключен. На iPhone открой Настройки > Ses Açma > Микрофон и попробуй снова.",
+    micFail: "Не удалось включить микрофон. Возможно, он занят другим приложением — закрой его и попробуй снова.",
+    levels: { easy: "Лёгкий", mid: "Средний", adv: "Продвинутый" },
+    ranges: { child: "Детский", soprano: "Сопрано", alto: "Альт", tenor: "Тенор", bass: "Бас" },
+    keyboardLabel: "Фортепианная клавиатура; нажми клавишу, чтобы услышать ноту",
+    aboutText: "Распевки под фортепиано и тренировка слуха для студентов-вокалистов, певцов и хористов. В разделе «Распевка» каждый раунд начинается с аккорда, а затем упражнение повторяется на полтона выше. В разделе «Слух» учись узнавать ноты, интервалы и аккорды и пройди тест, который определит твой уровень. Раздел «Консерватория» помогает готовиться к поступлению в консерваторию или музыкальное училище: повторение одной, двух и трёх нот, мелодии и ритма, а также пробный экзамен.",
+    privacyTitle: "Конфиденциальность",
+    privacyText: "Приложение не собирает личные данные, не требует аккаунта, не показывает рекламу и не отслеживает тебя. Микрофон работает, только когда ты сам его включаешь; звук анализируется на устройстве в реальном времени, нигде не записывается и никуда не отправляется. Интернет не нужен.",
+    howTitle: "Советы",
+    howText: "Выбери тип голоса и настрой начальную и самую высокую ноты под свой голос. С микрофоном точнее всего работать в наушниках. Октава не важна: если споёшь на октаву ниже, это тоже засчитается.",
+    support: (e) => `Поддержка: ${e}`,
+    close: "Закрыть",
+    tabVoice: "Распевка", tabEar: "Слух",
+    tabCons: "Консерватория",
+    cons: {
+      title: "Подготовка к поступлению",
+      examTitle: "Пробный экзамен", examSub: "11 вопросов · каждый можно прослушать не более двух раз · результаты в конце", examCta: "Начать пробный экзамен",
+      examLast: (p) => `Твой последний пробный экзамен: ${p}%`,
+      examIntro: "Как на настоящем экзамене: сначала одна нота, две ноты и три ноты, затем повторение мелодии и ритма. Каждый вопрос можно прослушать не более двух раз, а правильность ответов ты увидишь только в конце. Нужен микрофон; в наушниках результаты точнее.",
+      exercises: "Практика", exHint: "По 10 вопросов", soon: "Скоро",
+      disclaimer: "Баллы в этом разделе — тренировочная оценка, а не оценка комиссии. Содержание экзамена зависит от учебного заведения и отделения; обязательно читай официальные требования своего вуза или училища.",
+      types: {
+        c_one: { name: "Поймай ноту", desc: "Спой услышанную ноту на слог «на»" },
+        c_two: { name: "Две ноты", desc: "Спой по очереди две ноты, сыгранные вместе" },
+        c_three: { name: "Три ноты", desc: "Спой звуки аккорда снизу вверх" },
+        c_melody: { name: "Память на мелодию", desc: "Послушай мелодию и спой её точно так же" },
+        c_rhythm: { name: "Эхо ритма", desc: "Простучи услышанный ритм" },
+        c_four: { name: "Четыре ноты", desc: "Разбери аккорд из четырёх звуков" },
+        c_sight: { name: "Пение с листа", desc: "Читай незнакомые ноты" },
+        c_mdict: { name: "Мелодический диктант", desc: "Запиши мелодию на нотном стане" },
+        c_rdict: { name: "Ритмический диктант", desc: "Запиши ритм нотами и паузами" },
+        c_theory: { name: "Теория", desc: "Ключи, знаки альтерации, размеры, гаммы, аккорды" }
+      },
+      prompts: {
+        c_one: "Послушай ноту и спой её же на слог «на».",
+        c_two: (help) => `Прозвучат две ноты одновременно${help ? " (затем ты услышишь их по отдельности)" : ""}. Спой сначала нижнюю, потом верхнюю.`,
+        c_three: (help) => `Прозвучит аккорд из трёх нот${help ? " (затем ты услышишь каждую ноту)" : ""}. Спой его звуки снизу вверх.`,
+        c_melody: (n) => `Послушай мелодию из ${n} ${((n % 10 === 1 && n % 100 !== 11) ? "ноты" : "нот")} и спой её точно так же.`,
+        c_rhythm: "Сначала прозвучат два щелчка для отсчёта, затем ритм. Послушай и простучи такой же ритм на панели ниже."
+      },
+      tapNow: "Теперь стучи ты", tap: "Стук", rhythmScore: (a, b) => `Вовремя: ${a} из ${b}`, rhythmCount: (a, b) => `Нажатий: ${a}, а в ритме — ${b}`,
+      playsLeft: (n) => `Послушать ещё раз (осталось: ${n})`, noPlays: "Прослушивания закончились",
+      recorded: "Ответ сохранён",
+      needMicExam: "Для пробного экзамена нужен микрофон. На iPhone открой Настройки > Ses Açma > Микрофон и попробуй снова.",
+      resultKicker: "Результат пробного экзамена", overall: "Общий тренировочный балл",
+      areas: { pitch: "Точность интонации", memory: "Мелодическая память", rhythm: "Ритм" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `Больше всего тренируй: ${n}`,
+      back: "Консерватория"
+    },
+    ear: {
+      testTitle: "Тест слуха", testSub: "Проверь свой слух за 15 коротких вопросов", testCta: "Начать тест",
+      testLast: (p, r) => `Твой последний результат: ${p}% · ${r}`,
+      exercises: "Упражнения", exHint: "По 10 вопросов",
+      types: {
+        note: { name: "Найди ноту", desc: "Найди загаданную ноту на клавишах" },
+        interval: { name: "Интервалы", desc: "Расстояние между двумя нотами" },
+        higher: { name: "Какой выше?", desc: "Сравни два звука" },
+        chord: { name: "Аккорды", desc: "Мажор или минор?" },
+        sing: { name: "Повтори голосом", desc: "Послушай и спой так же" }
+      },
+      prompts: {
+        note: "Сначала звучит опорная нота До, затем загаданная. Какая это нота? Нажми её на клавишах.",
+        noteAdv: (r) => `Сначала звучит опорная нота ${r}, затем загаданная. Какая это нота? Нажми её на клавишах.`,
+        interval: "Послушай две ноты. Какое между ними расстояние?",
+        intervalDown: "Послушай две ноты (вторая ниже). Какое между ними расстояние?",
+        intervalHarm: "Обе ноты звучат одновременно. Какое между ними расстояние?",
+        higher: "Прозвучат два звука. Какой из них выше?",
+        chord: "Послушай аккорд. Что это за аккорд?",
+        sing: (n) => (n === 1 ? "Послушай ноту и спой её." : `Послушай мелодию из ${n} ${((n % 10 === 1 && n % 100 !== 11) ? "ноты" : "нот")} и спой её.`)
+      },
+      level: "Уровень", notPlayed: "Ещё не пройдено",
+      start: "Начать", listen: "Послушать ещё раз", next: "Следующий вопрос", results: "Смотреть результаты", back: "Слух", listening: "Слушаю…",
+      q: (a, b) => `Вопрос ${a} из ${b}`,
+      correct: "Верно!", wrong: (x) => `Ответ: ${x}`, first: "Первый", second: "Второй",
+      singNow: "Теперь пой ты",
+      singYourTurn: "Твоя очередь, пой", singNext: "Переходи к следующей ноте", lightOk: "Точно", lightUp: "Чуть выше", lightUpMore: "Выше", lightDown: "Чуть ниже", lightDownMore: "Ниже",
+      noVoice: "Голос не слышен", reviewTarget: "Цель", reviewYou: "Ты", review: "Твоё исполнение", cents: "центов", wasLow: "ниже", wasHigh: "выше", singGet: "Слушай…", singNote: (a, b) => `Нота ${a} из ${b}`, singScore: (a, b) => `Верных нот: ${a} из ${b}`,
+      needMic: "В этом упражнении используется микрофон. В наушниках результаты точнее.",
+      micFail: "Не удалось включить микрофон. На iPhone открой Настройки > Ses Açma > Микрофон и попробуй снова.",
+      micSkip: "Не удалось включить микрофон; тест продолжится без задания «Повтори голосом».",
+      result: "Результат", score: (a, b) => `Верно: ${a} из ${b}`, again: "Ещё раз", home: "Назад к разделу «Слух»", newBest: "Новый рекорд!",
+      testIntro: "В каждой области будет лёгкий, затем средний и сложный вопрос. Выбери «С микрофоном», чтобы включить задание «Повтори голосом».",
+      withMic: "С микрофоном", withoutMic: "Без микрофона",
+      ranks: { easy: "Начинающий", mid: "Средний", adv: "Продвинутый" },
+      rankText: {
+        easy: "Твоему слуху есть куда расти. Начни с лёгкого уровня — достаточно нескольких минут в день.",
+        mid: "У тебя хороший слух. Отточи его на упражнениях среднего уровня.",
+        adv: "У тебя отличный слух! Продолжай бросать себе вызов на сложном уровне."
+      },
+      focus: (n) => `Больше всего тренируй: ${n}`,
+      kulakLevel: "Уровень твоего слуха"
+    }
+  },
+  intervals: ["Прима", "Малая секунда", "Большая секунда", "Малая терция", "Большая терция", "Чистая кварта", "Тритон", "Чистая квинта", "Малая секста", "Большая секста", "Малая септима", "Большая септима", "Октава"],
+  chords: { maj: "Мажор", min: "Минор", aug: "Увеличенный", dim: "Уменьшённый", maj7: "Большой мажорный септаккорд", min7: "Малый минорный септаккорд", dom7: "Доминантсептаккорд" },
+  exercises: {
+    uclu: { name: "Пение с закрытым ртом", syllables: "Мм – мм – мм" },
+    besli: { name: "Лесенка из пяти нот", syllables: "Ми – Мэ – Ма – Мо – Му" },
+    staccato: { name: "Стаккато", syllables: "Ха – ха – ха – ха – ха" },
+    arpej: { name: "Арпеджио", syllables: "Я – я – я – я" },
+    oktav: { name: "Скачок на октаву", syllables: "А – а – а – а – а" },
+    dokuzlu: { name: "Гамма из девяти нот", syllables: "А – а – а – а …" }
+  }
+},
+  ja: {
+  langName: "日本語",
+  notes: ["ド","ド#","レ","レ#","ミ","ファ","ファ#","ソ","ソ#","ラ","ラ#","シ"],
+  strings: {
+    tagline: "今日の声を整えましょう", about: "このアプリについて",
+    exercise: "エクササイズ", contourHint: "曲線は各メロディの形を表しています。", settings: "設定",
+    startNote: "開始音", seeAll: "すべて表示", allSub: "一歩ずつ声を育てましょう。", filterAll: "すべて", rangeTitle: "声域",
+    demo: "お手本を聴く", playLong: "エクササイズを開始", tabEarLong: "耳トレーニング", okBtn: "完了",
+    voice: "声のタイプ", start: "開始", top: "最高音", tempo: "テンポ", direction: "方向",
+    up: "上行のみ", upDown: "上行と下行",
+    melody: "ピアノでメロディを弾く", melodySub: "オフにすると最初の和音だけが鳴り、音は鍵盤上で光って示されます",
+    mic: "マイクで聴き取る", micSub: "正しい音で歌えているかを表示します",
+    language: "言語",
+    play: "開始", stop: "停止", previewing: "お手本を再生中…",
+    ready: "エクササイズを選んで開始しましょう", getReady: "準備して…", stopped: "停止しました", done: "ウォームアップ完了", bravo: "ブラボー！",
+    round: (a, b) => `ラウンド ${a} / ${b}`, notesScore: (h, s) => `${h} / ${s} 音`, notesCount: (n) => `${n} 音`,
+    target: "目標", you: "あなた", cantHear: "声が聞こえません", listenChord: "和音を聴いて…", listening: "聴き取り中",
+    perfect: "ぴったり！", lower: "少し低く ↓", higher: "少し高く ↑",
+    micTip: "ヒント：ヘッドホンを使うかメロディをオフにしてください。マイクがピアノの音も拾ってしまうことがあります。",
+    micDenied: "マイクへのアクセスがオフになっています。iPhoneの 設定 > Ses Açma > マイク をオンにして、もう一度お試しください。",
+    micFail: "マイクを起動できませんでした。他のアプリが使用中の可能性があります。そのアプリを閉じて、もう一度お試しください。",
+    levels: { easy: "初級", mid: "中級", adv: "上級" },
+    ranges: { child: "子ども", soprano: "ソプラノ", alto: "アルト", tenor: "テノール", bass: "バス" },
+    keyboardLabel: "ピアノ鍵盤：鍵盤をタップすると音が聴けます",
+    aboutText: "声楽を学ぶ人、歌手、合唱団員のための、ピアノ伴奏付きボイスウォームアップと耳トレーニングアプリです。「ウォームアップ」では各ラウンドが和音で始まり、エクササイズが半音ずつ上がっていきます。「耳」では音・音程・和音の聴き分けを練習でき、レベルを測る耳テストも受けられます。「音大受験」では、音楽大学入試に向けた単音・2音・3音、メロディ、リズムの再現練習と模擬試験を用意しています。",
+    privacyTitle: "プライバシー",
+    privacyText: "このアプリは個人データを一切収集せず、アカウントも不要で、広告やトラッキングもありません。マイクはオンにしたときだけ使用され、音声は端末上でリアルタイムに解析されます。録音されることも、どこかへ送信されることもありません。インターネット接続も不要です。",
+    howTitle: "ヒント",
+    howText: "声のタイプを選び、開始音と最高音を自分の声に合わせて設定しましょう。マイクを使う場合はヘッドホンが最も正確です。オクターブは問いません。1オクターブ低く歌っても正解になります。",
+    support: (e) => `サポート：${e}`,
+    close: "閉じる",
+    tabVoice: "ウォームアップ", tabEar: "耳",
+    tabCons: "音大受験",
+    cons: {
+      title: "音大受験対策",
+      examTitle: "模擬試験", examSub: "全11問 · 各問題は最大2回まで聴けます · 結果は最後に表示", examCta: "模擬試験を始める",
+      examLast: (p) => `前回の模擬試験：${p}%`,
+      examIntro: "本番の試験と同じく、まず単音・2音・3音、次にメロディとリズムの再現です。各問題は最大2回まで聴くことができ、正誤は最後まで表示されません。マイクが必要です。ヘッドホンを使うとより正確になります。",
+      exercises: "練習", exHint: "各10問", soon: "近日公開",
+      disclaimer: "このセクションのスコアは練習用の目安であり、審査員による採点ではありません。試験内容は学校や専攻によって異なりますので、必ず志望校の公式要項をご確認ください。",
+      types: {
+        c_one: { name: "音をキャッチ", desc: "聴こえた音を「ナ」で歌いましょう" },
+        c_two: { name: "2音", desc: "同時に鳴った2つの音を1つずつ歌いましょう" },
+        c_three: { name: "3音", desc: "和音の音を下から順に歌いましょう" },
+        c_melody: { name: "メロディ記憶", desc: "メロディを聴いて、そのまま歌い返しましょう" },
+        c_rhythm: { name: "リズム模倣", desc: "聴こえたリズムをタップで再現しましょう" },
+        c_four: { name: "4音", desc: "4音の和音を聴き分けましょう" },
+        c_sight: { name: "新曲視唱", desc: "初めて見る楽譜を読んで歌いましょう" },
+        c_mdict: { name: "旋律聴音", desc: "メロディを五線譜に書き取りましょう" },
+        c_rdict: { name: "リズム聴音", desc: "リズムを音符と休符で書き取りましょう" },
+        c_theory: { name: "楽典", desc: "音部記号、調号、拍子、音階、和音" }
+      },
+      prompts: {
+        c_one: "音を聴いて、同じ音を「ナ」で歌ってください。",
+        c_two: (help) => `2つの音が同時に鳴ります${help ? "（そのあと別々にも聴けます）" : ""}。まず低い音、次に高い音を歌ってください。`,
+        c_three: (help) => `3音の和音が鳴ります${help ? "（そのあと1音ずつ聴けます）" : ""}。下の音から順に歌ってください。`,
+        c_melody: (n) => `${n}音のメロディを聴いて、そのまま歌い返してください。`,
+        c_rhythm: "まずカウントのクリックが2回鳴り、続いてリズムが流れます。よく聴いて、下のパッドで同じリズムをタップしてください。"
+      },
+      tapNow: "タップしてください", tap: "タップ", rhythmScore: (a, b) => `${b}回中${a}回がタイミングどおり`, rhythmCount: (a, b) => `タップ数は${a}回、リズムは${b}回でした`,
+      playsLeft: (n) => `もう一度聴く（残り${n}回）`, noPlays: "再生回数が残っていません",
+      recorded: "解答を保存しました",
+      needMicExam: "模擬試験にはマイクが必要です。iPhoneの 設定 > Ses Açma > マイク をオンにして、もう一度お試しください。",
+      resultKicker: "模擬試験の結果", overall: "総合練習スコア",
+      areas: { pitch: "音程の正確さ", memory: "旋律記憶", rhythm: "リズム" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `重点的に練習しましょう：${n}`,
+      back: "音大受験"
+    },
+    ear: {
+      testTitle: "耳テスト", testSub: "15の短い問題で耳の力を測定", testCta: "テストを始める",
+      testLast: (p, r) => `前回の結果：${p}% · ${r}`,
+      exercises: "エクササイズ", exHint: "各10問",
+      types: {
+        note: { name: "音当て", desc: "隠れた音を鍵盤で見つけましょう" },
+        interval: { name: "音程", desc: "2つの音の間の距離" },
+        higher: { name: "どっちが高い？", desc: "2つの音を比べましょう" },
+        chord: { name: "和音", desc: "長三和音？短三和音？" },
+        sing: { name: "歌い返し", desc: "聴いて、同じように歌いましょう" }
+      },
+      prompts: {
+        note: "まず基準のドが鳴り、次に隠れた音が鳴ります。どの音でしょう？鍵盤でタップしてください。",
+        noteAdv: (r) => `まず基準の${r}が鳴り、次に隠れた音が鳴ります。どの音でしょう？鍵盤でタップしてください。`,
+        interval: "2つの音を聴いてください。音の間の距離はどれくらいですか？",
+        intervalDown: "2つの音を聴いてください（2つ目の方が低い音です）。距離はどれくらいですか？",
+        intervalHarm: "2つの音が同時に鳴ります。音の間の距離はどれくらいですか？",
+        higher: "2つの音が鳴ります。高いのはどちらですか？",
+        chord: "和音を聴いてください。どの和音ですか？",
+        sing: (n) => (n === 1 ? "音を聴いて、歌い返してください。" : `${n}音のメロディを聴いて、歌い返してください。`)
+      },
+      level: "レベル", notPlayed: "未挑戦",
+      start: "開始", listen: "もう一度聴く", next: "次の問題", results: "結果を見る", back: "耳", listening: "聴き取り中…",
+      q: (a, b) => `問題 ${a} / ${b}`,
+      correct: "正解！", wrong: (x) => `正解：${x}`, first: "1つ目", second: "2つ目",
+      singNow: "歌ってください",
+      singYourTurn: "あなたの番です、歌って", singNext: "次の音へ", lightOk: "音程ぴったり", lightUp: "少し高く", lightUpMore: "もっと高く", lightDown: "少し低く", lightDownMore: "もっと低く",
+      noVoice: "声が聞こえませんでした", reviewTarget: "目標", reviewYou: "あなた", review: "あなたの歌", cents: "セント", wasLow: "低め", wasHigh: "高め", singGet: "聴いて…", singNote: (a, b) => `音 ${a} / ${b}`, singScore: (a, b) => `${b}音中${a}音正解`,
+      needMic: "このエクササイズはマイクを使用します。ヘッドホンを使うとより正確になります。",
+      micFail: "マイクを起動できませんでした。iPhoneの 設定 > Ses Açma > マイク をオンにして、もう一度お試しください。",
+      micSkip: "マイクを起動できなかったため、「歌い返し」を除いてテストを続けます。",
+      result: "結果", score: (a, b) => `${b}問中${a}問正解`, again: "もう一度", home: "「耳」に戻る", newBest: "自己ベスト更新！",
+      testIntro: "各分野で、やさしい問題、ふつうの問題、難しい問題が1問ずつ出題されます。「歌い返し」も含めるには「マイクあり」を選んでください。",
+      withMic: "マイクあり", withoutMic: "マイクなし",
+      ranks: { easy: "初級", mid: "中級", adv: "上級" },
+      rankText: {
+        easy: "耳はまだまだ伸びます。初級から始めましょう。1日数分で十分です。",
+        mid: "良い耳をお持ちです。中級のエクササイズでさらに磨きましょう。",
+        adv: "素晴らしい耳です！上級レベルで挑戦を続けましょう。"
+      },
+      focus: (n) => `重点的に練習しましょう：${n}`,
+      kulakLevel: "あなたの耳のレベル"
+    }
+  },
+  intervals: ["完全1度", "短2度", "長2度", "短3度", "長3度", "完全4度", "増4度（トライトーン）", "完全5度", "短6度", "長6度", "短7度", "長7度", "完全8度（オクターブ）"],
+  chords: { maj: "長三和音", min: "短三和音", aug: "増三和音", dim: "減三和音", maj7: "長七", min7: "短七", dom7: "属七" },
+  exercises: {
+    uclu: { name: "ハミング", syllables: "ム – ム – ム" },
+    besli: { name: "5音の階段", syllables: "ミ – メ – マ – モ – ム" },
+    staccato: { name: "スタッカート", syllables: "ハ – ハ – ハ – ハ – ハ" },
+    arpej: { name: "アルペジオ", syllables: "ヤ – ヤ – ヤ – ヤ" },
+    oktav: { name: "オクターブ跳躍", syllables: "ア – ア – ア – ア – ア" },
+    dokuzlu: { name: "9音スケール", syllables: "ア – ア – ア – ア …" }
+  }
+},
+  zh: {
+  langName: "简体中文",
+  notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+  strings: {
+    tagline: "为今天的声音做好准备", about: "关于",
+    exercise: "练习", contourHint: "曲线显示每段旋律的走向。", settings: "设置",
+    startNote: "起始音", seeAll: "查看全部", allSub: "一步步打造你的声音。", filterAll: "全部", rangeTitle: "音域",
+    demo: "听示范", playLong: "开始练习", tabEarLong: "视唱练耳", okBtn: "完成",
+    voice: "声部", start: "起始", top: "最高", tempo: "速度", direction: "方向",
+    up: "仅上行", upDown: "上行和下行",
+    melody: "钢琴弹奏旋律", melodySub: "关闭后只弹起始和弦，音符在键盘上亮起",
+    mic: "用麦克风监听", micSub: "显示你是否唱准了音",
+    language: "语言",
+    play: "开始", stop: "停止", previewing: "正在播放示范…",
+    ready: "选择一个练习并开始", getReady: "准备…", stopped: "已停止", done: "开嗓完成", bravo: "太棒了！",
+    round: (a, b) => `第 ${a} 轮 / 共 ${b} 轮`, notesScore: (h, s) => `${h} / ${s} 个音`, notesCount: (n) => `${n} 个音`,
+    target: "目标", you: "你", cantHear: "听不到你的声音", listenChord: "听和弦…", listening: "正在聆听",
+    perfect: "完全准确！", lower: "再低一点 ↓", higher: "再高一点 ↑",
+    micTip: "提示：请戴耳机或关闭旋律，否则麦克风也可能收到钢琴声。",
+    micDenied: "麦克风权限已关闭。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
+    micFail: "麦克风无法启动。可能有其他应用正在使用，请关闭后重试。",
+    levels: { easy: "简单", mid: "中等", adv: "进阶" },
+    ranges: { child: "童声", soprano: "女高音", alto: "女低音", tenor: "男高音", bass: "男低音" },
+    keyboardLabel: "钢琴键盘；点按琴键可听到该音",
+    aboutText: "为声乐学生、歌手和合唱团员打造的钢琴伴奏开嗓与视唱练耳应用。在“开嗓”中，每一轮先弹一个和弦，随后练习上移半音。在“练耳”中，可练习辨认单音、音程与和弦，并通过听力测试评估你的水平。“艺考”为音乐学院入学考试提供单音、双音、三音、旋律与节奏模唱练习，以及模拟考试。",
+    privacyTitle: "隐私",
+    privacyText: "本应用不收集任何个人数据，无需账户，无广告也无跟踪。麦克风仅在你开启时使用；声音在设备上实时分析，绝不录音，也绝不发送到任何地方。无需联网。",
+    howTitle: "使用提示",
+    howText: "选择你的声部，并根据自己的嗓音设置起始音和最高音。使用麦克风时，戴耳机效果最准确。八度不影响判定：低一个八度演唱也算正确。",
+    support: (e) => `支持：${e}`,
+    close: "关闭",
+    tabVoice: "开嗓", tabEar: "练耳",
+    tabCons: "艺考",
+    cons: {
+      title: "音乐学院艺考准备",
+      examTitle: "模拟考试", examSub: "11 道题 · 每题最多听两遍 · 结束后显示结果", examCta: "开始模拟考试",
+      examLast: (p) => `上次模拟考试：${p}%`,
+      examIntro: "与正式考试相同：先是单音、双音和三音，然后是旋律与节奏模唱。每题最多听两遍，结束前不会显示对错。需要使用麦克风；戴耳机结果更准确。",
+      exercises: "练习", exHint: "每项 10 道题", soon: "即将推出",
+      disclaimer: "本部分的分数为练习测量结果，并非评委打分。考试内容因院校和专业而异，请务必查阅所报院校的官方招生简章。",
+      types: {
+        c_one: { name: "单音模唱", desc: "用“na”唱出你听到的音" },
+        c_two: { name: "双音模唱", desc: "将同时弹奏的两个音逐个唱出" },
+        c_three: { name: "三音模唱", desc: "从低到高唱出和弦的各个音" },
+        c_melody: { name: "旋律记忆", desc: "听一段旋律，准确地唱回来" },
+        c_rhythm: { name: "节奏模仿", desc: "敲出你听到的节奏" },
+        c_four: { name: "四音模唱", desc: "分辨四音和弦的各个音" },
+        c_sight: { name: "视唱", desc: "唱出从未见过的乐谱" },
+        c_mdict: { name: "旋律听写", desc: "把旋律写在五线谱上" },
+        c_rdict: { name: "节奏听写", desc: "用音符和休止符写出节奏" },
+        c_theory: { name: "乐理", desc: "谱号、调号、拍号、音阶、和弦" }
+      },
+      prompts: {
+        c_one: "听这个音，然后用“na”唱出同一个音。",
+        c_two: (help) => `将同时弹奏两个音${help ? "（随后会分别弹奏）" : ""}。先唱低音，再唱高音。`,
+        c_three: (help) => `将弹奏一个三音和弦${help ? "（随后会逐个弹奏各音）" : ""}。从低到高唱出它的各个音。`,
+        c_melody: (n) => `听这段 ${n} 个音的旋律，然后准确地唱回来。`,
+        c_rhythm: "先有两下预备拍，然后是节奏。听完后，在下方的拍击区敲出相同的节奏。"
+      },
+      tapNow: "轮到你敲", tap: "敲击", rhythmScore: (a, b) => `${b} 次中有 ${a} 次合拍`, rhythmCount: (a, b) => `你敲了 ${a} 次；节奏共有 ${b} 次`,
+      playsLeft: (n) => `再听一遍（剩余 ${n} 次）`, noPlays: "已无剩余收听次数",
+      recorded: "答案已保存",
+      needMicExam: "模拟考试需要使用麦克风。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
+      resultKicker: "模拟考试结果", overall: "综合练习得分",
+      areas: { pitch: "音准", memory: "旋律记忆", rhythm: "节奏" },
+      areaFocus: { pitch: "c_two", memory: "c_melody", rhythm: "c_rhythm" },
+      focus: (n) => `重点练习：${n}`,
+      back: "艺考"
+    },
+    ear: {
+      testTitle: "听力测试", testSub: "用 15 道小题测出你的听力水平", testCta: "开始测试",
+      testLast: (p, r) => `上次结果：${p}% · ${r}`,
+      exercises: "练习", exHint: "每项 10 道题",
+      types: {
+        note: { name: "找音", desc: "在琴键上找出隐藏的音" },
+        interval: { name: "音程", desc: "两个音之间的距离" },
+        higher: { name: "哪个更高？", desc: "比较两个声音" },
+        chord: { name: "和弦", desc: "大三还是小三？" },
+        sing: { name: "模唱", desc: "听完后唱出相同的音" }
+      },
+      prompts: {
+        note: "先弹参考音 C，再弹隐藏的音。是哪个音？请在琴键上点按。",
+        noteAdv: (r) => `先弹参考音 ${r}，再弹隐藏的音。是哪个音？请在琴键上点按。`,
+        interval: "听这两个音。它们之间是什么音程？",
+        intervalDown: "听这两个音（第二个更低）。是什么音程？",
+        intervalHarm: "两个音同时弹奏。它们之间是什么音程？",
+        higher: "将播放两个声音。哪一个更高？",
+        chord: "听这个和弦。是哪种和弦？",
+        sing: (n) => (n === 1 ? "听这个音，然后唱出来。" : `听这段 ${n} 个音的旋律，然后唱出来。`)
+      },
+      level: "级别", notPlayed: "尚未尝试",
+      start: "开始", listen: "再听一遍", next: "下一题", results: "查看结果", back: "练耳", listening: "正在聆听…",
+      q: (a, b) => `第 ${a} 题 / 共 ${b} 题`,
+      correct: "正确！", wrong: (x) => `答案：${x}`, first: "第一个", second: "第二个",
+      singNow: "轮到你唱",
+      singYourTurn: "轮到你了，唱吧", singNext: "进入下一个音", lightOk: "音准", lightUp: "再高一点", lightUpMore: "再高些", lightDown: "再低一点", lightDownMore: "再低些",
+      noVoice: "未检测到声音", reviewTarget: "目标", reviewYou: "你", review: "你的演唱", cents: "音分", wasLow: "偏低", wasHigh: "偏高", singGet: "听…", singNote: (a, b) => `第 ${a} 个音 / 共 ${b} 个`, singScore: (a, b) => `${b} 个音中唱对 ${a} 个`,
+      needMic: "本练习需要使用麦克风。戴耳机结果更准确。",
+      micFail: "麦克风无法启动。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
+      micSkip: "麦克风无法启动；测试将在不含“模唱”的情况下继续。",
+      result: "结果", score: (a, b) => `${b} 题中答对 ${a} 题`, again: "再试一次", home: "返回练耳", newBest: "新纪录！",
+      testIntro: "每个部分依次出一道简单、一道中等和一道困难的题目。选择“使用麦克风”即可包含“模唱”。",
+      withMic: "使用麦克风", withoutMic: "不用麦克风",
+      ranks: { easy: "初级", mid: "中级", adv: "高级" },
+      rankText: {
+        easy: "你的听力还有很大提升空间。从简单级别开始，每天几分钟就够了。",
+        mid: "你的听力不错。用中等练习进一步提高吧。",
+        adv: "你的听力非常出色！继续挑战困难级别吧。"
+      },
+      focus: (n) => `重点练习：${n}`,
+      kulakLevel: "你的听力水平"
+    }
+  },
+  intervals: ["纯一度", "小二度", "大二度", "小三度", "大三度", "纯四度", "三全音", "纯五度", "小六度", "大六度", "小七度", "大七度", "纯八度"],
+  chords: { maj: "大三和弦", min: "小三和弦", aug: "增三和弦", dim: "减三和弦", maj7: "大七和弦", min7: "小七和弦", dom7: "属七和弦" },
+  exercises: {
+    uclu: { name: "哼鸣", syllables: "Mm – mm – mm" },
+    besli: { name: "五音阶梯", syllables: "Mi – Me – Ma – Mo – Mu" },
+    staccato: { name: "断音", syllables: "Ha – ha – ha – ha – ha" },
+    arpej: { name: "琶音", syllables: "Ya – ya – ya – ya" },
+    oktav: { name: "八度跳跃", syllables: "A – a – a – a – a" },
+    dokuzlu: { name: "九音音阶", syllables: "A – a – a – a …" }
+  }
+}
+};
+const LANGS = [["tr", "Türkçe"], ["en", "English"]];
+for (const [code, p] of Object.entries(LANG_PACK)) {
+  STRINGS[code] = p.strings; NOTE_NAMES[code] = p.notes; INTERVAL_NAMES[code] = p.intervals; CHORD_NAMES[code] = p.chords;
+  for (const ex of EXERCISES) { ex.name[code] = p.exercises[ex.id].name; ex.syllables[code] = p.exercises[ex.id].syllables; }
+  LANGS.push([code, p.langName]);
+}
+// LANGPACK-END
+
 if (typeof module !== "undefined") {
-  module.exports = { pitchState, CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
+  module.exports = { LANGS, LANG_PACK, pitchState, CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
 }
 </script>
 
@@ -1747,7 +2759,7 @@ function buildAll() {
   if (!$("allView").hidden) buildAllList();
   buildSeg("ranges", RANGES.map((r) => ({ ...r, name: S().ranges[r.id] })), (r) => { state.range = r.id; state.start = r.start; state.end = r.end; lastResult = null; });
   buildSeg("dirs", [{ id: "up", name: S().up }, { id: "upDown", name: S().upDown }], (d) => { state.dir = d.id; });
-  buildSeg("langs", [{ id: "tr", name: "Türkçe" }, { id: "en", name: "English" }], (l) => { state.lang = l.id; });
+  buildSeg("langs", LANGS.map(([id, name]) => ({ id, name })), (l) => { state.lang = l.id; });
   render();
   buildKeyboard();
 }
@@ -1762,7 +2774,7 @@ function render() {
 
   for (const r of RANGES) $(`ranges-${r.id}`).setAttribute("aria-pressed", String(r.id === state.range));
   for (const d of ["up", "upDown"]) $(`dirs-${d}`).setAttribute("aria-pressed", String(d === state.dir));
-  for (const l of ["tr", "en"]) $(`langs-${l}`).setAttribute("aria-pressed", String(l === state.lang));
+  for (const [l] of LANGS) $(`langs-${l}`).setAttribute("aria-pressed", String(l === state.lang));
   $("startVal").textContent = nn(state.start);
   $("endVal").textContent = nn(state.end);
   $("bpmVal").textContent = `${state.bpm} BPM`;
@@ -1776,9 +2788,24 @@ function render() {
 }
 
 let micError = null;
+// iPhone dışındaki cihazlarda (Android, Windows, Mac) mikrofon izni metni: iPhone ayar yolunu göstermeden
+const IS_IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1 && !/Electron/.test(navigator.userAgent));
+const MIC_ANY = {
+  tr: ["Mikrofon izni kapalı. Cihazının ayarlarından Ses Açma'ya mikrofon izni verip tekrar dene.", "Sınav provası için mikrofon gerekir. Cihazının ayarlarından Ses Açma'ya mikrofon izni verip tekrar dene."],
+  en: ["Microphone access is off. Allow microphone access for Ses Açma in your device settings, then try again.", "The mock exam needs the microphone. Allow microphone access for Ses Açma in your device settings, then try again."],
+  de: ["Der Mikrofonzugriff ist deaktiviert. Erlaube Ses Açma in den Geräteeinstellungen den Mikrofonzugriff und versuche es erneut.", "Für die Prüfungssimulation brauchst du das Mikrofon. Erlaube Ses Açma in den Geräteeinstellungen den Mikrofonzugriff und versuche es erneut."],
+  fr: ["L’accès au micro est désactivé. Autorise l’accès au micro pour Ses Açma dans les réglages de ton appareil, puis réessaie.", "L’examen blanc nécessite le micro. Autorise l’accès au micro pour Ses Açma dans les réglages de ton appareil, puis réessaie."],
+  es: ["El acceso al micrófono está desactivado. Permite el acceso al micrófono para Ses Açma en los ajustes de tu dispositivo y vuelve a intentarlo.", "El simulacro de examen necesita el micrófono. Permite el acceso al micrófono para Ses Açma en los ajustes de tu dispositivo y vuelve a intentarlo."],
+  it: ["L’accesso al microfono è disattivato. Consenti l’accesso al microfono per Ses Açma nelle impostazioni del dispositivo e riprova.", "La simulazione d’esame richiede il microfono. Consenti l’accesso al microfono per Ses Açma nelle impostazioni del dispositivo e riprova."],
+  pt: ["O acesso ao microfone está desativado. Permita o acesso ao microfone para o Ses Açma nas configurações do dispositivo e tente novamente.", "O simulado precisa do microfone. Permita o acesso ao microfone para o Ses Açma nas configurações do dispositivo e tente novamente."],
+  ru: ["Доступ к микрофону выключен. Разреши Ses Açma доступ к микрофону в настройках устройства и попробуй снова.", "Для пробного экзамена нужен микрофон. Разреши Ses Açma доступ к микрофону в настройках устройства и попробуй снова."],
+  ja: ["マイクへのアクセスがオフになっています。端末の設定で Ses Açma のマイクを許可してから、もう一度お試しください。", "模擬試験にはマイクが必要です。端末の設定で Ses Açma のマイクを許可してから、もう一度お試しください。"],
+  zh: ["麦克风权限已关闭。请在设备设置中允许 Ses Açma 使用麦克风，然后重试。", "模拟考试需要使用麦克风。请在设备设置中允许 Ses Açma 使用麦克风，然后重试。"]
+};
+const micText = (key) => (!IS_IOS && key === "micDenied" ? (MIC_ANY[state.lang] || MIC_ANY.en)[0] : S()[key]);
 function updateMicHint() {
   const h = $("micHint");
-  if (micError) { h.hidden = false; h.className = "hint err"; h.textContent = S()[micError]; return; }
+  if (micError) { h.hidden = false; h.className = "hint err"; h.textContent = micText(micError); return; }
   if (mic.on && state.melody) { h.hidden = false; h.className = "hint"; h.textContent = S().micTip; }
   else h.hidden = true;
 }
@@ -1796,7 +2823,7 @@ function setPlaying(on) {
 }
 function hzLabel(m) {
   const f = 440 * Math.pow(2, (m - 69) / 12);
-  return `${f.toFixed(1).replace(".", state.lang === "tr" ? "," : ".")} Hz`;
+  return `${f.toFixed(1).replace(".", /^(tr|de|fr|es|it|pt|ru)$/.test(state.lang) ? "," : ".")} Hz`;
 }
 let litDot = -2;
 function setDot(i) {
@@ -2047,7 +3074,7 @@ async function earBegin() {
   if (withSing) {
     const ok = await earMicOn();
     if (!ok) {
-      if (!ear.isTest || cons) { ear.notice = cons && ear.isTest ? c.needMicExam : s.micFail; earRender(); return; }
+      if (!ear.isTest || cons) { ear.notice = cons && ear.isTest ? (IS_IOS ? c.needMicExam : (MIC_ANY[state.lang] || MIC_ANY.en)[1]) : s.micFail; earRender(); return; }
       withSing = false;
       ear.notice = s.micSkip;
     }

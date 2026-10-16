@@ -1,4 +1,4 @@
-# Ses Açma: Piyano Isınma — App Store'a satış rehberi
+# Ses Açma - Piano Warm Up — App Store'a satış rehberi
 
 Şan öğrencileri, şarkıcılar ve koro üyeleri için piyano eşliğinde ses açma uygulaması. Türkçe + İngilizce, internetsiz çalışır, veri toplamaz.
 
@@ -56,7 +56,7 @@ Destek URL'si sayfasında bir iletişim e-postası bulunmalıdır.
 ## 3. App Store Connect'te uygulamayı oluşturun
 
 1. appstoreconnect.apple.com → **Uygulamalarım (My Apps)** → **+** → **Yeni Uygulama**
-   - Platform: iOS · Ad: `Ses Açma: Piyano Isınma` · Birincil dil: Türkçe · Bundle ID: 1. adımda yazdığınız · SKU: `sesacma001`
+   - Platform: iOS · Ad: `Ses Açma - Piano Warm Up` · Birincil dil: Türkçe · Bundle ID: 1. adımda yazdığınız · SKU: `sesacma001`
 2. **İş (Business)** bölümünde **Ücretli Uygulamalar Sözleşmesi**, banka ve vergi bilgilerini tamamlayın (yoksa ücretli uygulama yayınlanamaz).
 3. **Uygulama Bilgileri**: kategori Müzik + Eğitim, gizlilik URL'si.
 4. **Uygulama Gizliliği**: "Veri toplamıyoruz" seçin.

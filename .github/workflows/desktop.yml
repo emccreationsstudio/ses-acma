@@ -1,0 +1,79 @@
+# Ses Açma - Piano Warm Up — masaüstü kurulum dosyaları
+#  • Windows: kurulum sihirbazı (SesAcma-PianoWarmUp-Setup-x.y.z.exe, 10 dilli)
+#  • Mac:     sürükle-bırak kurulum (SesAcma-PianoWarmUp-x.y.z.dmg, Intel + Apple Silicon)
+# Başlatmak: GitHub → Actions → "Masaüstü kurulum dosyaları" → Run workflow.
+# Bitince dosyalar aynı sayfanın altındaki "Artifacts" bölümünden indirilir.
+name: Masaüstü kurulum dosyaları
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: win
+            files: desktop/dist/*.exe
+          - os: macos-latest
+            target: mac
+            files: desktop/dist/*.dmg
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Uygulamayı derle ve testleri çalıştır
+        run: |
+          node test/core.test.js
+          node scripts/build.js
+
+      - name: Uygulama dosyasını masaüstü paketine kopyala
+        shell: bash
+        run: |
+          rm -rf desktop/www
+          cp -r www desktop/www
+
+      - name: Masaüstü paketlerini kur
+        working-directory: desktop
+        run: npm install
+
+      # Mac: Apple "Developer ID Application" sertifikası GitHub Secrets'ta varsa imzalanır ve
+      # notarize edilir (KURULUM.md → Mac). Yoksa imzasız .dmg üretilir.
+      - name: Kurulum dosyasını oluştur
+        working-directory: desktop
+        shell: bash
+        env:
+          CSC_LINK: ${{ secrets.MAC_CERT_P12_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ "${{ matrix.target }}" = "mac" ]; then
+            if [ -n "$CSC_LINK" ]; then
+              EXTRA=""
+              [ -n "$APPLE_ID" ] && EXTRA="-c.mac.notarize=true"
+              npx electron-builder --mac --publish never $EXTRA
+            else
+              export CSC_IDENTITY_AUTO_DISCOVERY=false
+              unset CSC_LINK CSC_KEY_PASSWORD
+              npx electron-builder --mac --publish never
+            fi
+          else
+            unset CSC_LINK CSC_KEY_PASSWORD
+            npx electron-builder --win --publish never
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SesAcma-${{ matrix.target }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error

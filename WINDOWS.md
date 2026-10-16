@@ -15,7 +15,7 @@ Mac gerekmez. Uygulama Codemagic'in bulut Mac'lerinde derlenir ve doğrudan App 
 
 ## 2. Apple tarafı (tarayıcıdan)
 1. **Bundle ID kaydı:** developer.apple.com/account → Certificates, IDs & Profiles → **Identifiers** → **+** → App IDs → App → Description: `Ses Acma`, Bundle ID: *Explicit* → `com.emccreationsstudio.sesacma` → Continue → Register.
-2. **Uygulama kaydı:** appstoreconnect.apple.com → Uygulamalarım → **+** → Yeni Uygulama → iOS, ad `Ses Açma: Piyano Isınma`, dil Türkçe, Bundle ID'yi listeden seçin, SKU `sesacma001`.
+2. **Uygulama kaydı:** appstoreconnect.apple.com → Uygulamalarım → **+** → Yeni Uygulama → iOS, ad `Ses Açma - Piano Warm Up`, dil Türkçe, Bundle ID'yi listeden seçin, SKU `sesacma001`.
 3. **API anahtarı:** App Store Connect → **Kullanıcılar ve Erişim** → **Entegrasyonlar** → **App Store Connect API** → **Team Keys** → **+** → ad `Codemagic`, erişim **App Manager** → Oluştur.
    Sayfadaki **Issuer ID** ve anahtarın **Key ID** değerlerini not edin, **.p8 dosyasını indirin** (yalnızca bir kez indirilebilir).
 

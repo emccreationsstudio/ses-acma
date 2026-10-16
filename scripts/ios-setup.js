@@ -55,10 +55,10 @@ function setKey(key, valueXml) {
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 setKey("NSMicrophoneUsageDescription", `<string>${esc(MIC_TEXT)}</string>`);
 setKey("CFBundleDisplayName", `<string>${esc(DISPLAY_NAME)}</string>`);
-setKey("CFBundleLocalizations", "<array>\n\t\t<string>tr</string>\n\t\t<string>en</string>\n\t</array>");
+setKey("CFBundleLocalizations", `<array>\n${["tr", "en", "de", "fr", "es", "it", "pt", "ru", "ja", "zh-Hans"].map((l) => `\t\t<string>${l}</string>`).join("\n")}\n\t</array>`);
 setKey("ITSAppUsesNonExemptEncryption", "<false/>");
 fs.writeFileSync(plistPath, plist);
-done.push("Info.plist: mikrofon izni, ad, Türkçe/İngilizce, şifreleme beyanı");
+done.push("Info.plist: mikrofon izni, ad, 10 dil, şifreleme beyanı");
 
 // 3) Uygulama ikonu
 const iconSet = path.join(appDir, "Assets.xcassets", "AppIcon.appiconset");

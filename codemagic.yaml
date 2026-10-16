@@ -53,3 +53,45 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
+
+  # ---------------------------------------------------------------------------
+  # Google Play: Android uygulama paketi (.aab). Ayrıntılar: KURULUM.md → Google Play
+  android-playstore:
+    name: Ses Açma — Google Play
+    max_build_duration: 45
+    instance_type: linux_x2
+    environment:
+      android_signing:
+        - sesacma_upload        # Codemagic > Code signing identities > Android keystores'taki referans adı
+      node: 22
+      java: 21
+    triggering:
+      events: []   # yalnızca elle başlatılır ("Start new build")
+    scripts:
+      - name: Paketleri kur
+        script: npm install
+      - name: Testleri çalıştır
+        script: npm test
+      - name: Uygulama dosyasını derle
+        script: npm run build
+      - name: Android projesini oluştur ve ayarla
+        script: |
+          rm -rf android
+          npx cap add android
+          node scripts/android-setup.js
+          npx cap sync android
+      - name: Google Play paketini derle (.aab)
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.aab
+    # İlk .aab'yi Play Console'a elle yükledikten sonra otomatik yükleme için:
+    # Play Console'da hizmet hesabı (service account) oluşturup JSON'unu Codemagic'te
+    # GCLOUD_SERVICE_ACCOUNT_CREDENTIALS adlı gizli değişken olarak ekleyin ve aşağıyı açın.
+    # publishing:
+    #   google_play:
+    #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+    #     track: internal
+    #     submit_as_draft: true

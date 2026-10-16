@@ -25,7 +25,10 @@ test("dil seçimi", () => {
   assert.strictEqual(C.pickLanguage("tr-TR"), "tr");
   assert.strictEqual(C.pickLanguage("tr"), "tr");
   assert.strictEqual(C.pickLanguage("en-US"), "en");
-  assert.strictEqual(C.pickLanguage("de-DE"), "en");
+  assert.strictEqual(C.pickLanguage("de-DE"), "de");
+  assert.strictEqual(C.pickLanguage("pt-BR"), "pt");
+  assert.strictEqual(C.pickLanguage("zh-Hans-CN"), "zh");
+  assert.strictEqual(C.pickLanguage("ko-KR"), "en");
   assert.strictEqual(C.pickLanguage(undefined), "en");
 });
 
@@ -341,6 +344,36 @@ test("konservatuvar: metinler iki dilde eksiksiz", () => {
   const keys = (o, p = "") => Object.entries(o).flatMap(([k, v]) => (v && typeof v === "object" ? keys(v, p + k + ".") : [p + k]));
   assert.deepStrictEqual(keys(C.STRINGS.tr.cons).sort(), keys(C.STRINGS.en.cons).sort());
   for (const lang of ["tr", "en"]) for (const t of [...C.CONS_TYPES, ...C.CONS_SOON]) assert.ok(C.STRINGS[lang].cons.types[t].name);
+});
+
+test("söyleme ışığı: doğru / pes / tiz (oktav önemsiz)", () => {
+  assert.strictEqual(C.pitchState(60.2, 60).state, "ok");
+  assert.strictEqual(C.pitchState(48.1, 60).state, "ok", "bir oktav aşağı");
+  assert.strictEqual(C.pitchState(59.2, 60).state, "low");
+  assert.strictEqual(C.pitchState(60.8, 60).state, "high");
+  assert.ok(C.pitchState(58, 60).far && !C.pitchState(59.2, 60).far);
+  assert.strictEqual(C.pitchState(null, 60).state, "none");
+});
+
+test("dil paketi: 10 dil, her dilde aynı yapı ve tüm metinler", () => {
+  assert.strictEqual(C.LANGS.length, 10);
+  const walk = (a, b, p) => {
+    if (typeof a === "function") {
+      assert.strictEqual(typeof b, "function", p); assert.strictEqual(b.length, a.length, p + " param");
+      const r = b(...[3, 7, 2, 5].slice(0, a.length)); assert.ok(typeof r === "string" && r.trim() && !/undefined|NaN/.test(r), p + " -> " + r); return;
+    }
+    if (Array.isArray(a)) { assert.ok(Array.isArray(b) && b.length === a.length, p); a.forEach((v, i) => walk(v, b[i], p + i)); return; }
+    if (a && typeof a === "object") { assert.ok(b && typeof b === "object", p); assert.deepStrictEqual(Object.keys(b).sort(), Object.keys(a).sort(), p); for (const k in a) walk(a[k], b[k], p + "." + k); return; }
+    assert.strictEqual(typeof b, typeof a, p); if (typeof a === "string" && a.trim()) assert.ok(b.trim(), p + " boş");
+  };
+  for (const [code] of C.LANGS) {
+    walk(C.STRINGS.en, C.STRINGS[code], code);
+    assert.strictEqual(C.NOTE_NAMES[code].length, 12, code);
+    assert.strictEqual(C.INTERVAL_NAMES[code].length, 13, code);
+    assert.deepStrictEqual(Object.keys(C.CHORD_NAMES[code]).sort(), Object.keys(C.CHORD_NAMES.en).sort(), code);
+    for (const ex of C.EXERCISES) assert.ok(ex.name[code] && ex.syllables[code], ex.id + " " + code);
+    assert.ok(C.noteName(60, code).length > 1, code);
+  }
 });
 
 console.log(`\n${passed} test geçti`);

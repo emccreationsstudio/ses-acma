@@ -1,4 +1,6 @@
-# App Store Connect metinleri — Ses Açma: Piyano Isınma
+# App Store Connect metinleri — Ses Açma - Piano Warm Up
+
+> **Güncel ve 10 dilli metinler:** [`appstore/listings/README.md`](listings/README.md). Bu dosyadaki genel bilgiler (kategori, yaş, gizlilik, fiyat) geçerli; ad ve açıklamalar için yeni dosyayı kullan.
 
 Her kutuyu App Store Connect'te aynı adlı alana kopyalayın. Karakter sınırları kontrol edildi (`node scripts/check-listing.js`).
 
@@ -24,7 +26,7 @@ Her kutuyu App Store Connect'te aynı adlı alana kopyalayın. Karakter sınırl
 
 **Ad (30)**
 ```
-Ses Açma: Piyano Isınma
+Ses Açma - Piano Warm Up
 ```
 
 **Alt başlık (30)**
@@ -89,7 +91,7 @@ Türkçe ve İngilizce kullanılabilir.
 
 **Name (30)**
 ```
-Ses Açma: Vocal Warm-Up
+Ses Açma - Piano Warm Up
 ```
 
 **Subtitle (30)**

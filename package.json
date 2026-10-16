@@ -11,11 +11,15 @@
     "ios:add": "npm run build && npx cap add ios && node scripts/ios-setup.js",
     "ios:setup": "node scripts/ios-setup.js",
     "ios:sync": "npm run build && npx cap sync ios",
-    "ios:open": "npx cap open ios"
+    "ios:open": "npx cap open ios",
+    "android:add": "npm run build && npx cap add android && node scripts/android-setup.js",
+    "android:sync": "npm run build && npx cap sync android",
+    "desktop": "npm run build && cd desktop && npm install && npm start"
   },
   "dependencies": {
     "@capacitor/core": "latest",
-    "@capacitor/ios": "latest"
+    "@capacitor/ios": "latest",
+    "@capacitor/android": "latest"
   },
   "devDependencies": {
     "@capacitor/cli": "latest"
