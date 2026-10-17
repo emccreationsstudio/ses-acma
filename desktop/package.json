@@ -19,11 +19,24 @@
     "appId": "com.emccreationsstudio.sesacma.desktop",
     "productName": "Ses Açma - Piano Warm Up",
     "copyright": "© 2026 EMC Creations Studio",
-    "files": ["main.js", "www/**/*"],
-    "directories": { "output": "dist", "buildResources": "build" },
+    "files": [
+      "main.js",
+      "www/**/*"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
       "artifactName": "SesAcma-PianoWarmUp-Setup-${version}.${ext}"
     },
     "nsis": {
@@ -35,13 +48,34 @@
       "shortcutName": "Ses Açma - Piano Warm Up",
       "uninstallDisplayName": "Ses Açma - Piano Warm Up",
       "multiLanguageInstaller": true,
-      "installerLanguages": ["tr_TR", "en_US", "de_DE", "fr_FR", "es_ES", "it_IT", "pt_BR", "ru_RU", "ja_JP", "zh_CN"],
+      "installerLanguages": [
+        "tr_TR",
+        "en_US",
+        "de_DE",
+        "fr_FR",
+        "es_ES",
+        "it_IT",
+        "pt_BR",
+        "ru_RU",
+        "ja_JP",
+        "zh_CN"
+      ],
       "runAfterFinish": true,
-      "deleteAppDataOnUninstall": false
+      "deleteAppDataOnUninstall": false,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico"
     },
     "mac": {
-      "target": [{ "target": "dmg", "arch": ["universal"] }],
-      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "icon": "build/icon.icns",
       "category": "public.app-category.music",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
@@ -50,15 +84,35 @@
       "notarize": false,
       "extendInfo": {
         "NSMicrophoneUsageDescription": "Söylediğin notanın doğru olup olmadığını göstermek için mikrofon kullanılır; ses kaydedilmez. / The microphone is used to check whether you are singing the right note; nothing is recorded.",
-        "CFBundleLocalizations": ["tr", "en", "de", "fr", "es", "it", "pt", "ru", "ja", "zh-Hans"]
+        "CFBundleLocalizations": [
+          "tr",
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it",
+          "pt",
+          "ru",
+          "ja",
+          "zh-Hans"
+        ]
       },
       "artifactName": "SesAcma-PianoWarmUp-${version}.${ext}"
     },
     "dmg": {
       "title": "Ses Açma - Piano Warm Up",
       "contents": [
-        { "x": 140, "y": 190, "type": "file" },
-        { "x": 400, "y": 190, "type": "link", "path": "/Applications" }
+        {
+          "x": 140,
+          "y": 190,
+          "type": "file"
+        },
+        {
+          "x": 400,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
       ]
     }
   }
