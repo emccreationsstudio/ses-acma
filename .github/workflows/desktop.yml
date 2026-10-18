@@ -138,3 +138,29 @@ jobs:
           name: SesAcma-android
           path: out/*
           if-no-files-found: error
+
+  # Hepsini tek bir indirme sayfasına koy: github.com/emccreationsstudio/ses-acma/releases/latest
+  release:
+    needs: [build, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: files
+          merge-multiple: true
+      - run: ls -la files
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.1.0
+          name: Ses Açma - Piano Warm Up 1.1.0
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          files: files/*
+          body: |
+            **Kurulum dosyaları — 10 dil** (Türkçe, English, Deutsch, Français, Español, Italiano, Português, Русский, 日本語, 中文)
+
+            • **Windows:** `SesAcma-PianoWarmUp-Setup-1.1.0.exe` — çift tıkla, dili seç, kur.
+            • **Mac:** `SesAcma-PianoWarmUp-1.1.0.dmg` — aç, uygulamayı Applications'a sürükle.
+            • **Android:** `.apk` — telefona indir, dokun, kur.
