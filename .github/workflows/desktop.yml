@@ -1,16 +1,17 @@
-# Ses Açma - Piano Warm Up — masaüstü kurulum dosyaları
-#  • Windows: kurulum sihirbazı (SesAcma-PianoWarmUp-Setup-x.y.z.exe, 10 dilli)
+# Ses Açma - Piano Warm Up — kurulum dosyaları (hepsi 10 dilli)
+#  • Windows: kurulum sihirbazı (SesAcma-PianoWarmUp-Setup-x.y.z.exe)
 #  • Mac:     sürükle-bırak kurulum (SesAcma-PianoWarmUp-x.y.z.dmg, Intel + Apple Silicon)
-# Başlatmak: GitHub → Actions → "Masaüstü kurulum dosyaları" → Run workflow.
+#  • Android: telefona doğrudan kurulum (.apk) + Google Play paketi (.aab)
+# Başlatmak: GitHub → Actions → "Kurulum dosyaları" → Run workflow (ya da kod değişince kendiliğinden).
 # Bitince dosyalar aynı sayfanın altındaki "Artifacts" bölümünden indirilir.
-name: Masaüstü kurulum dosyaları
+name: Kurulum dosyaları
 
 on:
   workflow_dispatch:
   push:
     # Uygulama ya da masaüstü dosyaları değişince otomatik de derlenir
     branches: ["main", "surum-*"]
-    paths: ["src/**", "desktop/**", ".github/workflows/desktop.yml"]
+    paths: ["src/**", "desktop/**", "scripts/**", "assets/**", ".github/workflows/desktop.yml"]
 
 jobs:
   build:
@@ -78,4 +79,62 @@ jobs:
         with:
           name: SesAcma-${{ matrix.target }}
           path: ${{ matrix.files }}
+          if-no-files-found: error
+
+  android:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Uygulamayı derle ve testleri çalıştır
+        run: |
+          npm install
+          npm test
+          npm run build
+
+      - name: Android projesini oluştur ve ayarla
+        run: |
+          rm -rf android
+          npx cap add android
+          node scripts/android-setup.js
+          npx cap sync android
+
+      # Google Play yükleme anahtarı GitHub Secrets'ta varsa (KURULUM.md → Android) imzalı .aab + .apk;
+      # yoksa yalnızca telefonda denemek için test imzalı .apk üretilir.
+      - name: Paketleri derle
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KS_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          mkdir -p out
+          cd android && chmod +x gradlew
+          VER=$(node -p "require('../package.json').version")
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+            export CM_KEYSTORE_PATH="$RUNNER_TEMP/upload.jks" CM_KEYSTORE_PASSWORD="$KS_PASS" CM_KEY_ALIAS="${KS_ALIAS:-upload}" CM_KEY_PASSWORD="$KS_PASS"
+            ./gradlew bundleRelease assembleRelease
+            cp app/build/outputs/bundle/release/*.aab "../out/SesAcma-PianoWarmUp-$VER-GooglePlay.aab"
+            cp app/build/outputs/apk/release/*.apk "../out/SesAcma-PianoWarmUp-$VER.apk"
+          else
+            ./gradlew assembleDebug
+            cp app/build/outputs/apk/debug/*.apk "../out/SesAcma-PianoWarmUp-$VER-test.apk"
+          fi
+          ls -la ../out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SesAcma-android
+          path: out/*
           if-no-files-found: error
