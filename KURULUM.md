@@ -1,13 +1,15 @@
 # Ses Açma - Piano Warm Up — Kurulum ve yayın rehberi
 
+Tüm kurulum dosyaları ve uygulamanın kendisi 10 dilli: Windows kurulum sihirbazı dil seçerek başlar, Mac ve Android uygulaması cihazın dilinde açılır, uygulama içinden de değiştirilebilir.
+
 Tek kod, dört yer: **iPhone (App Store)**, **Mac**, **Windows** ve **Android (Google Play)**.
 Uygulama 10 dilde: Türkçe, İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Portekizce, Rusça, Japonca, Çince. Telefonun dili neyse o dilde açılır; Ayarlar > Dil'den değiştirilebilir.
 
 | Platform | Ne üretilir | Nerede derlenir | Nasıl başlatılır |
 |---|---|---|---|
 | iPhone | App Store / TestFlight | Codemagic | **Ses Açma — App Store** → Start new build |
-| Android | Google Play paketi (.aab) | Codemagic | **Ses Açma — Google Play** → Start new build |
-| Windows | Kurulum sihirbazı `SesAcma-PianoWarmUp-Setup-1.1.0.exe` | GitHub Actions | Actions → **Masaüstü kurulum dosyaları** → Run workflow |
+| Android | Telefona kurulum `.apk` + Google Play paketi `.aab` | GitHub Actions (ve istersen Codemagic) | Actions → **Kurulum dosyaları** (kod değişince kendiliğinden) |
+| Windows | Kurulum sihirbazı `SesAcma-PianoWarmUp-Setup-1.1.0.exe` | GitHub Actions | Actions → **Kurulum dosyaları** |
 | Mac | `SesAcma-PianoWarmUp-1.1.0.dmg` (Intel + Apple Silicon) | GitHub Actions | Aynı iş, aynı anda |
 
 Mağaza metinleri (ad, alt başlık, açıklama, anahtar kelimeler, yenilikler) 10 dilde hazır: [`appstore/listings/README.md`](appstore/listings/README.md).
@@ -24,6 +26,17 @@ App Store Connect'te 1.1 sürümünün sayfasında **Ad**'ı `Ses Açma - Piano 
 ---
 
 ## 2. Google Play (Android)
+
+### Hızlı yol: GitHub (Codemagic'e gerek yok)
+GitHub → Actions → **Kurulum dosyaları** → son iş → Artifacts → `SesAcma-android`.
+- Anahtar henüz eklenmediyse içinde `…-test.apk` olur: Android telefona atıp açarak kurabilirsin ("bilinmeyen kaynaklara izin ver" sorulur). Sadece denemek içindir.
+- Google Play için imzalı paket istiyorsan GitHub → repo → **Settings → Secrets and variables → Actions → New repository secret** ile şu üçünü ekle (değerler `BILGI.txt`'de ve `GITHUB-SECRET-ANAHTAR.txt`'de):
+  - `ANDROID_KEYSTORE_BASE64` → `GITHUB-SECRET-ANAHTAR.txt` dosyasındaki uzun yazının tamamı
+  - `ANDROID_KEYSTORE_PASSWORD` → Keystore password
+  - `ANDROID_KEY_ALIAS` → `upload`
+  Sonraki derlemede `SesAcma-PianoWarmUp-1.1.0-GooglePlay.aab` (Play Console'a yüklenecek) ve imzalı `SesAcma-PianoWarmUp-1.1.0.apk` çıkar.
+
+### Codemagic yolu
 
 ### 2a. Bir kerelik hazırlık
 1. **Google Play geliştirici hesabı:** play.google.com/console → kayıt (tek seferlik 25 USD). Bireysel hesap seç.
@@ -51,7 +64,7 @@ Bitince derleme sayfasının **Artifacts** kısmından `app-release.aab` dosyas�
 
 ## 3. Windows — kurulum sihirbazı (Setup.exe)
 
-1. github.com/emccreationsstudio/ses-acma → **Actions** sekmesi → soldan **Masaüstü kurulum dosyaları** → en üstteki (yeşil tikli) işi aç.
+1. github.com/emccreationsstudio/ses-acma → **Actions** sekmesi → soldan **Kurulum dosyaları** → en üstteki (yeşil tikli) işi aç.
    Uygulama kodu her güncellendiğinde bu iş kendiliğinden çalışır. Elle başlatmak için **Run workflow** düğmesi de var (bu düğme, dal `main`'e birleştirildikten sonra görünür).
 2. İş bitince (~10 dakika) sayfanın altında **Artifacts** → `SesAcma-win` (zip) → içinde `SesAcma-PianoWarmUp-Setup-1.1.0.exe`.
 3. Çift tıkla: dil seçimi (10 dil) → kurulum klasörü → masaüstü ve Başlat menüsü kısayolu → bitir, uygulama açılır.
