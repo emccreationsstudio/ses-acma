@@ -470,6 +470,68 @@ button.qcard { cursor: pointer; }
   .now-note { font-size: 5.4rem; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* ---------- 1.2: Nefes, kendi egzersizin, Pro ---------- */
+.switcher { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.switcher button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.brand h1 { white-space: nowrap; }
+@media (max-width: 420px) { .brand h1 { font-size: 1.6rem; } .mark { width: 50px; height: 50px; } .pro-pill { padding: 0 11px; font-size: 0.85rem; } .brand { gap: 10px; } }
+@media (max-width: 460px) { .switcher button { font-size: 0.8rem; padding: 11px 2px; } }
+.pro-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 99px; font-size: 0.66rem; font-weight: 900; letter-spacing: 0.08em; color: var(--gold-ink); background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-2)); box-shadow: 0 4px 10px -6px var(--gold); white-space: nowrap; }
+.pro-badge.big { font-size: 0.9rem; padding: 5px 12px; align-self: center; }
+.pro-pill { height: 44px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line-2); background: var(--surface); color: var(--gold); font-weight: 900; letter-spacing: 0.06em; cursor: pointer; flex: none; }
+.pro-pill.on { background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-2)); color: var(--gold-ink); border-color: transparent; }
+.head-btns { display: flex; gap: 8px; align-items: center; }
+.locked { position: relative; }
+.locked .lock-tag { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.ex-card.locked > .chart, .ear-card.locked .ear-ico { opacity: 0.55; }
+.ear-card .lock-tag { position: absolute; top: 12px; right: 12px; }
+.ear-card { position: relative; }
+.pro-sheet { text-align: center; gap: 12px; }
+.pro-head { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.pro-head h2 { font-family: var(--font-display); font-size: 1.8rem; }
+.pro-head p { margin: 0; color: var(--muted); }
+.pro-list { list-style: none; margin: 4px 0; padding: 0; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.pro-list li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); font-weight: 600; }
+.pro-list li::before { content: "✓"; color: var(--gold); font-weight: 900; }
+.pro-once { margin: 0; color: var(--muted); font-size: 0.88rem; }
+.pro-msg { margin: 0; font-weight: 700; color: var(--gold); }
+.pro-restore { justify-content: center; color: var(--muted); }
+/* Nefes */
+.b-group { display: flex; flex-direction: column; gap: 8px; }
+.b-sub { margin: -4px 0 4px; color: var(--muted); font-size: 0.92rem; }
+.breath-stage { gap: 8px; text-align: center; align-items: center; padding-top: 22px; }
+.orb-wrap { position: relative; width: 240px; height: 240px; display: grid; place-items: center; margin: 6px auto; }
+.orb-ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.orb { width: 100%; height: 100%; border-radius: 50%; transform: scale(0.42); transition-property: transform; transition-timing-function: ease-in-out;
+  background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.85), color-mix(in srgb, var(--ex) 80%, #fff) 18%, var(--ex) 48%, color-mix(in srgb, var(--ex) 55%, #000) 100%);
+  box-shadow: 0 0 60px -6px var(--ex), inset 0 -18px 40px rgba(0,0,0,0.25); }
+.orb.beat { animation: orbBeat var(--beat, 0.6s) ease-out infinite; }
+@keyframes orbBeat { 0% { transform: scale(0.62); } 30% { transform: scale(0.5); } 100% { transform: scale(0.62); } }
+.orb-count { position: absolute; font-family: var(--font-display); font-size: 3.4rem; font-weight: 700; color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,0.55); font-variant-numeric: tabular-nums; }
+.b-phase { font-size: clamp(2.2rem, 10vw, 3rem); }
+/* Kendi egzersizin */
+.ex-card.add-card { border-style: dashed; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; }
+.add-plus { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; font-weight: 300; color: var(--gold); background: rgba(242,197,102,0.12); border: 1px solid rgba(242,197,102,0.3); margin-bottom: 6px; }
+.ex-edit { position: absolute; bottom: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--surface-3); color: var(--ink); cursor: pointer; display: grid; place-items: center; z-index: 2; }
+.ex-edit svg { width: 15px; height: 15px; }
+.ex-card { position: relative; }
+.cb-preview { height: 90px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 6px; display: grid; place-items: center; color: var(--dim); font-size: 0.9rem; }
+.cb-preview .chart { width: 100%; height: 100%; }
+.cb-seq { display: flex; flex-wrap: wrap; gap: 5px; min-height: 30px; }
+.cb-seq span { padding: 4px 9px; border-radius: 99px; background: color-mix(in srgb, var(--gold) 18%, transparent); color: var(--gold-hi); font-weight: 800; font-size: 0.82rem; }
+.cb-pad { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.cb-pad button { border: 1px solid var(--line-2); border-radius: 12px; padding: 10px 2px; font-weight: 800; cursor: pointer; background: var(--key-white); color: #1a1730; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.cb-pad button small { font-size: 0.66rem; font-weight: 700; opacity: 0.6; }
+.cb-pad button.blk { background: #1b1f3d; color: var(--ink); }
+.cb-pad button:active { transform: scale(0.95); }
+.cb-tools, .cb-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.cb-row > * { flex: 1; }
+.chip-btn { border: 1px solid var(--line-2); background: var(--surface-3); border-radius: 99px; padding: 8px 14px; font-weight: 800; cursor: pointer; }
+.chip-btn.gold { color: var(--gold); }
+.cb-input { width: 100%; border: 1px solid var(--line-2); background: var(--bg); color: var(--ink); border-radius: 14px; padding: 12px 14px; font: inherit; }
+.cb-input:focus { outline: 2px solid var(--gold); border-color: transparent; }
+.sheet-close.danger { color: var(--warn); }
+.sheet-close.danger.armed { background: var(--warn); color: #1a0d00; }
 </style>
 
 <div class="app" id="app">
@@ -491,13 +553,17 @@ button.qcard { cursor: pointer; }
         <p data-i18n="tagline"></p>
       </div>
     </div>
-    <button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button>
+    <div class="head-btns"><button type="button" class="pro-pill" id="proPill">PRO</button><button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button></div>
   </header>
 
   <nav class="switcher" role="tablist">
     <button type="button" id="sw-voice" role="tab" aria-selected="true">
       <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c2.5 0 3-4 5.5-4s3 4.5 5.5 2.5 2.5-8 5-9.5S22 7 25 5"/><circle cx="25" cy="5" r="1.6" fill="currentColor"/></svg>
       <span data-i18n="tabVoice"></span>
+    </button>
+    <button type="button" id="sw-breath" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v9"/><path d="M12.5 11.5C10 9 9.5 7.5 8 7.5 5 7.5 3.5 14 3.5 19c0 2 1.2 3 2.8 3 3.2 0 6.2-3 6.2-7"/><path d="M15.5 11.5C18 9 18.5 7.5 20 7.5c3 0 4.5 6.5 4.5 11.5 0 2-1.2 3-2.8 3-3.2 0-6.2-3-6.2-7"/></svg>
+      <span data-i18n="tabBreath"></span>
     </button>
     <button type="button" id="sw-ear" role="tab" aria-selected="false">
       <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21c0-6 10-5 10-11a5 5 0 0 0-10 0"/><path d="M13 21a2.5 2.5 0 0 1-5 0"/><path d="M13 10.5a1.5 1.5 0 0 1 3 0c0 1.5-2 2-2 3.5"/></svg>
@@ -614,6 +680,40 @@ button.qcard { cursor: pointer; }
     </div>
   </div>
 
+  <section class="section breath" id="breathSection" hidden>
+    <div class="ear-col" id="breathHome">
+      <div class="all-head"><h1 id="bTitle"></h1><p id="bSub"></p></div>
+      <div class="b-group">
+        <div class="section-head"><h2 id="bgBreath"></h2></div>
+        <p class="b-sub" id="bgBreathSub"></p>
+        <div class="ear-grid" id="breathGridA"></div>
+      </div>
+      <div class="b-group">
+        <div class="section-head"><h2 id="bgDia"></h2></div>
+        <p class="b-sub" id="bgDiaSub"></p>
+        <div class="ear-grid" id="breathGridB"></div>
+      </div>
+      <p class="ear-note" id="bSafety"></p>
+    </div>
+    <div class="ear-col" id="breathRun" hidden>
+      <div class="ear-top">
+        <button type="button" class="back" id="bBack">‹ <span id="bBackLbl"></span></button>
+        <span class="ear-prog" id="bProg"></span>
+      </div>
+      <div class="ear-bar" aria-hidden="true"><i id="bBarFill"></i></div>
+      <section class="stage breath-stage" aria-live="polite">
+        <div class="ear-kicker" id="bKicker"></div>
+        <div class="orb-wrap" aria-hidden="true"><div class="orb-ring"></div><div class="orb" id="bOrb"></div><span class="orb-count" id="bCount"></span></div>
+        <div class="ear-big b-phase" id="bPhase"></div>
+        <p class="ear-prompt" id="bTip"></p>
+      </section>
+      <button type="button" class="play" id="bPlay">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path id="bPlayIcon" d="M6 3.5v17l15-8.5z" fill="currentColor"/></svg>
+        <span id="bPlayLabel"></span>
+      </button>
+    </div>
+  </section>
+
   <section class="section ear" id="earSection" hidden>
     <div class="ear-col" id="earHome">
       <button type="button" class="ear-hero" id="earTestBtn"></button>
@@ -662,6 +762,10 @@ button.qcard { cursor: pointer; }
       <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c2.5 0 3-4 5.5-4s3 4.5 5.5 2.5 2.5-8 5-9.5S22 7 25 5"/></svg>
       <span data-i18n="tabVoice"></span>
     </button>
+    <button type="button" class="tab" id="tab-breath" role="tab" aria-selected="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v9"/><path d="M12.5 11.5C10 9 9.5 7.5 8 7.5 5 7.5 3.5 14 3.5 19c0 2 1.2 3 2.8 3 3.2 0 6.2-3 6.2-7"/><path d="M15.5 11.5C18 9 18.5 7.5 20 7.5c3 0 4.5 6.5 4.5 11.5 0 2-1.2 3-2.8 3-3.2 0-6.2-3-6.2-7"/></svg>
+      <span data-i18n="tabBreath"></span>
+    </button>
     <button type="button" class="tab" id="tab-ear" role="tab" aria-selected="false">
       <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21c0-6 10-5 10-11a5 5 0 0 0-10 0"/><path d="M13 21a2.5 2.5 0 0 1-5 0"/><path d="M13 10.5a1.5 1.5 0 0 1 3 0c0 1.5-2 2-2 3.5"/></svg>
       <span data-i18n="tabEar"></span>
@@ -671,6 +775,45 @@ button.qcard { cursor: pointer; }
       <span data-i18n="tabCons"></span>
     </button>
   </nav>
+</div>
+
+<div class="sheet-wrap" id="paywall" hidden>
+  <div class="sheet pro-sheet" role="dialog" aria-modal="true" aria-labelledby="pwTitle">
+    <div class="pro-head"><span class="pro-badge big">PRO</span><h2 id="pwTitle"></h2><p id="pwSub"></p></div>
+    <ul class="pro-list" id="pwList"></ul>
+    <p class="pro-once" id="pwOnce"></p>
+    <p class="pro-msg" id="pwMsg" hidden></p>
+    <button type="button" class="play" id="pwBuy"><span id="pwBuyLbl"></span></button>
+    <button type="button" class="link-btn pro-restore" id="pwRestore"></button>
+    <button type="button" class="sheet-close" id="pwClose"></button>
+  </div>
+</div>
+
+<div class="sheet-wrap" id="builder" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cbTitle">
+    <div class="sheet-head"><h2 id="cbTitle"></h2><span class="ver" id="cbCount"></span></div>
+    <div class="cb-preview" id="cbPreview"></div>
+    <div class="cb-seq" id="cbSeq"></div>
+    <div class="field">
+      <div class="label" id="cbNotesLbl"></div>
+      <p class="hint" id="cbNotesHint"></p>
+      <div class="cb-pad" id="cbPad"></div>
+      <div class="cb-tools">
+        <button type="button" class="chip-btn" id="cbUndo"></button>
+        <button type="button" class="chip-btn" id="cbClear"></button>
+        <button type="button" class="chip-btn gold" id="cbListen"></button>
+      </div>
+    </div>
+    <label class="field"><span class="label" id="cbNameLbl"></span><input class="cb-input" id="cbName" maxlength="40" autocomplete="off"></label>
+    <label class="field"><span class="label" id="cbSylLbl"></span><input class="cb-input" id="cbSyl" maxlength="60" autocomplete="off"></label>
+    <label class="toggle" for="cbStac"><span id="cbStacLbl"></span><span class="switch"><input type="checkbox" id="cbStac"><span></span></span></label>
+    <p class="hint err" id="cbErr" hidden></p>
+    <button type="button" class="play" id="cbSave"><span id="cbSaveLbl"></span></button>
+    <div class="cb-row">
+      <button type="button" class="sheet-close" id="cbCancel"></button>
+      <button type="button" class="sheet-close danger" id="cbDelete" hidden></button>
+    </div>
+  </div>
 </div>
 
 <div class="sheet-wrap" id="about" hidden>
@@ -691,7 +834,7 @@ button.qcard { cursor: pointer; }
 
 <script id="core">
 // ---------- Saf mantık (testlenebilir) ----------
-const APP_VERSION = "1.1";
+const APP_VERSION = "1.2";
 const SUPPORT_EMAIL = ""; // ör. "destek@alanadiniz.com" — doluysa Hakkında ekranında görünür
 
 const NOTE_NAMES = {
@@ -735,7 +878,7 @@ const STRINGS = {
     micTip: "İpucu: Kulaklık tak ya da melodiyi kapat; yoksa mikrofon piyanoyu da duyabilir.",
     micDenied: "Mikrofon izni kapalı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
     micFail: "Mikrofon açılamadı. Başka bir uygulama kullanıyor olabilir; kapatıp tekrar dene.",
-    levels: { easy: "Kolay", mid: "Orta", adv: "İleri" },
+    levels: { easy: "Kolay", mid: "Orta", adv: "İleri", mine: "Benim" },
     ranges: { child: "Çocuk", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bas" },
     keyboardLabel: "Piyano klavyesi; tuşlara dokununca nota çalar",
     aboutText: "Şan öğrencileri, şarkıcılar ve koro üyeleri için piyano eşliğinde ses açma egzersizleri ve kulak eğitimi. Ses Açma sekmesinde her turda önce ton akoru çalar, sonra egzersiz yarım ton yarım ton yükselir. Kulak sekmesinde nota, aralık ve akor tanıma egzersizleri ile seviyeni ölçen bir kulak testi var. Konservatuvar sekmesi özel yetenek sınavlarına yönelik tek-iki-üç ses, ezgi ve ritim tekrarı çalışmaları ile bir sınav provası sunar.",
@@ -747,6 +890,49 @@ const STRINGS = {
     close: "Kapat",
     tabVoice: "Ses Açma", tabEar: "Kulak",
     tabCons: "Konservatuvar",
+    tabBreath: "Nefes",
+    breath: {
+      title: "Nefes Egzersizleri", sub: "Şarkı söylemeden önce nefesini ve diyaframını hazırla.",
+      groups: { breath: "Nefes", diaphragm: "Diyafram ve Nefes Tutma" },
+      groupSub: { breath: "Sakinleş, nefesini düzenle, uzun ve kontrollü ver.", diaphragm: "Nefesi tut, diyaframı güçlendir, desteğini artır." },
+      types: {
+        calm: { name: "Sakin Nefes", desc: "4 saniye al, 6 saniye ver. Isınmadan önce rahatla." },
+        box: { name: "Kare Nefes", desc: "4 al, 4 tut, 4 ver, 4 bekle. Odaklanmak için." },
+        hiss: { name: "Uzun Sss", desc: "Hızlı al, \"sss\" diyerek uzun ve eşit ver." },
+        r478: { name: "4-7-8 Rahatlama", desc: "4 al, 7 tut, 8 ver. Sahne öncesi sakinleşme." },
+        lip: { name: "Dudak Titreşimi", desc: "Nefesi dudaklarını titreterek \"brrr\" diye ver." },
+        ladder: { name: "Nefes Tutma Merdiveni", desc: "Her turda nefesini biraz daha uzun tut." },
+        pulse: { name: "Diyafram Vuruşları", desc: "Kısa ve güçlü \"Ha!\" vuruşlarıyla diyaframı çalıştır." },
+        holdHiss: { name: "Tut ve Sss", desc: "Al, tut, sonra her turda daha uzun \"sss\" ver." },
+        pant: { name: "Hızlı Diyafram", desc: "Kısa ve hızlı nefeslerle karın kaslarını çalıştır." }
+      },
+      phases: { in: "Nefes al", hold: "Tut", out: "Ver", empty: "Bekle", hiss: "Sss diye ver", lip: "Brrr diye ver", pulse: "Ha! Ha! Ha!", pant: "Hızlı hızlı", rest: "Dinlen" },
+      tips: { in: "Burnundan, karnın dolarak", hold: "Omuzlar gevşek, boğaz açık", out: "Ağzından, yavaşça", empty: "Ciğerler boş, rahat", hiss: "İnce ve eşit bir ses", lip: "Dudaklar gevşek, ses kesilmesin", pulse: "Her vuruşta karnın içeri girsin", pant: "Karın inip kalksın, göğüs sabit", rest: "Normal nefes al" },
+      rounds: (n) => `${n} tur`, minutes: (m) => `yaklaşık ${m} dk`, round: (a, b) => `Tur ${a} / ${b}`, timesDone: (n) => `${n} kez yapıldı`,
+      start: "Başla", stop: "Durdur", again: "Tekrar yap", back: "Nefes",
+      done: "Bitti!", doneSub: (m) => `Tebrikler, ${m} dakika nefes çalıştın.`,
+      safety: "Başın dönerse ara ver ve normal nefes al. Nefesini zorlamadan tut."
+    },
+    custom: {
+      card: "Kendi egzersizin", cardSub: "Notaları sen seç",
+      title: "Egzersiz oluştur", editTitle: "Egzersizi düzenle",
+      name: "Ad", namePh: "Ör. Benim ısınmam", syl: "Heceler", sylPh: "Ör. Ma – Me – Mi",
+      notes: "Notalar", notesHint: "Başlangıç notasından itibaren söylenecek notalara sırayla dokun.",
+      undo: "Geri al", clear: "Temizle", listen: "Dinle", staccato: "Kesik kesik (staccato)",
+      save: "Kaydet", del: "Sil", cancel: "Vazgeç", edit: "Düzenle",
+      tooShort: "En az 2 nota seç.", needName: "Bir ad yaz.", deleteAsk: "Silmek için tekrar dokun",
+      count: (n, max) => `${n} / ${max} nota`, defName: (n) => `Egzersizim ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Bir kez satın al, hepsi hep senin olsun.",
+      features: ["İleri ses açma egzersizleri: Arpej, Oktav Sıçrama, Dokuzlu Gam", "Sınırsız kendi egzersizin", "Tüm nefes ve diyafram egzersizleri", "Kulak testi, kulak eğitiminin orta ve ileri seviyeleri", "Konservatuvara hazırlık ve sınav provası"],
+      buy: (p) => (p ? `Pro'yu al · ${p}` : "Pro'yu al"), restore: "Satın alımı geri yükle", close: "Şimdi değil",
+      owned: "Pro açık. Teşekkürler!", basic: "Basic", once: "Tek seferlik ödeme, abonelik yok.",
+      unavailable: "Satın alma şu an kullanılamıyor. İnternet bağlantını kontrol edip tekrar dene.",
+      desktop: "Pro'yu iPhone ya da Android uygulamasından satın alabilirsin.", preview: "Önizleme: Pro'yu dene",
+      restored: "Satın alımın geri yüklendi.", notFound: "Geri yüklenecek satın alım bulunamadı.",
+      waiting: "Bekleniyor…", menu: "Pro"
+    },
     cons: {
       title: "Konservatuvara Hazırlık",
       examTitle: "Sınav Provası", examSub: "11 soru · her soruyu en fazla 2 kez dinlersin · sonuç en sonda", examCta: "Provaya başla",
@@ -845,7 +1031,7 @@ const STRINGS = {
     micTip: "Tip: Use headphones or turn off the melody, or the microphone may hear the piano too.",
     micDenied: "Microphone access is off. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
     micFail: "The microphone couldn't start. Another app may be using it; close it and try again.",
-    levels: { easy: "Easy", mid: "Medium", adv: "Advanced" },
+    levels: { easy: "Easy", mid: "Medium", adv: "Advanced", mine: "Mine" },
     ranges: { child: "Child", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bass" },
     keyboardLabel: "Piano keyboard; tap a key to hear the note",
     aboutText: "Piano-accompanied vocal warm-ups and ear training for singing students, singers and choir members. In Warm-up, each round starts with a chord, then the exercise moves up by a half step. In Ear, practise recognising notes, intervals and chords, and take an ear test that measures your level. Conservatory offers single-, two- and three-note, melody and rhythm repetition practice for music school entrance exams, plus a mock exam.",
@@ -857,6 +1043,49 @@ const STRINGS = {
     close: "Close",
     tabVoice: "Warm-up", tabEar: "Ear",
     tabCons: "Conservatory",
+    tabBreath: "Breath",
+    breath: {
+      title: "Breathing Exercises", sub: "Get your breath and diaphragm ready before you sing.",
+      groups: { breath: "Breathing", diaphragm: "Diaphragm & Breath Hold" },
+      groupSub: { breath: "Calm down, steady your breath, exhale long and controlled.", diaphragm: "Hold your breath, strengthen the diaphragm, build support." },
+      types: {
+        calm: { name: "Calm Breath", desc: "In for 4, out for 6. Relax before you warm up." },
+        box: { name: "Box Breathing", desc: "In 4, hold 4, out 4, wait 4. For focus." },
+        hiss: { name: "Long Hiss", desc: "Breathe in quickly, then breathe out long and even on \"sss\"." },
+        r478: { name: "4-7-8 Relax", desc: "In 4, hold 7, out 8. Calm down before a performance." },
+        lip: { name: "Lip Trill", desc: "Breathe out on a \"brrr\", letting your lips vibrate." },
+        ladder: { name: "Breath-Hold Ladder", desc: "Hold your breath a little longer each round." },
+        pulse: { name: "Diaphragm Pulses", desc: "Work the diaphragm with short, strong \"Ha!\" pulses." },
+        holdHiss: { name: "Hold & Hiss", desc: "In, hold, then a longer \"sss\" each round." },
+        pant: { name: "Fast Diaphragm", desc: "Work your belly muscles with short, quick breaths." }
+      },
+      phases: { in: "Breathe in", hold: "Hold", out: "Breathe out", empty: "Wait", hiss: "Out on sss", lip: "Out on brrr", pulse: "Ha! Ha! Ha!", pant: "Quick, quick", rest: "Rest" },
+      tips: { in: "Through your nose, filling your belly", hold: "Shoulders loose, throat open", out: "Through your mouth, slowly", empty: "Lungs empty, stay relaxed", hiss: "A thin, even sound", lip: "Lips loose, keep the sound going", pulse: "Pull your belly in on each pulse", pant: "Belly moves, chest stays still", rest: "Breathe normally" },
+      rounds: (n) => `${n} rounds`, minutes: (m) => `about ${m} min`, round: (a, b) => `Round ${a} of ${b}`, timesDone: (n) => `Done ${n}×`,
+      start: "Start", stop: "Stop", again: "Do it again", back: "Breath",
+      done: "Done!", doneSub: (m) => `Well done, you practised breathing for ${m} min.`,
+      safety: "If you feel dizzy, stop and breathe normally. Never force a breath hold."
+    },
+    custom: {
+      card: "Your own exercise", cardSub: "Pick the notes yourself",
+      title: "Create exercise", editTitle: "Edit exercise",
+      name: "Name", namePh: "E.g. My warm-up", syl: "Syllables", sylPh: "E.g. Ma – Me – Mi",
+      notes: "Notes", notesHint: "Tap the notes to sing in order, starting from the starting note.",
+      undo: "Undo", clear: "Clear", listen: "Listen", staccato: "Short and detached (staccato)",
+      save: "Save", del: "Delete", cancel: "Cancel", edit: "Edit",
+      tooShort: "Pick at least 2 notes.", needName: "Enter a name.", deleteAsk: "Tap again to delete",
+      count: (n, max) => `${n} / ${max} notes`, defName: (n) => `My exercise ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Buy once and it's all yours, forever.",
+      features: ["Advanced warm-ups: Arpeggio, Octave Leap, Nine-Note Scale", "Unlimited exercises of your own", "All breathing and diaphragm exercises", "Ear test, plus medium and advanced ear training", "Conservatory prep and mock exam"],
+      buy: (p) => (p ? `Get Pro · ${p}` : "Get Pro"), restore: "Restore purchase", close: "Not now",
+      owned: "Pro is unlocked. Thank you!", basic: "Basic", once: "One-time payment, no subscription.",
+      unavailable: "Purchases aren't available right now. Check your internet connection and try again.",
+      desktop: "You can buy Pro in the iPhone or Android app.", preview: "Preview: try Pro",
+      restored: "Your purchase has been restored.", notFound: "No purchase found to restore.",
+      waiting: "Waiting…", menu: "Pro"
+    },
     cons: {
       title: "Conservatory Prep",
       examTitle: "Mock Exam", examSub: "11 questions · hear each one at most twice · results at the end", examCta: "Start the mock exam",
@@ -1306,6 +1535,69 @@ function consExamSummary(log) {
   return { pct, areas: out, weakest: low < 100 ? weakest : null };
 }
 
+// ---------- Nefes ve diyafram egzersizleri ----------
+// Her egzersiz turlardan, her tur aşamalardan oluşur. Süre dizi ise tur tur artar (ör. nefes tutma merdiveni).
+const BREATH_EXERCISES = [
+  { id: "calm", group: "breath", pro: false, color: "#7FBF9E", rounds: 6, phases: [["in", 4], ["out", 6]] },
+  { id: "box", group: "breath", pro: false, color: "#6FA8D6", rounds: 5, phases: [["in", 4], ["hold", 4], ["out", 4], ["empty", 4]] },
+  { id: "hiss", group: "breath", pro: false, color: "#E2B862", rounds: 5, phases: [["in", 3], ["hiss", [10, 12, 14, 15, 16]], ["rest", 2]] },
+  { id: "r478", group: "breath", pro: true, color: "#A08BD9", rounds: 4, phases: [["in", 4], ["hold", 7], ["out", 8]] },
+  { id: "lip", group: "breath", pro: true, color: "#D97A8A", rounds: 5, phases: [["in", 3], ["lip", [8, 10, 12, 12, 14]], ["rest", 2]] },
+  { id: "ladder", group: "diaphragm", pro: false, color: "#E8956B", rounds: 4, phases: [["in", 4], ["hold", [4, 6, 8, 10]], ["out", 8], ["rest", 3]] },
+  { id: "pulse", group: "diaphragm", pro: true, color: "#F2C566", rounds: 5, beat: 0.75, phases: [["in", 3], ["pulse", 8], ["rest", 3]] },
+  { id: "holdHiss", group: "diaphragm", pro: true, color: "#6FCFC0", rounds: 4, phases: [["in", 4], ["hold", 4], ["hiss", [12, 15, 18, 20]], ["rest", 3]] },
+  { id: "pant", group: "diaphragm", pro: true, color: "#C59BE0", rounds: 4, beat: 0.4, phases: [["pant", 10], ["rest", 6]] }
+];
+const BREATH_KINDS = ["in", "hold", "out", "empty", "hiss", "lip", "pulse", "pant", "rest"];
+
+/** Egzersizin tüm aşamalarını sırayla, başlangıç zamanlarıyla verir. */
+function breathTimeline(ex) {
+  const phases = [];
+  let t = 0;
+  for (let r = 0; r < ex.rounds; r++) {
+    for (const [kind, d] of ex.phases) {
+      const dur = Array.isArray(d) ? d[Math.min(r, d.length - 1)] : d;
+      phases.push({ round: r, kind, dur, t });
+      t += dur;
+    }
+  }
+  return { phases, total: t };
+}
+
+// ---------- Basic (ücretsiz) / Pro (ücretli) ----------
+const PRO_PRODUCT_ID = "com.emccreationsstudio.sesacma.pro";
+const FREE_CUSTOM = 1; // Basic'te kaç tane kendi egzersizin kaydedilebilir
+/** Bu özellik Pro mu? f = { kind: "voice"|"breath"|"ear"|"earTest"|"cons"|"custom", level?, id?, count? } */
+function needsPro(f) {
+  switch (f && f.kind) {
+    case "voice": return f.level === "mid" || f.level === "adv";
+    case "breath": { const b = BREATH_EXERCISES.find((x) => x.id === f.id); return !!(b && b.pro); }
+    case "ear": return f.level !== "easy";
+    case "earTest": case "cons": return true;
+    case "custom": return (f.count || 0) >= FREE_CUSTOM;
+    default: return false;
+  }
+}
+
+// ---------- Kendi egzersizin ----------
+const CUSTOM_MAX = 24, CUSTOM_TOP = 14; // en çok 24 nota, başlangıç notasının en çok 14 yarım ton üstü
+const CUSTOM_COLORS = ["#F2C566", "#7FBF9E", "#E8956B", "#6FA8D6", "#D97A8A", "#A08BD9", "#6FCFC0"];
+/** Kayıttan gelen egzersizi doğrular; bozuksa null döner. */
+function sanitizeCustom(o) {
+  if (!o || typeof o !== "object") return null;
+  const pattern = (Array.isArray(o.pattern) ? o.pattern : []).map(Number).filter((n) => Number.isInteger(n) && n >= 0 && n <= CUSTOM_TOP).slice(0, CUSTOM_MAX);
+  const name = String(o.name || "").trim().slice(0, 40);
+  if (pattern.length < 2 || !name) return null;
+  const id = /^u_[a-z0-9]{1,20}$/.test(o.id || "") ? o.id : "u_" + Date.now().toString(36);
+  return { id, name, syl: String(o.syl || "").trim().slice(0, 60), pattern, staccato: !!o.staccato };
+}
+/** Kendi egzersizini, hazır egzersizlerle aynı biçime çevirir (her dilde aynı ad). */
+function customToExercise(c, langs, i = 0) {
+  const name = {}, syllables = {};
+  for (const l of langs) { name[l] = c.name; syllables[l] = c.syl || "A – a – a"; }
+  return { id: c.id, custom: true, name, syllables, pattern: c.pattern.slice(), last: 2, staccato: c.staccato, level: "mine", color: CUSTOM_COLORS[i % CUSTOM_COLORS.length] };
+}
+
 // LANGPACK-START (build-ear/lang/*.js dosyalarından üretilir)
 const LANG_PACK = {
   de: {
@@ -1329,7 +1621,7 @@ const LANG_PACK = {
     micTip: "Tipp: Nutze Kopfhörer oder schalte die Melodie aus, sonst hört das Mikrofon auch das Klavier.",
     micDenied: "Der Mikrofonzugriff ist deaktiviert. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
     micFail: "Das Mikrofon konnte nicht gestartet werden. Vielleicht nutzt es gerade eine andere App; schließ sie und versuch es erneut.",
-    levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten" },
+    levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten", mine: "Eigene" },
     ranges: { child: "Kind", soprano: "Sopran", alto: "Alt", tenor: "Tenor", bass: "Bass" },
     keyboardLabel: "Klaviertastatur; tippe auf eine Taste, um den Ton zu hören",
     aboutText: "Einsingübungen mit Klavierbegleitung und Gehörbildung für Gesangsschüler, Sänger und Chormitglieder. Beim Einsingen beginnt jede Runde mit einem Akkord, danach steigt die Übung um einen Halbton. Unter Gehör übst du, Töne, Intervalle und Akkorde zu erkennen, und machst einen Gehörtest, der dein Niveau misst. Musikhochschule bietet Übungen zum Nachsingen von einem, zwei und drei Tönen sowie zum Nachsingen von Melodien und Nachklopfen von Rhythmen für Aufnahmeprüfungen an Musikhochschulen – plus eine Probeprüfung.",
@@ -1341,6 +1633,49 @@ const LANG_PACK = {
     close: "Schließen",
     tabVoice: "Einsingen", tabEar: "Gehör",
     tabCons: "Hochschule",
+    tabBreath: "Atem",
+    breath: {
+      title: "Atemübungen", sub: "Mach Atem und Zwerchfell bereit, bevor du singst.",
+      groups: { breath: "Atmung", diaphragm: "Zwerchfell & Atem anhalten" },
+      groupSub: { breath: "Komm zur Ruhe, beruhige den Atem, atme lang und kontrolliert aus.", diaphragm: "Halte den Atem an, stärke das Zwerchfell, bau Stütze auf." },
+      types: {
+        calm: { name: "Ruhiger Atem", desc: "4 ein, 6 aus. Entspann dich vor dem Einsingen." },
+        box: { name: "Box-Atmung", desc: "4 ein, 4 halten, 4 aus, 4 warten. Für mehr Fokus." },
+        hiss: { name: "Langes Zischen", desc: "Atme schnell ein und dann lang und gleichmäßig auf \"sss\" aus." },
+        r478: { name: "4-7-8 Entspannung", desc: "4 ein, 7 halten, 8 aus. Zur Ruhe kommen vor dem Auftritt." },
+        lip: { name: "Lippenflattern", desc: "Atme auf \"brrr\" aus und lass die Lippen vibrieren." },
+        ladder: { name: "Atemhalte-Leiter", desc: "Halte den Atem jede Runde etwas länger an." },
+        pulse: { name: "Zwerchfell-Impulse", desc: "Trainiere das Zwerchfell mit kurzen, kräftigen \"Ha!\"-Impulsen." },
+        holdHiss: { name: "Halten & Zischen", desc: "Ein, halten, dann jede Runde ein längeres \"sss\"." },
+        pant: { name: "Schnelles Zwerchfell", desc: "Trainiere deine Bauchmuskeln mit kurzen, schnellen Atemzügen." }
+      },
+      phases: { in: "Einatmen", hold: "Halten", out: "Ausatmen", empty: "Warten", hiss: "Aus auf sss", lip: "Aus auf brrr", pulse: "Ha! Ha! Ha!", pant: "Schnell, schnell", rest: "Pause" },
+      tips: { in: "Durch die Nase, in den Bauch", hold: "Schultern locker, Hals offen", out: "Durch den Mund, langsam", empty: "Lunge leer, bleib entspannt", hiss: "Ein dünner, gleichmäßiger Ton", lip: "Lippen locker, Ton halten", pulse: "Bei jedem Impuls den Bauch einziehen", pant: "Der Bauch bewegt sich, die Brust bleibt ruhig", rest: "Atme normal" },
+      rounds: (n) => `${n} Runden`, minutes: (m) => `ca. ${m} Min.`, round: (a, b) => `Runde ${a} von ${b}`, timesDone: (n) => `${n}× gemacht`,
+      start: "Start", stop: "Stopp", again: "Nochmal", back: "Atem",
+      done: "Geschafft!", doneSub: (m) => `Gut gemacht, du hast ${m} Min. Atmung geübt.`,
+      safety: "Wenn dir schwindlig wird, hör auf und atme normal. Erzwing das Atemanhalten nie."
+    },
+    custom: {
+      card: "Deine eigene Übung", cardSub: "Wähl die Töne selbst",
+      title: "Übung erstellen", editTitle: "Übung bearbeiten",
+      name: "Name", namePh: "Z. B. Mein Einsingen", syl: "Silben", sylPh: "Z. B. Ma – Me – Mi",
+      notes: "Töne", notesHint: "Tippe die Töne in der Reihenfolge an, in der du sie singen willst, ab dem Startton.",
+      undo: "Rückgängig", clear: "Leeren", listen: "Anhören", staccato: "Kurz und abgesetzt (Staccato)",
+      save: "Speichern", del: "Löschen", cancel: "Abbrechen", edit: "Bearbeiten",
+      tooShort: "Wähl mindestens 2 Töne.", needName: "Gib einen Namen ein.", deleteAsk: "Zum Löschen nochmal tippen",
+      count: (n, max) => `${n} / ${max} Töne`, defName: (n) => `Meine Übung ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Einmal kaufen, für immer deins.",
+      features: ["Fortgeschrittenes Einsingen: Arpeggio, Oktavsprung, Neuntonleiter", "Unbegrenzt eigene Übungen", "Alle Atem- und Zwerchfellübungen", "Gehörtest sowie mittlere und fortgeschrittene Gehörbildung", "Vorbereitung Musikhochschule und Probeprüfung"],
+      buy: (p) => (p ? `Pro holen · ${p}` : "Pro holen"), restore: "Kauf wiederherstellen", close: "Jetzt nicht",
+      owned: "Pro ist freigeschaltet. Danke!", basic: "Basis", once: "Einmalzahlung, kein Abo.",
+      unavailable: "Käufe sind gerade nicht möglich. Prüf deine Internetverbindung und versuch es erneut.",
+      desktop: "Du kannst Pro in der iPhone- oder Android-App kaufen.", preview: "Vorschau: Pro testen",
+      restored: "Dein Kauf wurde wiederhergestellt.", notFound: "Kein Kauf zum Wiederherstellen gefunden.",
+      waiting: "Warte…", menu: "Pro"
+    },
     cons: {
       title: "Vorbereitung Musikhochschule",
       examTitle: "Probeprüfung", examSub: "11 Fragen · jede höchstens zweimal anhören · Ergebnis am Ende", examCta: "Probeprüfung starten",
@@ -1453,7 +1788,7 @@ const LANG_PACK = {
     micTip: "Astuce : mets un casque ou coupe la mélodie, sinon le micro risque d'entendre aussi le piano.",
     micDenied: "L'accès au micro est désactivé. Sur ton iPhone, va dans Réglages > Ses Açma > Micro, puis réessaie.",
     micFail: "Impossible de démarrer le micro. Une autre app l'utilise peut-être ; ferme-la et réessaie.",
-    levels: { easy: "Facile", mid: "Moyen", adv: "Avancé" },
+    levels: { easy: "Facile", mid: "Moyen", adv: "Avancé", mine: "Les miens" },
     ranges: { child: "Enfant", soprano: "Soprano", alto: "Alto", tenor: "Ténor", bass: "Basse" },
     keyboardLabel: "Clavier de piano ; touche une note pour l'entendre",
     aboutText: "Échauffements vocaux accompagnés au piano et formation de l'oreille pour élèves en chant, chanteurs et choristes. Dans Échauffement, chaque tour commence par un accord, puis l'exercice monte d'un demi-ton. Dans Oreille, entraîne-toi à reconnaître les notes, les intervalles et les accords, et passe un test d'oreille qui mesure ton niveau. Conservatoire propose des exercices de répétition à une, deux et trois notes, de mélodie et de rythme pour préparer les concours d'entrée, ainsi qu'un examen blanc.",
@@ -1465,6 +1800,49 @@ const LANG_PACK = {
     close: "Fermer",
     tabVoice: "Échauffement", tabEar: "Oreille",
     tabCons: "Conservatoire",
+    tabBreath: "Souffle",
+    breath: {
+      title: "Exercices de respiration", sub: "Prépare ton souffle et ton diaphragme avant de chanter.",
+      groups: { breath: "Respiration", diaphragm: "Diaphragme et apnée" },
+      groupSub: { breath: "Calme-toi, stabilise ton souffle, expire longuement et en contrôle.", diaphragm: "Retiens ton souffle, renforce le diaphragme, travaille le soutien." },
+      types: {
+        calm: { name: "Souffle calme", desc: "Inspire sur 4, expire sur 6. Détends-toi avant l'échauffement." },
+        box: { name: "Respiration carrée", desc: "Inspire 4, retiens 4, expire 4, attends 4. Pour la concentration." },
+        hiss: { name: "Long sifflement", desc: "Inspire vite, puis expire longuement et régulièrement sur « sss »." },
+        r478: { name: "Détente 4-7-8", desc: "Inspire 4, retiens 7, expire 8. Pour te calmer avant de monter sur scène." },
+        lip: { name: "Vibration des lèvres", desc: "Expire sur un « brrr » en laissant vibrer tes lèvres." },
+        ladder: { name: "Échelle d'apnée", desc: "Retiens ton souffle un peu plus longtemps à chaque tour." },
+        pulse: { name: "Impulsions du diaphragme", desc: "Fais travailler le diaphragme avec des « Ha ! » courts et puissants." },
+        holdHiss: { name: "Retenir et siffler", desc: "Inspire, retiens, puis un « sss » plus long à chaque tour." },
+        pant: { name: "Diaphragme rapide", desc: "Fais travailler tes abdos avec des respirations courtes et rapides." }
+      },
+      phases: { in: "Inspire", hold: "Retiens", out: "Expire", empty: "Attends", hiss: "Expire sur sss", lip: "Expire sur brrr", pulse: "Ha ! Ha ! Ha !", pant: "Vite, vite", rest: "Repos" },
+      tips: { in: "Par le nez, en gonflant le ventre", hold: "Épaules relâchées, gorge ouverte", out: "Par la bouche, lentement", empty: "Poumons vides, reste détendu", hiss: "Un son fin et régulier", lip: "Lèvres souples, garde le son", pulse: "Rentre le ventre à chaque impulsion", pant: "Le ventre bouge, la poitrine reste immobile", rest: "Respire normalement" },
+      rounds: (n) => `${n} tours`, minutes: (m) => `environ ${m} min`, round: (a, b) => `Tour ${a} sur ${b}`, timesDone: (n) => `Fait ${n}×`,
+      start: "Démarrer", stop: "Arrêter", again: "Recommencer", back: "Souffle",
+      done: "Terminé !", doneSub: (m) => `Bravo, tu as travaillé ta respiration pendant ${m} min.`,
+      safety: "Si tu as la tête qui tourne, arrête et respire normalement. Ne force jamais une apnée."
+    },
+    custom: {
+      card: "Ton propre exercice", cardSub: "Choisis toi-même les notes",
+      title: "Créer un exercice", editTitle: "Modifier l'exercice",
+      name: "Nom", namePh: "Ex. Mon échauffement", syl: "Syllabes", sylPh: "Ex. Ma – Mé – Mi",
+      notes: "Notes", notesHint: "Touche les notes à chanter dans l'ordre, à partir de la note de départ.",
+      undo: "Annuler", clear: "Effacer", listen: "Écouter", staccato: "Court et détaché (staccato)",
+      save: "Enregistrer", del: "Supprimer", cancel: "Annuler", edit: "Modifier",
+      tooShort: "Choisis au moins 2 notes.", needName: "Saisis un nom.", deleteAsk: "Touche encore pour supprimer",
+      count: (n, max) => `${n} / ${max} notes`, defName: (n) => `Mon exercice ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Un seul achat, et tout est à toi pour toujours.",
+      features: ["Échauffements avancés : arpège, saut d'octave, gamme de neuf notes", "Tes propres exercices en illimité", "Tous les exercices de respiration et de diaphragme", "Test d'oreille, plus l'éducation de l'oreille moyenne et avancée", "Préparation au conservatoire et examen blanc"],
+      buy: (p) => (p ? `Passer à Pro · ${p}` : "Passer à Pro"), restore: "Restaurer l'achat", close: "Pas maintenant",
+      owned: "Pro est débloqué. Merci !", basic: "Basique", once: "Paiement unique, sans abonnement.",
+      unavailable: "Les achats ne sont pas disponibles pour le moment. Vérifie ta connexion Internet et réessaie.",
+      desktop: "Tu peux acheter Pro dans l'app iPhone ou Android.", preview: "Aperçu : essayer Pro",
+      restored: "Ton achat a été restauré.", notFound: "Aucun achat à restaurer.",
+      waiting: "Patiente…", menu: "Pro"
+    },
     cons: {
       title: "Préparation au conservatoire",
       examTitle: "Examen blanc", examSub: "11 questions · deux écoutes max par question · résultats à la fin", examCta: "Commencer l'examen blanc",
@@ -1577,7 +1955,7 @@ const LANG_PACK = {
     micTip: "Consejo: usa auriculares o desactiva la melodía; si no, el micrófono también puede captar el piano.",
     micDenied: "El acceso al micrófono está desactivado. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
     micFail: "No se pudo iniciar el micrófono. Puede que otra app lo esté usando; ciérrala y vuelve a intentarlo.",
-    levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado" },
+    levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado", mine: "Míos" },
     ranges: { child: "Niño", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Bajo" },
     keyboardLabel: "Teclado de piano; toca una tecla para oír la nota",
     aboutText: "Calentamientos vocales con piano y entrenamiento auditivo para estudiantes de canto, cantantes y coristas. En Calentamiento, cada ronda empieza con un acorde y luego el ejercicio sube un semitono. En Oído, practica el reconocimiento de notas, intervalos y acordes, y haz un test auditivo que mide tu nivel. Conservatorio ofrece práctica de repetición de una, dos y tres notas, melodía y ritmo para las pruebas de acceso a escuelas de música, además de un examen simulado.",
@@ -1589,6 +1967,49 @@ const LANG_PACK = {
     close: "Cerrar",
     tabVoice: "Calentamiento", tabEar: "Oído",
     tabCons: "Conservatorio",
+    tabBreath: "Aire",
+    breath: {
+      title: "Ejercicios de respiración", sub: "Prepara tu respiración y tu diafragma antes de cantar.",
+      groups: { breath: "Respiración", diaphragm: "Diafragma y apnea" },
+      groupSub: { breath: "Cálmate, estabiliza la respiración, exhala largo y controlado.", diaphragm: "Aguanta la respiración, fortalece el diafragma, gana apoyo." },
+      types: {
+        calm: { name: "Respiración calmada", desc: "Inhala en 4, exhala en 6. Relájate antes de calentar." },
+        box: { name: "Respiración cuadrada", desc: "Inhala 4, aguanta 4, exhala 4, espera 4. Para concentrarte." },
+        hiss: { name: "Siseo largo", desc: "Inhala rápido y luego exhala largo y parejo con una \"sss\"." },
+        r478: { name: "Relajación 4-7-8", desc: "Inhala 4, aguanta 7, exhala 8. Cálmate antes de actuar." },
+        lip: { name: "Vibración de labios", desc: "Exhala con un \"brrr\" dejando que vibren los labios." },
+        ladder: { name: "Escalera de apnea", desc: "Aguanta la respiración un poco más en cada ronda." },
+        pulse: { name: "Impulsos de diafragma", desc: "Trabaja el diafragma con impulsos cortos y fuertes de \"¡Ja!\"." },
+        holdHiss: { name: "Aguanta y sisea", desc: "Inhala, aguanta y luego una \"sss\" más larga en cada ronda." },
+        pant: { name: "Diafragma rápido", desc: "Trabaja los músculos del abdomen con respiraciones cortas y rápidas." }
+      },
+      phases: { in: "Inhala", hold: "Aguanta", out: "Exhala", empty: "Espera", hiss: "Exhala con sss", lip: "Exhala con brrr", pulse: "¡Ja! ¡Ja! ¡Ja!", pant: "Rápido, rápido", rest: "Descansa" },
+      tips: { in: "Por la nariz, llenando el abdomen", hold: "Hombros sueltos, garganta abierta", out: "Por la boca, despacio", empty: "Pulmones vacíos, sigue relajado", hiss: "Un sonido fino y parejo", lip: "Labios sueltos, mantén el sonido", pulse: "Mete el abdomen en cada impulso", pant: "El abdomen se mueve, el pecho quieto", rest: "Respira con normalidad" },
+      rounds: (n) => `${n} rondas`, minutes: (m) => `unos ${m} min`, round: (a, b) => `Ronda ${a} de ${b}`, timesDone: (n) => `Hecho ${n}×`,
+      start: "Empezar", stop: "Parar", again: "Repetir", back: "Aire",
+      done: "¡Listo!", doneSub: (m) => `¡Bien hecho! Practicaste la respiración durante ${m} min.`,
+      safety: "Si te mareas, para y respira con normalidad. Nunca fuerces la apnea."
+    },
+    custom: {
+      card: "Tu propio ejercicio", cardSub: "Elige tú las notas",
+      title: "Crear ejercicio", editTitle: "Editar ejercicio",
+      name: "Nombre", namePh: "Ej. Mi calentamiento", syl: "Sílabas", sylPh: "Ej. Ma – Me – Mi",
+      notes: "Notas", notesHint: "Toca las notas que vas a cantar en orden, empezando por la nota inicial.",
+      undo: "Deshacer", clear: "Borrar", listen: "Escuchar", staccato: "Corto y separado (staccato)",
+      save: "Guardar", del: "Eliminar", cancel: "Cancelar", edit: "Editar",
+      tooShort: "Elige al menos 2 notas.", needName: "Escribe un nombre.", deleteAsk: "Toca otra vez para eliminar",
+      count: (n, max) => `${n} / ${max} notas`, defName: (n) => `Mi ejercicio ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Cómpralo una vez y es tuyo para siempre.",
+      features: ["Calentamientos avanzados: arpegio, salto de octava, escala de nueve notas", "Ejercicios propios ilimitados", "Todos los ejercicios de respiración y diafragma", "Test de oído y entrenamiento auditivo intermedio y avanzado", "Preparación para el conservatorio y examen de prueba"],
+      buy: (p) => (p ? `Obtener Pro · ${p}` : "Obtener Pro"), restore: "Restaurar compra", close: "Ahora no",
+      owned: "Pro está desbloqueado. ¡Gracias!", basic: "Básico", once: "Pago único, sin suscripción.",
+      unavailable: "Las compras no están disponibles ahora mismo. Revisa tu conexión a internet e inténtalo de nuevo.",
+      desktop: "Puedes comprar Pro en la app de iPhone o Android.", preview: "Vista previa: prueba Pro",
+      restored: "Tu compra se ha restaurado.", notFound: "No se encontró ninguna compra para restaurar.",
+      waiting: "Esperando…", menu: "Pro"
+    },
     cons: {
       title: "Preparación para el conservatorio",
       examTitle: "Examen simulado", examSub: "11 preguntas · escucha cada una dos veces como máximo · resultados al final", examCta: "Empezar el examen simulado",
@@ -1701,7 +2122,7 @@ const LANG_PACK = {
     micTip: "Consiglio: usa le cuffie o disattiva la melodia, altrimenti il microfono potrebbe sentire anche il pianoforte.",
     micDenied: "L'accesso al microfono è disattivato. Sul tuo iPhone vai su Impostazioni > Ses Açma > Microfono, poi riprova.",
     micFail: "Impossibile avviare il microfono. Forse un'altra app lo sta usando: chiudila e riprova.",
-    levels: { easy: "Facile", mid: "Medio", adv: "Avanzato" },
+    levels: { easy: "Facile", mid: "Medio", adv: "Avanzato", mine: "Miei" },
     ranges: { child: "Bambino", soprano: "Soprano", alto: "Contralto", tenor: "Tenore", bass: "Basso" },
     keyboardLabel: "Tastiera del pianoforte; tocca un tasto per sentire la nota",
     aboutText: "Riscaldamenti vocali con accompagnamento di pianoforte ed educazione dell'orecchio per studenti di canto, cantanti e coristi. Nel Riscaldamento ogni giro inizia con un accordo, poi l'esercizio sale di un semitono. In Orecchio ti alleni a riconoscere note, intervalli e accordi, e puoi fare un test che misura il tuo livello. Conservatorio offre esercizi di ripetizione di una, due e tre note, melodie e ritmi per gli esami di ammissione, più una simulazione d'esame.",
@@ -1713,6 +2134,49 @@ const LANG_PACK = {
     close: "Chiudi",
     tabVoice: "Riscaldamento", tabEar: "Orecchio",
     tabCons: "Conservatorio",
+    tabBreath: "Fiato",
+    breath: {
+      title: "Esercizi di respirazione", sub: "Prepara fiato e diaframma prima di cantare.",
+      groups: { breath: "Respirazione", diaphragm: "Diaframma e apnea" },
+      groupSub: { breath: "Calmati, stabilizza il respiro, espira a lungo e con controllo.", diaphragm: "Trattieni il fiato, rafforza il diaframma, costruisci l'appoggio." },
+      types: {
+        calm: { name: "Respiro calmo", desc: "Inspira in 4, espira in 6. Rilassati prima del riscaldamento." },
+        box: { name: "Respirazione quadrata", desc: "Inspira 4, trattieni 4, espira 4, aspetta 4. Per la concentrazione." },
+        hiss: { name: "Sibilo lungo", desc: "Inspira velocemente, poi espira a lungo e in modo uniforme su \"sss\"." },
+        r478: { name: "Relax 4-7-8", desc: "Inspira 4, trattieni 7, espira 8. Per calmarti prima di esibirti." },
+        lip: { name: "Trillo labiale", desc: "Espira su un \"brrr\" lasciando vibrare le labbra." },
+        ladder: { name: "Scala dell'apnea", desc: "Trattieni il fiato un po' più a lungo a ogni giro." },
+        pulse: { name: "Impulsi di diaframma", desc: "Allena il diaframma con impulsi brevi e decisi di \"Ha!\"." },
+        holdHiss: { name: "Trattieni e sibila", desc: "Inspira, trattieni, poi un \"sss\" più lungo a ogni giro." },
+        pant: { name: "Diaframma veloce", desc: "Allena gli addominali con respiri brevi e rapidi." }
+      },
+      phases: { in: "Inspira", hold: "Trattieni", out: "Espira", empty: "Aspetta", hiss: "Espira su sss", lip: "Espira su brrr", pulse: "Ha! Ha! Ha!", pant: "Veloce, veloce", rest: "Riposo" },
+      tips: { in: "Dal naso, riempiendo la pancia", hold: "Spalle rilassate, gola aperta", out: "Dalla bocca, lentamente", empty: "Polmoni vuoti, resta rilassato", hiss: "Un suono sottile e uniforme", lip: "Labbra morbide, mantieni il suono", pulse: "Tira dentro la pancia a ogni impulso", pant: "La pancia si muove, il petto resta fermo", rest: "Respira normalmente" },
+      rounds: (n) => `${n} giri`, minutes: (m) => `circa ${m} min`, round: (a, b) => `Giro ${a} di ${b}`, timesDone: (n) => `Fatto ${n}×`,
+      start: "Inizia", stop: "Ferma", again: "Ancora", back: "Fiato",
+      done: "Fatto!", doneSub: (m) => `Bravo, hai allenato la respirazione per ${m} min.`,
+      safety: "Se ti gira la testa, fermati e respira normalmente. Non forzare mai l'apnea."
+    },
+    custom: {
+      card: "Il tuo esercizio", cardSub: "Scegli tu le note",
+      title: "Crea esercizio", editTitle: "Modifica esercizio",
+      name: "Nome", namePh: "Es. Il mio riscaldamento", syl: "Sillabe", sylPh: "Es. Ma – Me – Mi",
+      notes: "Note", notesHint: "Tocca le note da cantare in ordine, partendo dalla nota iniziale.",
+      undo: "Annulla", clear: "Cancella", listen: "Ascolta", staccato: "Breve e staccato",
+      save: "Salva", del: "Elimina", cancel: "Annulla", edit: "Modifica",
+      tooShort: "Scegli almeno 2 note.", needName: "Inserisci un nome.", deleteAsk: "Tocca di nuovo per eliminare",
+      count: (n, max) => `${n} / ${max} note`, defName: (n) => `Il mio esercizio ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Lo compri una volta ed è tuo per sempre.",
+      features: ["Riscaldamenti avanzati: arpeggio, salto d'ottava, scala di nove note", "Esercizi personali illimitati", "Tutti gli esercizi di respirazione e diaframma", "Test dell'orecchio, più ear training intermedio e avanzato", "Preparazione al conservatorio ed esame simulato"],
+      buy: (p) => (p ? `Passa a Pro · ${p}` : "Passa a Pro"), restore: "Ripristina acquisto", close: "Non ora",
+      owned: "Pro è sbloccato. Grazie!", basic: "Base", once: "Pagamento unico, nessun abbonamento.",
+      unavailable: "Gli acquisti non sono disponibili al momento. Controlla la connessione a internet e riprova.",
+      desktop: "Puoi acquistare Pro nell'app per iPhone o Android.", preview: "Anteprima: prova Pro",
+      restored: "Il tuo acquisto è stato ripristinato.", notFound: "Nessun acquisto da ripristinare.",
+      waiting: "Attendi…", menu: "Pro"
+    },
     cons: {
       title: "Preparazione al Conservatorio",
       examTitle: "Simulazione d'esame", examSub: "11 domande · ascolti ogni domanda al massimo due volte · risultati alla fine", examCta: "Inizia la simulazione",
@@ -1825,7 +2289,7 @@ const LANG_PACK = {
     micTip: "Dica: use fones de ouvido ou desligue a melodia, senão o microfone pode captar o piano também.",
     micDenied: "O acesso ao microfone está desativado. No iPhone, vá em Ajustes > Ses Açma > Microfone e tente novamente.",
     micFail: "Não foi possível iniciar o microfone. Outro app pode estar usando; feche-o e tente novamente.",
-    levels: { easy: "Fácil", mid: "Médio", adv: "Avançado" },
+    levels: { easy: "Fácil", mid: "Médio", adv: "Avançado", mine: "Meus" },
     ranges: { child: "Criança", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Baixo" },
     keyboardLabel: "Teclado de piano; toque em uma tecla para ouvir a nota",
     aboutText: "Aquecimentos vocais com piano e treino de percepção musical para estudantes de canto, cantores e coralistas. No Aquecimento, cada rodada começa com um acorde e o exercício sobe meio tom. Em Percepção, pratique o reconhecimento de notas, intervalos e acordes e faça um teste de ouvido que mede o seu nível. Conservatório oferece prática de repetição de uma, duas e três notas, melodia e ritmo para o vestibular de música, além de um simulado.",
@@ -1837,6 +2301,49 @@ const LANG_PACK = {
     close: "Fechar",
     tabVoice: "Aquecimento", tabEar: "Percepção",
     tabCons: "Conservatório",
+    tabBreath: "Respirar",
+    breath: {
+      title: "Exercícios de respiração", sub: "Prepare sua respiração e seu diafragma antes de cantar.",
+      groups: { breath: "Respiração", diaphragm: "Diafragma e apneia" },
+      groupSub: { breath: "Acalme-se, estabilize a respiração e solte o ar de forma longa e controlada.", diaphragm: "Segure o ar, fortaleça o diafragma e ganhe apoio." },
+      types: {
+        calm: { name: "Respiração calma", desc: "Inspire em 4, expire em 6. Relaxe antes do aquecimento." },
+        box: { name: "Respiração quadrada", desc: "Inspire 4, segure 4, expire 4, espere 4. Para ter foco." },
+        hiss: { name: "Sss longo", desc: "Inspire rápido e depois solte o ar de forma longa e uniforme no \"sss\"." },
+        r478: { name: "Relaxamento 4-7-8", desc: "Inspire 4, segure 7, expire 8. Para se acalmar antes de se apresentar." },
+        lip: { name: "Vibração de lábios", desc: "Solte o ar num \"brrr\", deixando os lábios vibrarem." },
+        ladder: { name: "Escada de apneia", desc: "Segure o ar um pouco mais a cada rodada." },
+        pulse: { name: "Pulsos de diafragma", desc: "Trabalhe o diafragma com pulsos curtos e fortes de \"Ha!\"." },
+        holdHiss: { name: "Segurar e sss", desc: "Inspire, segure e faça um \"sss\" mais longo a cada rodada." },
+        pant: { name: "Diafragma rápido", desc: "Trabalhe os músculos da barriga com respirações curtas e rápidas." }
+      },
+      phases: { in: "Inspire", hold: "Segure", out: "Expire", empty: "Espere", hiss: "Solte no sss", lip: "Solte no brrr", pulse: "Ha! Ha! Ha!", pant: "Rápido, rápido", rest: "Descanse" },
+      tips: { in: "Pelo nariz, enchendo a barriga", hold: "Ombros soltos, garganta aberta", out: "Pela boca, devagar", empty: "Pulmões vazios, fique relaxado", hiss: "Um som fino e uniforme", lip: "Lábios soltos, mantenha o som", pulse: "Puxe a barriga para dentro a cada pulso", pant: "A barriga se mexe, o peito fica parado", rest: "Respire normalmente" },
+      rounds: (n) => `${n} ${n === 1 ? "rodada" : "rodadas"}`, minutes: (m) => `cerca de ${m} min`, round: (a, b) => `Rodada ${a} de ${b}`, timesDone: (n) => `Feito ${n}×`,
+      start: "Começar", stop: "Parar", again: "Fazer de novo", back: "Respiração",
+      done: "Pronto!", doneSub: (m) => `Muito bem, você praticou respiração por ${m} min.`,
+      safety: "Se sentir tontura, pare e respire normalmente. Nunca force a apneia."
+    },
+    custom: {
+      card: "Seu próprio exercício", cardSub: "Escolha as notas você mesmo",
+      title: "Criar exercício", editTitle: "Editar exercício",
+      name: "Nome", namePh: "Ex.: Meu aquecimento", syl: "Sílabas", sylPh: "Ex.: Ma – Me – Mi",
+      notes: "Notas", notesHint: "Toque nas notas na ordem em que vai cantar, a partir da nota inicial.",
+      undo: "Desfazer", clear: "Limpar", listen: "Ouvir", staccato: "Curto e separado (staccato)",
+      save: "Salvar", del: "Excluir", cancel: "Cancelar", edit: "Editar",
+      tooShort: "Escolha pelo menos 2 notas.", needName: "Digite um nome.", deleteAsk: "Toque de novo para excluir",
+      count: (n, max) => `${n} / ${max} notas`, defName: (n) => `Meu exercício ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Compre uma vez e é seu para sempre.",
+      features: ["Aquecimentos avançados: Arpejo, Salto de oitava, Escala de nove notas", "Exercícios próprios ilimitados", "Todos os exercícios de respiração e diafragma", "Teste de ouvido, além de treino auditivo médio e avançado", "Preparação para o conservatório e simulado"],
+      buy: (p) => (p ? `Obter Pro · ${p}` : "Obter Pro"), restore: "Restaurar compra", close: "Agora não",
+      owned: "O Pro está desbloqueado. Obrigado!", basic: "Básico", once: "Pagamento único, sem assinatura.",
+      unavailable: "As compras não estão disponíveis agora. Verifique sua conexão com a internet e tente de novo.",
+      desktop: "Você pode comprar o Pro no app para iPhone ou Android.", preview: "Prévia: experimente o Pro",
+      restored: "Sua compra foi restaurada.", notFound: "Nenhuma compra encontrada para restaurar.",
+      waiting: "Aguarde…", menu: "Pro"
+    },
     cons: {
       title: "Preparação para o Conservatório",
       examTitle: "Simulado", examSub: "11 questões · ouça cada uma no máximo duas vezes · resultado no final", examCta: "Iniciar o simulado",
@@ -1949,7 +2456,7 @@ const LANG_PACK = {
     micTip: "Совет: используй наушники или выключи мелодию, иначе микрофон будет слышать и фортепиано.",
     micDenied: "Доступ к микрофону выключен. На iPhone открой Настройки > Ses Açma > Микрофон и попробуй снова.",
     micFail: "Не удалось включить микрофон. Возможно, он занят другим приложением — закрой его и попробуй снова.",
-    levels: { easy: "Лёгкий", mid: "Средний", adv: "Продвинутый" },
+    levels: { easy: "Лёгкий", mid: "Средний", adv: "Продвинутый", mine: "Мои" },
     ranges: { child: "Детский", soprano: "Сопрано", alto: "Альт", tenor: "Тенор", bass: "Бас" },
     keyboardLabel: "Фортепианная клавиатура; нажми клавишу, чтобы услышать ноту",
     aboutText: "Распевки под фортепиано и тренировка слуха для студентов-вокалистов, певцов и хористов. В разделе «Распевка» каждый раунд начинается с аккорда, а затем упражнение повторяется на полтона выше. В разделе «Слух» учись узнавать ноты, интервалы и аккорды и пройди тест, который определит твой уровень. Раздел «Консерватория» помогает готовиться к поступлению в консерваторию или музыкальное училище: повторение одной, двух и трёх нот, мелодии и ритма, а также пробный экзамен.",
@@ -1961,6 +2468,49 @@ const LANG_PACK = {
     close: "Закрыть",
     tabVoice: "Распевка", tabEar: "Слух",
     tabCons: "Консерватория",
+    tabBreath: "Дыхание",
+    breath: {
+      title: "Дыхательные упражнения", sub: "Подготовь дыхание и диафрагму перед пением.",
+      groups: { breath: "Дыхание", diaphragm: "Диафрагма и задержка" },
+      groupSub: { breath: "Успокойся, выровняй дыхание, делай долгий и ровный выдох.", diaphragm: "Задерживай дыхание, укрепляй диафрагму, развивай опору." },
+      types: {
+        calm: { name: "Спокойное дыхание", desc: "Вдох на 4, выдох на 6. Расслабься перед распевкой." },
+        box: { name: "Квадратное дыхание", desc: "Вдох 4, задержка 4, выдох 4, пауза 4. Для концентрации." },
+        hiss: { name: "Долгое «ссс»", desc: "Быстро вдохни, затем выдыхай долго и ровно на «ссс»." },
+        r478: { name: "Расслабление 4-7-8", desc: "Вдох 4, задержка 7, выдох 8. Успокойся перед выступлением." },
+        lip: { name: "Губная трель", desc: "Выдыхай на «бррр», позволяя губам вибрировать." },
+        ladder: { name: "Лесенка задержки", desc: "С каждым раундом задерживай дыхание чуть дольше." },
+        pulse: { name: "Толчки диафрагмой", desc: "Работай диафрагмой короткими сильными толчками «Ха!»." },
+        holdHiss: { name: "Задержка и «ссс»", desc: "Вдох, задержка, затем с каждым раундом всё более долгое «ссс»." },
+        pant: { name: "Быстрая диафрагма", desc: "Работай мышцами живота короткими быстрыми вдохами." }
+      },
+      phases: { in: "Вдох", hold: "Задержка", out: "Выдох", empty: "Пауза", hiss: "Выдох на «ссс»", lip: "Выдох на «бррр»", pulse: "Ха! Ха! Ха!", pant: "Быстро, быстро", rest: "Отдых" },
+      tips: { in: "Через нос, наполняя живот", hold: "Плечи свободны, горло открыто", out: "Через рот, медленно", empty: "Лёгкие пусты, оставайся расслабленным", hiss: "Тонкий ровный звук", lip: "Губы свободны, не прерывай звук", pulse: "На каждом толчке втягивай живот", pant: "Двигается живот, грудь неподвижна", rest: "Дыши как обычно" },
+      rounds: (n) => `${n} ${((n % 10 === 1 && n % 100 !== 11) ? "раунд" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? "раунда" : "раундов")}`, minutes: (m) => `около ${m} мин`, round: (a, b) => `Раунд ${a} из ${b}`, timesDone: (n) => `Выполнено ${n}×`,
+      start: "Начать", stop: "Стоп", again: "Ещё раз", back: "Дыхание",
+      done: "Готово!", doneSub: (m) => `Отлично! ${m} мин дыхательной практики.`,
+      safety: "Если закружится голова, остановись и дыши как обычно. Никогда не форсируй задержку дыхания."
+    },
+    custom: {
+      card: "Своё упражнение", cardSub: "Выбери ноты сам",
+      title: "Создать упражнение", editTitle: "Изменить упражнение",
+      name: "Название", namePh: "Напр.: Моя распевка", syl: "Слоги", sylPh: "Напр.: Ма – Ме – Ми",
+      notes: "Ноты", notesHint: "Нажимай ноты в том порядке, в котором будешь петь, начиная от начальной ноты.",
+      undo: "Отменить", clear: "Очистить", listen: "Послушать", staccato: "Коротко и отрывисто (стаккато)",
+      save: "Сохранить", del: "Удалить", cancel: "Отмена", edit: "Изменить",
+      tooShort: "Выбери хотя бы 2 ноты.", needName: "Введи название.", deleteAsk: "Нажми ещё раз, чтобы удалить",
+      count: (n, max) => `Нот: ${n} / ${max}`, defName: (n) => `Моё упражнение ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Купи один раз — и всё твоё навсегда.",
+      features: ["Продвинутые распевки: арпеджио, скачок на октаву, гамма из девяти нот", "Неограниченное число своих упражнений", "Все упражнения на дыхание и диафрагму", "Тест слуха, а также средний и продвинутый уровни тренировки слуха", "Подготовка к консерватории и пробный экзамен"],
+      buy: (p) => (p ? `Купить Pro · ${p}` : "Купить Pro"), restore: "Восстановить покупку", close: "Не сейчас",
+      owned: "Pro разблокирован. Спасибо!", basic: "Базовый", once: "Разовый платёж, без подписки.",
+      unavailable: "Покупки сейчас недоступны. Проверь подключение к интернету и попробуй снова.",
+      desktop: "Купить Pro можно в приложении для iPhone или Android.", preview: "Предпросмотр: попробовать Pro",
+      restored: "Покупка восстановлена.", notFound: "Покупок для восстановления не найдено.",
+      waiting: "Подожди…", menu: "Pro"
+    },
     cons: {
       title: "Подготовка к поступлению",
       examTitle: "Пробный экзамен", examSub: "11 вопросов · каждый можно прослушать не более двух раз · результаты в конце", examCta: "Начать пробный экзамен",
@@ -2073,7 +2623,7 @@ const LANG_PACK = {
     micTip: "ヒント：ヘッドホンを使うかメロディをオフにしてください。マイクがピアノの音も拾ってしまうことがあります。",
     micDenied: "マイクへのアクセスがオフになっています。iPhoneの 設定 > Ses Açma > マイク をオンにして、もう一度お試しください。",
     micFail: "マイクを起動できませんでした。他のアプリが使用中の可能性があります。そのアプリを閉じて、もう一度お試しください。",
-    levels: { easy: "初級", mid: "中級", adv: "上級" },
+    levels: { easy: "初級", mid: "中級", adv: "上級", mine: "マイ" },
     ranges: { child: "子ども", soprano: "ソプラノ", alto: "アルト", tenor: "テノール", bass: "バス" },
     keyboardLabel: "ピアノ鍵盤：鍵盤をタップすると音が聴けます",
     aboutText: "声楽を学ぶ人、歌手、合唱団員のための、ピアノ伴奏付きボイスウォームアップと耳トレーニングアプリです。「ウォームアップ」では各ラウンドが和音で始まり、エクササイズが半音ずつ上がっていきます。「耳」では音・音程・和音の聴き分けを練習でき、レベルを測る耳テストも受けられます。「音大受験」では、音楽大学入試に向けた単音・2音・3音、メロディ、リズムの再現練習と模擬試験を用意しています。",
@@ -2085,6 +2635,49 @@ const LANG_PACK = {
     close: "閉じる",
     tabVoice: "ウォームアップ", tabEar: "耳",
     tabCons: "音大受験",
+    tabBreath: "呼吸",
+    breath: {
+      title: "呼吸トレーニング", sub: "歌う前に、呼吸と横隔膜の準備をしよう。",
+      groups: { breath: "呼吸", diaphragm: "横隔膜と息止め" },
+      groupSub: { breath: "気持ちを落ち着けて呼吸を整え、長くコントロールして吐こう。", diaphragm: "息を止めて横隔膜を鍛え、息の支えを作ろう。" },
+      types: {
+        calm: { name: "リラックス呼吸", desc: "4で吸って6で吐く。ウォームアップ前にリラックス。" },
+        box: { name: "ボックス呼吸", desc: "吸う4、止める4、吐く4、待つ4。集中したいときに。" },
+        hiss: { name: "ロング「スー」", desc: "素早く吸って、「スー」で長く均一に吐きます。" },
+        r478: { name: "4-7-8 リラックス", desc: "吸う4、止める7、吐く8。本番前に心を落ち着けて。" },
+        lip: { name: "リップロール", desc: "唇を震わせながら「ブルル」で息を吐きます。" },
+        ladder: { name: "息止めラダー", desc: "ラウンドごとに少しずつ長く息を止めます。" },
+        pulse: { name: "横隔膜パルス", desc: "短く強い「ハッ!」で横隔膜を動かします。" },
+        holdHiss: { name: "止めて「スー」", desc: "吸って止めて、ラウンドごとに長く「スー」。" },
+        pant: { name: "高速横隔膜", desc: "短く速い呼吸でお腹の筋肉を鍛えます。" }
+      },
+      phases: { in: "吸って", hold: "止めて", out: "吐いて", empty: "待って", hiss: "「スー」で吐く", lip: "「ブルル」で吐く", pulse: "ハッ!ハッ!ハッ!", pant: "速く、速く", rest: "休憩" },
+      tips: { in: "鼻から、お腹をふくらませて", hold: "肩の力を抜き、喉を開いて", out: "口から、ゆっくりと", empty: "肺は空っぽ、リラックスしたまま", hiss: "細く均一な音で", lip: "唇はゆるめて、音を途切れさせない", pulse: "パルスごとにお腹を引き込む", pant: "お腹は動かし、胸は動かさない", rest: "普通に呼吸して" },
+      rounds: (n) => `${n}ラウンド`, minutes: (m) => `約${m}分`, round: (a, b) => `ラウンド ${a} / ${b}`, timesDone: (n) => `${n}回達成`,
+      start: "スタート", stop: "ストップ", again: "もう一度", back: "呼吸",
+      done: "完了!", doneSub: (m) => `お疲れさま!${m}分間、呼吸の練習をしました。`,
+      safety: "めまいを感じたら中止して、普通に呼吸してください。息止めは絶対に無理をしないで。"
+    },
+    custom: {
+      card: "オリジナル練習", cardSub: "音を自分で選ぼう",
+      title: "練習を作成", editTitle: "練習を編集",
+      name: "名前", namePh: "例:マイウォームアップ", syl: "音節", sylPh: "例:マ – メ – ミ",
+      notes: "音", notesHint: "開始音から、歌う順番に音をタップしてください。",
+      undo: "元に戻す", clear: "クリア", listen: "聴く", staccato: "短く切って(スタッカート)",
+      save: "保存", del: "削除", cancel: "キャンセル", edit: "編集",
+      tooShort: "2音以上選んでください。", needName: "名前を入力してください。", deleteAsk: "もう一度タップで削除",
+      count: (n, max) => `${n} / ${max}音`, defName: (n) => `マイ練習 ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "一度の購入で、ずっとあなたのもの。",
+      features: ["上級ウォームアップ:アルペジオ、オクターブ跳躍、9音スケール", "オリジナル練習を無制限に", "すべての呼吸・横隔膜トレーニング", "聴音テスト、中級・上級の聴音トレーニング", "音大受験対策と模擬試験"],
+      buy: (p) => (p ? `Proを入手 · ${p}` : "Proを入手"), restore: "購入を復元", close: "今はしない",
+      owned: "Proが解除されました。ありがとう!", basic: "ベーシック", once: "買い切り、サブスクなし。",
+      unavailable: "現在購入できません。インターネット接続を確認して、もう一度お試しください。",
+      desktop: "ProはiPhoneまたはAndroidアプリで購入できます。", preview: "プレビュー:Proを試す",
+      restored: "購入を復元しました。", notFound: "復元できる購入が見つかりません。",
+      waiting: "お待ちください…", menu: "Pro"
+    },
     cons: {
       title: "音大受験対策",
       examTitle: "模擬試験", examSub: "全11問 · 各問題は最大2回まで聴けます · 結果は最後に表示", examCta: "模擬試験を始める",
@@ -2197,7 +2790,7 @@ const LANG_PACK = {
     micTip: "提示：请戴耳机或关闭旋律，否则麦克风也可能收到钢琴声。",
     micDenied: "麦克风权限已关闭。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
     micFail: "麦克风无法启动。可能有其他应用正在使用，请关闭后重试。",
-    levels: { easy: "简单", mid: "中等", adv: "进阶" },
+    levels: { easy: "简单", mid: "中等", adv: "进阶", mine: "我的" },
     ranges: { child: "童声", soprano: "女高音", alto: "女低音", tenor: "男高音", bass: "男低音" },
     keyboardLabel: "钢琴键盘；点按琴键可听到该音",
     aboutText: "为声乐学生、歌手和合唱团员打造的钢琴伴奏开嗓与视唱练耳应用。在“开嗓”中，每一轮先弹一个和弦，随后练习上移半音。在“练耳”中，可练习辨认单音、音程与和弦，并通过听力测试评估你的水平。“艺考”为音乐学院入学考试提供单音、双音、三音、旋律与节奏模唱练习，以及模拟考试。",
@@ -2209,6 +2802,49 @@ const LANG_PACK = {
     close: "关闭",
     tabVoice: "开嗓", tabEar: "练耳",
     tabCons: "艺考",
+    tabBreath: "呼吸",
+    breath: {
+      title: "呼吸练习", sub: "唱歌前，先把呼吸和横膈膜准备好。",
+      groups: { breath: "呼吸", diaphragm: "横膈膜与闭气" },
+      groupSub: { breath: "放松下来，稳住气息，呼气悠长而有控制。", diaphragm: "练习闭气，强化横膈膜，建立气息支撑。" },
+      types: {
+        calm: { name: "平静呼吸", desc: "吸气4拍，呼气6拍。开嗓前先放松。" },
+        box: { name: "方块呼吸", desc: "吸4拍、屏4拍、呼4拍、停4拍。帮助专注。" },
+        hiss: { name: "长“sss”", desc: "快速吸气，然后用“sss”均匀地长长呼气。" },
+        r478: { name: "4-7-8 放松", desc: "吸4拍、屏7拍、呼8拍。演出前让自己平静。" },
+        lip: { name: "唇颤音", desc: "用“brrr”呼气，让嘴唇振动起来。" },
+        ladder: { name: "闭气阶梯", desc: "每一轮都比上一轮多屏住一会儿。" },
+        pulse: { name: "横膈膜弹动", desc: "用短促有力的“Ha!”来锻炼横膈膜。" },
+        holdHiss: { name: "屏气 + sss", desc: "吸气、屏住，每一轮的“sss”更长一些。" },
+        pant: { name: "快速横膈膜", desc: "用短而快的呼吸锻炼腹部肌肉。" }
+      },
+      phases: { in: "吸气", hold: "屏住", out: "呼气", empty: "停", hiss: "sss 呼气", lip: "brrr 呼气", pulse: "Ha! Ha! Ha!", pant: "快，快", rest: "休息" },
+      tips: { in: "用鼻子吸，让腹部鼓起", hold: "肩膀放松，喉咙打开", out: "用嘴呼，慢慢地", empty: "肺部排空，保持放松", hiss: "声音细而均匀", lip: "嘴唇放松，声音不断", pulse: "每次弹动都收紧腹部", pant: "腹部动，胸部不动", rest: "正常呼吸" },
+      rounds: (n) => `${n} 轮`, minutes: (m) => `约 ${m} 分钟`, round: (a, b) => `第 ${a} / ${b} 轮`, timesDone: (n) => `已完成 ${n} 次`,
+      start: "开始", stop: "停止", again: "再来一次", back: "呼吸",
+      done: "完成！", doneSub: (m) => `做得好，你练习了 ${m} 分钟呼吸。`,
+      safety: "如果感到头晕，请停下来正常呼吸。千万不要勉强闭气。"
+    },
+    custom: {
+      card: "自定义练习", cardSub: "自己挑选音符",
+      title: "创建练习", editTitle: "编辑练习",
+      name: "名称", namePh: "例如：我的开嗓", syl: "音节", sylPh: "例如：Ma – Me – Mi",
+      notes: "音符", notesHint: "从起始音开始，按演唱顺序点选音符。",
+      undo: "撤销", clear: "清空", listen: "试听", staccato: "短促断开（断音）",
+      save: "保存", del: "删除", cancel: "取消", edit: "编辑",
+      tooShort: "请至少选择 2 个音符。", needName: "请输入名称。", deleteAsk: "再点一次以删除",
+      count: (n, max) => `${n} / ${max} 个音符`, defName: (n) => `我的练习 ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "一次购买，永久拥有。",
+      features: ["进阶开嗓：琶音、八度跳跃、九音音阶", "无限创建自定义练习", "全部呼吸与横膈膜练习", "听音测试，以及中级和进阶听音训练", "艺考准备与模拟考试"],
+      buy: (p) => (p ? `获取 Pro · ${p}` : "获取 Pro"), restore: "恢复购买", close: "以后再说",
+      owned: "Pro 已解锁，谢谢支持！", basic: "基础版", once: "一次性付款，无需订阅。",
+      unavailable: "目前无法购买。请检查网络连接后重试。",
+      desktop: "你可以在 iPhone 或 Android 应用中购买 Pro。", preview: "预览：试用 Pro",
+      restored: "已恢复你的购买。", notFound: "没有找到可恢复的购买。",
+      waiting: "请稍候…", menu: "Pro"
+    },
     cons: {
       title: "音乐学院艺考准备",
       examTitle: "模拟考试", examSub: "11 道题 · 每题最多听两遍 · 结束后显示结果", examCta: "开始模拟考试",
@@ -2310,7 +2946,7 @@ for (const [code, p] of Object.entries(LANG_PACK)) {
 // LANGPACK-END
 
 if (typeof module !== "undefined") {
-  module.exports = { LANGS, LANG_PACK, pitchState, CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
+  module.exports = { BREATH_EXERCISES, BREATH_KINDS, breathTimeline, PRO_PRODUCT_ID, FREE_CUSTOM, needsPro, CUSTOM_MAX, CUSTOM_TOP, sanitizeCustom, customToExercise, LANGS, LANG_PACK, pitchState, CONS_TYPES, CONS_SOON, CONS_SING, CONS_PLAYS, TWO_SETS, THREE_SETS, makeRhythm, gradeRhythm, makeConsQuestion, consExamPlan, consExamSummary, EAR_TYPES, EAR_LEVELS, EAR_QUESTIONS, INTERVAL_NAMES, INTERVAL_SETS, CHORD_TYPES, CHORD_NAMES, CHORD_SETS, makeEarQuestion, checkEarAnswer, gradeSungNote, singPassed, earTestPlan, earTestSummary, APP_VERSION, NOTE_NAMES, EXERCISES, RANGES, STRINGS, pickLanguage, noteName, isBlack, rootSequence, buildTimeline, centsOff, starsFor, detectMidi };
 }
 </script>
 
@@ -2328,6 +2964,20 @@ const $ = (id) => document.getElementById(id);
 const S = () => STRINGS[state.lang];
 const nn = (m) => noteName(m, state.lang);
 const exercise = () => EXERCISES.find((e) => e.id === state.ex) || EXERCISES[1];
+// Pro durumu (satın alma 1.2 betiğinde bağlanır; burada önbellekten okunur)
+const PRO = { owned: false };
+try { PRO.owned = localStorage.getItem("sesacma-pro") === "1"; } catch (e) {}
+const isLockedEx = (ex) => !ex.custom && needsPro({ kind: "voice", level: ex.level }) && !PRO.owned;
+// Kendi egzersizlerin
+let CUSTOM = [];
+try { CUSTOM = (JSON.parse(localStorage.getItem("sesacma-custom") || "[]") || []).map(sanitizeCustom).filter(Boolean); } catch (e) {}
+function saveCustom() { try { localStorage.setItem("sesacma-custom", JSON.stringify(CUSTOM)); } catch (e) {} }
+function syncCustom() {
+  for (let i = EXERCISES.length - 1; i >= 0; i--) if (EXERCISES[i].custom) EXERCISES.splice(i, 1);
+  CUSTOM.forEach((c, i) => EXERCISES.push(customToExercise(c, LANGS.map((l) => l[0]), i)));
+}
+syncCustom();
+const EDIT_SVG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2.5l3 3L6 13H3v-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
 
 // iPhone: sessiz moddayken de çalsın (destekleyen sürümlerde)
 function setAudioSessionType(type) {
@@ -2430,6 +3080,7 @@ let wakeLock = null;
 let lastResult = null; // bitişte gösterilen puan (dil değişince yeniden yazmak için)
 
 function start(demo = false) {
+  if (!demo && isLockedEx(exercise())) { openPaywall(); return; }
   const ctx = piano.ensure();
   stop(true);
   const ex = exercise();
@@ -2675,20 +3326,31 @@ function buildExercises() {
   for (const ex of EXERCISES) {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = "ex-card";
+    const locked = isLockedEx(ex);
+    b.className = "ex-card" + (locked ? " locked" : "");
     b.id = `ex-${ex.id}`;
     b.style.setProperty("--c", ex.color);
-    b.innerHTML = `${CHECK}${chartSVG(ex.pattern, ex.color, { w: 200, h: 70, r: 4 })}<div class="ex-name">${ex.name[state.lang]}</div><div class="ex-meta"><span>${S().notesCount(ex.pattern.length)}</span><i></i><span class="level">${S().levels[ex.level]}</span></div>`;
-    b.addEventListener("click", () => pickExercise(ex.id));
+    b.innerHTML = `${CHECK}${locked ? `<span class="pro-badge lock-tag">${S().pro.badge}</span>` : ""}${chartSVG(ex.pattern, ex.color, { w: 200, h: 70, r: 4 })}<div class="ex-name">${ex.name[state.lang]}</div><div class="ex-meta"><span>${S().notesCount(ex.pattern.length)}</span><i></i><span class="level">${S().levels[ex.level]}</span></div>${ex.custom ? `<span class="ex-edit" role="button" aria-label="${S().custom.edit}">${EDIT_SVG}</span>` : ""}`;
+    b.addEventListener("click", (e) => {
+      if (e.target.closest(".ex-edit")) return openBuilder(ex.id);
+      if (locked) return openPaywall();
+      pickExercise(ex.id);
+    });
     box.appendChild(b);
   }
+  const add = document.createElement("button");
+  add.type = "button"; add.className = "ex-card add-card"; add.id = "ex-add";
+  const addLocked = needsPro({ kind: "custom", count: CUSTOM.length }) && !PRO.owned;
+  add.innerHTML = `${addLocked ? `<span class="pro-badge lock-tag">${S().pro.badge}</span>` : ""}<span class="add-plus">+</span><div class="ex-name">${S().custom.card}</div><div class="ex-meta"><span>${S().custom.cardSub}</span></div>`;
+  add.onclick = () => openBuilder(null);
+  box.appendChild(add);
 }
 
 let levelFilter = "all";
 function buildAllList() {
   const chips = $("levelChips");
   chips.innerHTML = "";
-  for (const id of ["all", "easy", "mid", "adv"]) {
+  for (const id of ["all", "easy", "mid", "adv", ...(CUSTOM.length ? ["mine"] : [])]) {
     const c = document.createElement("button");
     c.type = "button"; c.id = `lf-${id}`;
     c.textContent = id === "all" ? S().filterAll : S().levels[id];
@@ -2701,19 +3363,21 @@ function buildAllList() {
   for (const ex of EXERCISES) {
     if (levelFilter !== "all" && ex.level !== levelFilter) continue;
     const card = document.createElement("div");
-    card.className = "ex-card big-card"; card.id = `exl-${ex.id}`;
+    const locked = isLockedEx(ex);
+    card.className = "ex-card big-card" + (locked ? " locked" : ""); card.id = `exl-${ex.id}`;
     card.style.setProperty("--c", ex.color);
     card.setAttribute("role", "button"); card.tabIndex = 0;
     card.setAttribute("aria-pressed", String(ex.id === state.ex));
-    card.innerHTML = `${CHECK}${chartSVG(ex.pattern, ex.color, { w: 300, h: 120, axis: true, r: 5 })}
+    card.innerHTML = `${CHECK}${locked ? `<span class="pro-badge lock-tag">${S().pro.badge}</span>` : ""}${chartSVG(ex.pattern, ex.color, { w: 300, h: 120, axis: true, r: 5 })}
       <div class="big-foot"><div><div class="ex-name">${ex.name[state.lang]}</div><div class="sub">${S().notesCount(ex.pattern.length)}</div></div>
       <span class="level">${S().levels[ex.level]}</span>
       <button type="button" class="play-dot" aria-label="${S().play}: ${ex.name[state.lang]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${PLAY_D}" fill="currentColor"/></svg></button></div>`;
     card.addEventListener("click", (e) => {
+      if (locked) { openPaywall(); return; }
       if (e.target.closest(".play-dot")) { pickExercise(ex.id); showAll(false); start(); return; }
       pickExercise(ex.id); renderAllSelection();
     });
-    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickExercise(ex.id); renderAllSelection(); } });
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (locked) { openPaywall(); return; } pickExercise(ex.id); renderAllSelection(); } });
     grid.appendChild(card);
   }
   renderAllSelection();
@@ -2884,7 +3548,7 @@ $("aboutBtn").onclick = () => { $("about").hidden = false; $("aboutClose").focus
 $("aboutClose").onclick = () => { $("about").hidden = true; $("aboutBtn").focus(); };
 $("about").addEventListener("click", (e) => { if (e.target.id === "about") $("about").hidden = true; });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") $("about").hidden = true;
+  if (e.key === "Escape") { $("about").hidden = true; $("paywall").hidden = true; $("builder").hidden = true; }
   if (e.code === "Space" && e.target === document.body) { e.preventDefault(); run ? stop() : start(); }
 });
 // Uygulama arka plana geçince durdur (telefon çaldığında vb.)
@@ -2937,26 +3601,30 @@ try { const d = JSON.parse(localStorage.getItem("sesacma-kulak") || "null"); if 
 function earSave() { try { localStorage.setItem("sesacma-kulak", JSON.stringify(ear.data)); } catch (e) {} }
 
 // ---------- Sekmeler ----------
+const TABS = ["voice", "breath", "ear", "cons"];
 function showTab(tab) {
-  if (!["voice", "ear", "cons"].includes(tab)) tab = "voice";
+  if (!TABS.includes(tab)) tab = "voice";
   if (tab !== "voice" && run) stop(true);
-  if (tab !== state.tab || tab === "voice") earAbort();
-  if (tab !== "voice" && ear.section !== tab) { ear.section = tab; ear.view = "home"; }
+  if (tab !== "breath" && typeof breathStop === "function") breathStop(true);
+  if (tab !== state.tab || tab === "voice" || tab === "breath") earAbort();
+  const isEar = tab === "ear" || tab === "cons";
+  if (isEar && ear.section !== tab) { ear.section = tab; ear.view = "home"; }
   state.tab = tab; save();
-  const isVoice = tab === "voice";
-  $("voiceView").hidden = !isVoice;
-  $("earSection").hidden = isVoice;
-  $("app").classList.toggle("ear-on", !isVoice);
-  if (isVoice) $("earBar").hidden = true;
-  for (const t of ["voice", "ear", "cons"]) {
+  $("voiceView").hidden = tab !== "voice";
+  $("earSection").hidden = !isEar;
+  $("breathSection").hidden = tab !== "breath";
+  $("app").classList.toggle("ear-on", isEar);
+  if (!isEar) $("earBar").hidden = true;
+  for (const t of TABS) {
     $(`tab-${t}`).setAttribute("aria-selected", String(t === tab));
     $(`sw-${t}`).setAttribute("aria-selected", String(t === tab));
   }
-  if (!isVoice) { document.documentElement.style.setProperty("--ex", EAR_COLORS[ear.type || (tab === "cons" ? "cons" : "test")]); earRender(); }
+  if (isEar) { document.documentElement.style.setProperty("--ex", EAR_COLORS[ear.type || (tab === "cons" ? "cons" : "test")]); earRender(); }
+  else if (tab === "breath") { if (typeof breathRender === "function") breathRender(); }
   else render();
   window.scrollTo(0, 0);
 }
-for (const t of ["voice", "ear", "cons"]) { $(`tab-${t}`).onclick = () => showTab(t); $(`sw-${t}`).onclick = () => showTab(t); }
+for (const t of TABS) { $(`tab-${t}`).onclick = () => showTab(t); $(`sw-${t}`).onclick = () => showTab(t); }
 
 // ---------- Ana ekranlar ----------
 function earCard(type, soon) {
@@ -2966,8 +3634,10 @@ function earCard(type, soon) {
     .map((l) => `<span class="pill">${S().levels[l]} ${ear.data.best[`${type}-${l}`]}/${EAR_QUESTIONS}</span>`).join("");
   b.innerHTML = `<span class="ear-ico">${icon(type)}</span><span class="ear-name">${info(type).name}</span>
     <span class="ear-desc">${info(type).desc}</span><span class="ear-best">${bests || `<span class="dim">${ES().notPlayed}</span>`}</span>`;
+  const locked = !soon && isCons(type) && needsPro({ kind: "cons" }) && !PRO.owned;
+  if (locked) { b.classList.add("locked"); b.insertAdjacentHTML("afterbegin", `<span class="pro-badge lock-tag">${S().pro.badge}</span>`); }
   if (soon) { b.disabled = true; b.setAttribute("aria-disabled", "true"); }
-  else b.onclick = () => earOpen(type, false);
+  else b.onclick = () => (locked ? openPaywall() : earOpen(type, false));
   return b;
 }
 function earBuildHome() {
@@ -2977,7 +3647,7 @@ function earBuildHome() {
     <span class="hero-ico">${icon(cons ? "cons" : "test")}</span>
     <span class="hero-txt">${cons ? `<small class="hero-k">${c.title}</small>` : ""}<b>${cons ? c.examTitle : s.testTitle}</b><span>${cons ? c.examSub : s.testSub}</span>
     ${t ? `<em>${cons ? c.examLast(t.pct) : s.testLast(t.pct, s.ranks[t.rank])}</em>` : ""}</span>
-    <span class="hero-cta">${cons ? c.examCta : s.testCta} →</span>`;
+    <span class="hero-cta">${!PRO.owned && needsPro({ kind: cons ? "cons" : "earTest" }) ? `<span class="pro-badge">${S().pro.badge}</span> ` : ""}${cons ? c.examCta : s.testCta} →</span>`;
   $("earExTitle").textContent = cons ? c.exercises : s.exercises;
   $("earExHint").textContent = cons ? c.exHint : s.exHint;
   const grid = $("earGrid");
@@ -2987,7 +3657,7 @@ function earBuildHome() {
   $("earNote").hidden = !cons;
   if (cons) $("earNote").textContent = c.disclaimer;
 }
-$("earTestBtn").onclick = () => earOpen(null, true);
+$("earTestBtn").onclick = () => (!PRO.owned && needsPro({ kind: ear.section === "cons" ? "cons" : "earTest" }) ? openPaywall() : earOpen(null, true));
 
 // ---------- Kurulum ----------
 function earOpen(type, isTest) {
@@ -3011,7 +3681,9 @@ function earRender() {
   $("earLevelField").hidden = !setup || ear.isTest;
   $("earMicField").hidden = !setup || !ear.isTest || cons;
   $("earLevelLbl").textContent = s.level;
-  buildSegInto("earLevels", EAR_LEVELS.map((l) => ({ id: l, name: S().levels[l] })), ear.level, (l) => { ear.level = l; if (ear.type) { ear.data.level[ear.type] = l; earSave(); } earRender(); });
+  const lvLocked = (l) => !PRO.owned && needsPro({ kind: isCons(ear.type) ? "cons" : "ear", level: l });
+  if (lvLocked(ear.level)) ear.level = "easy";
+  buildSegInto("earLevels", EAR_LEVELS.map((l) => ({ id: l, name: S().levels[l] + (lvLocked(l) ? " · " + S().pro.badge : "") })), ear.level, (l) => { if (lvLocked(l)) { openPaywall(); return; } ear.level = l; if (ear.type) { ear.data.level[ear.type] = l; earSave(); } earRender(); });
   buildSegInto("earMics", [{ id: "on", name: s.withMic }, { id: "off", name: s.withoutMic }], ear.testMic ? "on" : "off", (v) => { ear.testMic = v === "on"; earRender(); });
   if (setup) {
     $("earKicker").textContent = ear.isTest ? (cons ? c.examTitle : s.testTitle) : `${info(ear.type).name} · ${S().levels[ear.level]}`;
@@ -3481,3 +4153,346 @@ document.addEventListener("visibilitychange", () => {
 
 showTab(state.tab);
 </script>
+<script>
+// ================= 1.2: Pro, kendi egzersizin, nefes =================
+const PS = () => S().pro;
+const BS = () => S().breath;
+const CB = () => S().custom;
+
+// ---------- Pro (uygulama içi satın alma) ----------
+Object.assign(PRO, {
+  price: null, store: null, platform: null, busy: false, msg: null,
+  native: !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()),
+  desktop: /Electron/.test(navigator.userAgent)
+});
+function proSet(owned) {
+  PRO.owned = !!owned;
+  try { localStorage.setItem("sesacma-pro", PRO.owned ? "1" : "0"); } catch (e) {}
+  proRefresh();
+}
+function proRefresh() {
+  updateProPill();
+  if (state.tab === "voice") { buildExercises(); if (!$("allView").hidden) buildAllList(); render(); }
+  else if (state.tab === "breath") breathRender();
+  else earRender();
+  if (!$("paywall").hidden) paywallRender();
+}
+function updateProPill() {
+  const p = $("proPill");
+  p.textContent = PRO.owned ? "PRO ✓" : "PRO";
+  p.classList.toggle("on", PRO.owned);
+  p.setAttribute("aria-label", PS().title);
+}
+function proSync() {
+  const st = PRO.store;
+  if (!st) return;
+  const p = st.get(PRO_PRODUCT_ID, PRO.platform);
+  if (p) {
+    const off = p.getOffer && p.getOffer();
+    PRO.price = (off && off.pricingPhases && off.pricingPhases[0] && off.pricingPhases[0].price) || (p.pricing && p.pricing.price) || PRO.price;
+  }
+  const owned = (p && p.owned) || (st.owned && st.owned({ id: PRO_PRODUCT_ID, platform: PRO.platform }));
+  if (owned && !PRO.owned) proSet(true);
+  else if (!$("paywall").hidden) paywallRender();
+}
+function proInitStore() {
+  if (PRO.store || !window.CdvPurchase || !PRO.native) return;
+  try {
+    const { store, ProductType, Platform } = window.CdvPurchase;
+    const plat = window.Capacitor.getPlatform() === "android" ? Platform.GOOGLE_PLAY : Platform.APPLE_APPSTORE;
+    PRO.store = store; PRO.platform = plat;
+    store.register([{ id: PRO_PRODUCT_ID, type: ProductType.NON_CONSUMABLE, platform: plat }]);
+    store.when().productUpdated(proSync).approved((tx) => tx.finish()).finished(proSync).receiptUpdated(proSync);
+    store.error(() => { PRO.busy = false; if (!$("paywall").hidden) paywallRender(); });
+    store.initialize([plat]).then(proSync);
+  } catch (e) { PRO.store = null; }
+}
+document.addEventListener("deviceready", proInitStore, false);
+setTimeout(proInitStore, 1500);
+
+function proBuy() {
+  if (PRO.owned) return;
+  if (PRO.store) {
+    const p = PRO.store.get(PRO_PRODUCT_ID, PRO.platform);
+    const off = p && p.getOffer && p.getOffer();
+    if (!off) { PRO.msg = PS().unavailable; paywallRender(); return; }
+    PRO.busy = true; PRO.msg = null; paywallRender();
+    off.order().then((err) => {
+      PRO.busy = false;
+      const cancelled = err && window.CdvPurchase && err.code === window.CdvPurchase.ErrorCode.PAYMENT_CANCELLED;
+      if (err && !cancelled) PRO.msg = PS().unavailable;
+      paywallRender();
+    });
+    return;
+  }
+  if (PRO.native) { PRO.msg = PS().unavailable; paywallRender(); return; }
+  if (PRO.desktop) { PRO.msg = PS().desktop; paywallRender(); return; }
+  proSet(true); // tarayıcı önizlemesi: satın almadan dene
+}
+function proRestore() {
+  if (!PRO.store) { PRO.msg = PRO.owned ? PS().restored : PS().notFound; paywallRender(); return; }
+  PRO.busy = true; paywallRender();
+  Promise.resolve(PRO.store.restorePurchases()).then(() => {
+    PRO.busy = false; proSync();
+    PRO.msg = PRO.owned ? PS().restored : PS().notFound; paywallRender();
+  });
+}
+function openPaywall() {
+  if (run) stop(true);
+  PRO.msg = null;
+  $("paywall").hidden = false;
+  paywallRender();
+  $("pwClose").focus();
+}
+function paywallRender() {
+  const p = PS();
+  $("pwTitle").textContent = p.title;
+  $("pwSub").textContent = PRO.owned ? p.owned : p.sub;
+  $("pwList").innerHTML = p.features.map((f) => `<li>${f}</li>`).join("");
+  $("pwOnce").textContent = p.once;
+  const msg = PRO.msg || (PRO.desktop && !PRO.owned ? p.desktop : null);
+  $("pwMsg").hidden = !msg; $("pwMsg").textContent = msg || "";
+  const showBuy = !PRO.owned && !PRO.desktop;
+  $("pwBuy").hidden = !showBuy;
+  $("pwBuy").disabled = PRO.busy;
+  $("pwBuyLbl").textContent = PRO.busy ? p.waiting : (!PRO.native && !PRO.desktop ? p.preview : p.buy(PRO.price));
+  $("pwRestore").hidden = PRO.owned || PRO.desktop || !PRO.native;
+  $("pwRestore").textContent = p.restore;
+  $("pwClose").textContent = PRO.owned ? S().close : p.close;
+}
+$("pwBuy").onclick = proBuy;
+$("pwRestore").onclick = proRestore;
+$("pwClose").onclick = () => { $("paywall").hidden = true; };
+$("paywall").addEventListener("click", (e) => { if (e.target.id === "paywall") $("paywall").hidden = true; });
+$("proPill").onclick = openPaywall;
+
+// ---------- Kendi egzersizin (kurucu) ----------
+const cb = { id: null, pattern: [], armed: false };
+function openBuilder(id) {
+  if (!id && needsPro({ kind: "custom", count: CUSTOM.length }) && !PRO.owned) { openPaywall(); return; }
+  if (run) stop(true);
+  const c = id ? CUSTOM.find((x) => x.id === id) : null;
+  cb.id = c ? c.id : null; cb.pattern = c ? c.pattern.slice() : []; cb.armed = false;
+  const t = CB();
+  $("cbTitle").textContent = c ? t.editTitle : t.title;
+  $("cbNotesLbl").textContent = t.notes; $("cbNotesHint").textContent = t.notesHint;
+  $("cbUndo").textContent = t.undo; $("cbClear").textContent = t.clear; $("cbListen").textContent = `▶ ${t.listen}`;
+  $("cbNameLbl").textContent = t.name; $("cbName").placeholder = t.namePh; $("cbName").value = c ? c.name : t.defName(CUSTOM.length + 1);
+  $("cbSylLbl").textContent = t.syl; $("cbSyl").placeholder = t.sylPh; $("cbSyl").value = c ? c.syl : "";
+  $("cbStacLbl").textContent = t.staccato; $("cbStac").checked = c ? c.staccato : false;
+  $("cbSaveLbl").textContent = t.save; $("cbCancel").textContent = t.cancel;
+  $("cbDelete").hidden = !c; $("cbDelete").textContent = t.del; $("cbDelete").classList.remove("armed");
+  $("cbErr").hidden = true;
+  const pad = $("cbPad"); pad.innerHTML = "";
+  for (let i = 0; i <= CUSTOM_TOP; i++) {
+    const m = state.start + i;
+    const b = document.createElement("button");
+    b.type = "button"; b.className = isBlack(m) ? "blk" : "";
+    b.innerHTML = `${NOTE_NAMES[state.lang][((m % 12) + 12) % 12]}<small>+${i}</small>`;
+    b.onclick = () => {
+      if (cb.pattern.length >= CUSTOM_MAX) return;
+      cb.pattern.push(i);
+      const ctx = piano.ensure(); piano.play(m, ctx.currentTime + 0.01, 0.45, 0.8);
+      cbRender();
+    };
+    pad.appendChild(b);
+  }
+  $("builder").hidden = false;
+  cbRender();
+}
+function cbRender() {
+  const n = cb.pattern.length;
+  $("cbCount").textContent = CB().count(n, CUSTOM_MAX);
+  $("cbPreview").innerHTML = n >= 2 ? chartSVG(cb.pattern, "#F2C566", { w: 300, h: 80, r: 4 }) : `<span>${CB().tooShort}</span>`;
+  $("cbSeq").innerHTML = cb.pattern.map((i) => `<span>${NOTE_NAMES[state.lang][(((state.start + i) % 12) + 12) % 12]}</span>`).join("");
+}
+function cbListen() {
+  if (cb.pattern.length < 1) return;
+  const ctx = piano.ensure(); piano.stopAll();
+  const beat = 60 / state.bpm, stac = $("cbStac").checked;
+  cb.pattern.forEach((i, k) => piano.play(state.start + i, ctx.currentTime + 0.05 + k * beat, beat * (stac ? 0.35 : 0.92), 0.85));
+}
+function cbSave() {
+  const t = CB();
+  const err = (m) => { $("cbErr").hidden = false; $("cbErr").textContent = m; };
+  if (cb.pattern.length < 2) return err(t.tooShort);
+  if (!$("cbName").value.trim()) return err(t.needName);
+  const c = sanitizeCustom({ id: cb.id || "u_" + Date.now().toString(36), name: $("cbName").value, syl: $("cbSyl").value, pattern: cb.pattern, staccato: $("cbStac").checked });
+  if (!c) return err(t.tooShort);
+  const i = CUSTOM.findIndex((x) => x.id === c.id);
+  if (i >= 0) CUSTOM[i] = c; else CUSTOM.push(c);
+  saveCustom(); syncCustom();
+  state.ex = c.id; lastResult = null; save();
+  $("builder").hidden = true;
+  piano.stopAll();
+  buildAll();
+}
+function cbDelete() {
+  if (!cb.armed) { cb.armed = true; $("cbDelete").textContent = CB().deleteAsk; $("cbDelete").classList.add("armed"); return; }
+  CUSTOM = CUSTOM.filter((x) => x.id !== cb.id);
+  saveCustom(); syncCustom();
+  if (state.ex === cb.id) { state.ex = "besli"; save(); }
+  $("builder").hidden = true;
+  buildAll();
+}
+$("cbUndo").onclick = () => { cb.pattern.pop(); cbRender(); };
+$("cbClear").onclick = () => { cb.pattern = []; cbRender(); };
+$("cbListen").onclick = cbListen;
+$("cbSave").onclick = cbSave;
+$("cbDelete").onclick = cbDelete;
+$("cbCancel").onclick = () => { piano.stopAll(); $("builder").hidden = true; };
+$("builder").addEventListener("click", (e) => { if (e.target.id === "builder") { piano.stopAll(); $("builder").hidden = true; } });
+
+// ---------- Nefes ----------
+const BR_ICONS = {
+  breath: '<path d="M4 10c3 0 3-3 6-3s3 3 6 3 3-3 6-3"/><path d="M4 17c3 0 3-3 6-3s3 3 6 3 3-3 6-3"/><path d="M4 24c3 0 3-3 6-3s3 3 6 3 3-3 6-3" opacity=".5"/>',
+  diaphragm: '<path d="M4 19c4-7 16-7 20 0"/><path d="M14 4v9"/><path d="M10.5 9.5L14 13l3.5-3.5"/><path d="M7 24h14" opacity=".5"/>'
+};
+const brIcon = (g) => `<svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${BR_ICONS[g]}</svg>`;
+const BR = { data: { done: {} }, view: "home", ex: null, tl: null, t0: 0, raf: 0, idx: -1, running: false, finished: false, nextBeat: 0, scale: 0.42, wake: null };
+try { const d = JSON.parse(localStorage.getItem("sesacma-nefes") || "null"); if (d && typeof d === "object" && d.done) BR.data = d; } catch (e) {}
+const brSave = () => { try { localStorage.setItem("sesacma-nefes", JSON.stringify(BR.data)); } catch (e) {} };
+const brLocked = (ex) => needsPro({ kind: "breath", id: ex.id }) && !PRO.owned;
+
+function breathCard(ex) {
+  const b = document.createElement("button");
+  const locked = brLocked(ex);
+  const info = BS().types[ex.id];
+  const total = breathTimeline(ex).total;
+  const n = BR.data.done[ex.id] || 0;
+  b.type = "button"; b.className = "ear-card" + (locked ? " locked" : ""); b.style.setProperty("--c", ex.color);
+  b.innerHTML = `${locked ? `<span class="pro-badge lock-tag">${PS().badge}</span>` : ""}<span class="ear-ico">${brIcon(ex.group)}</span><span class="ear-name">${info.name}</span>
+    <span class="ear-desc">${info.desc}</span>
+    <span class="ear-best"><span class="pill">${BS().rounds(ex.rounds)}</span><span class="pill">${BS().minutes(Math.max(1, Math.round(total / 60)))}</span>${n ? `<span class="pill">✓ ${n}</span>` : ""}</span>`;
+  b.onclick = () => (locked ? openPaywall() : breathOpen(ex.id));
+  return b;
+}
+function breathRender() {
+  const t = BS();
+  $("breathHome").hidden = BR.view !== "home";
+  $("breathRun").hidden = BR.view !== "run";
+  if (BR.view === "home") {
+    $("bTitle").textContent = t.title; $("bSub").textContent = t.sub;
+    $("bgBreath").textContent = t.groups.breath; $("bgBreathSub").textContent = t.groupSub.breath;
+    $("bgDia").textContent = t.groups.diaphragm; $("bgDiaSub").textContent = t.groupSub.diaphragm;
+    $("bSafety").textContent = t.safety;
+    for (const [grid, group] of [["breathGridA", "breath"], ["breathGridB", "diaphragm"]]) {
+      const g = $(grid); g.innerHTML = "";
+      for (const ex of BREATH_EXERCISES.filter((e) => e.group === group)) g.appendChild(breathCard(ex));
+    }
+    document.documentElement.style.setProperty("--ex", "#7FBF9E");
+    return;
+  }
+  const ex = BR.ex;
+  $("bBackLbl").textContent = t.back;
+  $("bKicker").textContent = t.types[ex.id].name;
+  if (!BR.running) {
+    $("bPlayLabel").textContent = BR.finished ? t.again : t.start;
+    $("bPlayIcon").setAttribute("d", PLAY_D);
+    if (!BR.finished) {
+      $("bPhase").textContent = t.types[ex.id].name; $("bTip").textContent = t.types[ex.id].desc;
+      $("bProg").textContent = t.rounds(ex.rounds); $("bBarFill").style.width = "0%"; $("bCount").textContent = "";
+    }
+  }
+}
+function breathOpen(id) {
+  breathStop(true);
+  BR.ex = BREATH_EXERCISES.find((e) => e.id === id);
+  BR.view = "run"; BR.finished = false;
+  document.documentElement.style.setProperty("--ex", BR.ex.color);
+  orb(0.42, 0);
+  breathRender();
+  window.scrollTo(0, 0);
+}
+function orb(scale, secs, beat) {
+  const o = $("bOrb");
+  o.classList.toggle("beat", !!beat);
+  if (beat) { o.style.setProperty("--beat", `${beat}s`); o.style.transitionDuration = "0s"; return; }
+  o.style.transitionDuration = `${secs}s`;
+  o.style.transform = `scale(${scale})`;
+  BR.scale = scale;
+}
+const BR_CUE = { in: 72, hold: 67, out: 64, hiss: 64, lip: 64, empty: 60 };
+function brCue(kind) {
+  const m = BR_CUE[kind];
+  if (m == null) return;
+  const ctx = piano.ensure();
+  piano.play(m, ctx.currentTime + 0.01, 0.35, 0.32);
+}
+function brPhase(p) {
+  const t = BS(), ex = BR.ex;
+  $("bPhase").textContent = t.phases[p.kind];
+  $("bTip").textContent = t.tips[p.kind];
+  $("bProg").textContent = t.round(p.round + 1, ex.rounds);
+  brCue(p.kind);
+  if (p.kind === "in") orb(1, p.dur);
+  else if (p.kind === "out" || p.kind === "hiss" || p.kind === "lip") orb(0.42, p.dur);
+  else if (p.kind === "rest") orb(0.55, Math.min(1.5, p.dur));
+  else if (p.kind === "pulse" || p.kind === "pant") { orb(0.6, 0.3); BR.nextBeat = p.t; setTimeout(() => BR.running && orb(0, 0, ex.beat), 300); }
+  else orb(BR.scale, 0); // tut / bekle: olduğu gibi kalsın
+}
+function breathLoop() {
+  if (!BR.running) return;
+  const el = (performance.now() - BR.t0) / 1000;
+  const { phases, total } = BR.tl;
+  if (el >= total) { breathFinish(); return; }
+  if (el >= 0) {
+    let i = BR.idx < 0 ? 0 : BR.idx;
+    while (i + 1 < phases.length && phases[i + 1].t <= el) i++;
+    if (i !== BR.idx) { BR.idx = i; brPhase(phases[i]); }
+    const p = phases[i];
+    $("bCount").textContent = Math.max(1, Math.ceil(p.t + p.dur - el));
+    $("bBarFill").style.width = `${(el / total) * 100}%`;
+    if ((p.kind === "pulse" || p.kind === "pant") && el >= BR.nextBeat + 0.3) {
+      const ctx = piano.ensure();
+      piano.play(p.kind === "pulse" ? 84 : 81, ctx.currentTime + 0.005, 0.07, p.kind === "pulse" ? 0.32 : 0.2);
+      BR.nextBeat += BR.ex.beat;
+    }
+  } else {
+    $("bCount").textContent = Math.ceil(-el);
+  }
+  BR.raf = requestAnimationFrame(breathLoop);
+}
+function breathStart() {
+  if (!BR.ex) return;
+  piano.ensure();
+  BR.tl = breathTimeline(BR.ex);
+  BR.t0 = performance.now() + 3000; // 3 saniye hazırlık
+  BR.idx = -1; BR.running = true; BR.finished = false;
+  $("bPhase").textContent = S().getReady; $("bTip").textContent = BS().tips.in;
+  $("bPlayLabel").textContent = BS().stop;
+  $("bPlayIcon").setAttribute("d", "M6 5h4v14H6zM14 5h4v14h-4z");
+  orb(0.42, 0.4);
+  if (navigator.wakeLock) navigator.wakeLock.request("screen").then((l) => (BR.wake = l)).catch(() => {});
+  cancelAnimationFrame(BR.raf);
+  BR.raf = requestAnimationFrame(breathLoop);
+}
+function breathStop(silent) {
+  cancelAnimationFrame(BR.raf);
+  if (BR.wake) { BR.wake.release().catch(() => {}); BR.wake = null; }
+  const was = BR.running;
+  BR.running = false;
+  if (was && !silent) { orb(0.42, 0.6); breathRender(); }
+}
+function breathFinish() {
+  breathStop(true);
+  BR.finished = true;
+  const ex = BR.ex, t = BS();
+  BR.data.done[ex.id] = (BR.data.done[ex.id] || 0) + 1; brSave();
+  orb(0.62, 1);
+  $("bPhase").textContent = t.done;
+  $("bTip").textContent = t.doneSub(Math.max(1, Math.round(BR.tl.total / 60)));
+  $("bCount").textContent = "✓";
+  $("bBarFill").style.width = "100%";
+  const ctx = piano.ensure();
+  for (const m of [60, 64, 67, 72]) piano.play(m, ctx.currentTime + 0.05, 1.6, 0.4);
+  breathRender();
+}
+$("bPlay").onclick = () => (BR.running ? breathStop() : breathStart());
+$("bBack").onclick = () => { breathStop(true); BR.view = "home"; breathRender(); window.scrollTo(0, 0); };
+document.addEventListener("visibilitychange", () => { if (document.hidden && BR.running) breathStop(); });
+
+updateProPill();
+if (state.tab === "breath") showTab("breath");
+</script>
+

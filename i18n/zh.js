@@ -20,7 +20,7 @@ module.exports = {
     micTip: "提示：请戴耳机或关闭旋律，否则麦克风也可能收到钢琴声。",
     micDenied: "麦克风权限已关闭。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
     micFail: "麦克风无法启动。可能有其他应用正在使用，请关闭后重试。",
-    levels: { easy: "简单", mid: "中等", adv: "进阶" },
+    levels: { easy: "简单", mid: "中等", adv: "进阶", mine: "我的" },
     ranges: { child: "童声", soprano: "女高音", alto: "女低音", tenor: "男高音", bass: "男低音" },
     keyboardLabel: "钢琴键盘；点按琴键可听到该音",
     aboutText: "为声乐学生、歌手和合唱团员打造的钢琴伴奏开嗓与视唱练耳应用。在“开嗓”中，每一轮先弹一个和弦，随后练习上移半音。在“练耳”中，可练习辨认单音、音程与和弦，并通过听力测试评估你的水平。“艺考”为音乐学院入学考试提供单音、双音、三音、旋律与节奏模唱练习，以及模拟考试。",
@@ -32,6 +32,49 @@ module.exports = {
     close: "关闭",
     tabVoice: "开嗓", tabEar: "练耳",
     tabCons: "艺考",
+    tabBreath: "呼吸",
+    breath: {
+      title: "呼吸练习", sub: "唱歌前，先把呼吸和横膈膜准备好。",
+      groups: { breath: "呼吸", diaphragm: "横膈膜与闭气" },
+      groupSub: { breath: "放松下来，稳住气息，呼气悠长而有控制。", diaphragm: "练习闭气，强化横膈膜，建立气息支撑。" },
+      types: {
+        calm: { name: "平静呼吸", desc: "吸气4拍，呼气6拍。开嗓前先放松。" },
+        box: { name: "方块呼吸", desc: "吸4拍、屏4拍、呼4拍、停4拍。帮助专注。" },
+        hiss: { name: "长“sss”", desc: "快速吸气，然后用“sss”均匀地长长呼气。" },
+        r478: { name: "4-7-8 放松", desc: "吸4拍、屏7拍、呼8拍。演出前让自己平静。" },
+        lip: { name: "唇颤音", desc: "用“brrr”呼气，让嘴唇振动起来。" },
+        ladder: { name: "闭气阶梯", desc: "每一轮都比上一轮多屏住一会儿。" },
+        pulse: { name: "横膈膜弹动", desc: "用短促有力的“Ha!”来锻炼横膈膜。" },
+        holdHiss: { name: "屏气 + sss", desc: "吸气、屏住，每一轮的“sss”更长一些。" },
+        pant: { name: "快速横膈膜", desc: "用短而快的呼吸锻炼腹部肌肉。" }
+      },
+      phases: { in: "吸气", hold: "屏住", out: "呼气", empty: "停", hiss: "sss 呼气", lip: "brrr 呼气", pulse: "Ha! Ha! Ha!", pant: "快，快", rest: "休息" },
+      tips: { in: "用鼻子吸，让腹部鼓起", hold: "肩膀放松，喉咙打开", out: "用嘴呼，慢慢地", empty: "肺部排空，保持放松", hiss: "声音细而均匀", lip: "嘴唇放松，声音不断", pulse: "每次弹动都收紧腹部", pant: "腹部动，胸部不动", rest: "正常呼吸" },
+      rounds: (n) => `${n} 轮`, minutes: (m) => `约 ${m} 分钟`, round: (a, b) => `第 ${a} / ${b} 轮`, timesDone: (n) => `已完成 ${n} 次`,
+      start: "开始", stop: "停止", again: "再来一次", back: "呼吸",
+      done: "完成！", doneSub: (m) => `做得好，你练习了 ${m} 分钟呼吸。`,
+      safety: "如果感到头晕，请停下来正常呼吸。千万不要勉强闭气。"
+    },
+    custom: {
+      card: "自定义练习", cardSub: "自己挑选音符",
+      title: "创建练习", editTitle: "编辑练习",
+      name: "名称", namePh: "例如：我的开嗓", syl: "音节", sylPh: "例如：Ma – Me – Mi",
+      notes: "音符", notesHint: "从起始音开始，按演唱顺序点选音符。",
+      undo: "撤销", clear: "清空", listen: "试听", staccato: "短促断开（断音）",
+      save: "保存", del: "删除", cancel: "取消", edit: "编辑",
+      tooShort: "请至少选择 2 个音符。", needName: "请输入名称。", deleteAsk: "再点一次以删除",
+      count: (n, max) => `${n} / ${max} 个音符`, defName: (n) => `我的练习 ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "一次购买，永久拥有。",
+      features: ["进阶开嗓：琶音、八度跳跃、九音音阶", "无限创建自定义练习", "全部呼吸与横膈膜练习", "听音测试，以及中级和进阶听音训练", "艺考准备与模拟考试"],
+      buy: (p) => (p ? `获取 Pro · ${p}` : "获取 Pro"), restore: "恢复购买", close: "以后再说",
+      owned: "Pro 已解锁，谢谢支持！", basic: "基础版", once: "一次性付款，无需订阅。",
+      unavailable: "目前无法购买。请检查网络连接后重试。",
+      desktop: "你可以在 iPhone 或 Android 应用中购买 Pro。", preview: "预览：试用 Pro",
+      restored: "已恢复你的购买。", notFound: "没有找到可恢复的购买。",
+      waiting: "请稍候…", menu: "Pro"
+    },
     cons: {
       title: "音乐学院艺考准备",
       examTitle: "模拟考试", examSub: "11 道题 · 每题最多听两遍 · 结束后显示结果", examCta: "开始模拟考试",

@@ -18,7 +18,7 @@ module.exports = {
     micTip: "Tip: Use headphones or turn off the melody, or the microphone may hear the piano too.",
     micDenied: "Microphone access is off. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
     micFail: "The microphone couldn't start. Another app may be using it; close it and try again.",
-    levels: { easy: "Easy", mid: "Medium", adv: "Advanced" },
+    levels: { easy: "Easy", mid: "Medium", adv: "Advanced", mine: "Mine" },
     ranges: { child: "Child", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bass" },
     keyboardLabel: "Piano keyboard; tap a key to hear the note",
     aboutText: "Piano-accompanied vocal warm-ups and ear training for singing students, singers and choir members. In Warm-up, each round starts with a chord, then the exercise moves up by a half step. In Ear, practise recognising notes, intervals and chords, and take an ear test that measures your level. Conservatory offers single-, two- and three-note, melody and rhythm repetition practice for music school entrance exams, plus a mock exam.",
@@ -30,6 +30,49 @@ module.exports = {
     close: "Close",
     tabVoice: "Warm-up", tabEar: "Ear",
     tabCons: "Conservatory",
+    tabBreath: "Breath",
+    breath: {
+      title: "Breathing Exercises", sub: "Get your breath and diaphragm ready before you sing.",
+      groups: { breath: "Breathing", diaphragm: "Diaphragm & Breath Hold" },
+      groupSub: { breath: "Calm down, steady your breath, exhale long and controlled.", diaphragm: "Hold your breath, strengthen the diaphragm, build support." },
+      types: {
+        calm: { name: "Calm Breath", desc: "In for 4, out for 6. Relax before you warm up." },
+        box: { name: "Box Breathing", desc: "In 4, hold 4, out 4, wait 4. For focus." },
+        hiss: { name: "Long Hiss", desc: "Breathe in quickly, then breathe out long and even on \"sss\"." },
+        r478: { name: "4-7-8 Relax", desc: "In 4, hold 7, out 8. Calm down before a performance." },
+        lip: { name: "Lip Trill", desc: "Breathe out on a \"brrr\", letting your lips vibrate." },
+        ladder: { name: "Breath-Hold Ladder", desc: "Hold your breath a little longer each round." },
+        pulse: { name: "Diaphragm Pulses", desc: "Work the diaphragm with short, strong \"Ha!\" pulses." },
+        holdHiss: { name: "Hold & Hiss", desc: "In, hold, then a longer \"sss\" each round." },
+        pant: { name: "Fast Diaphragm", desc: "Work your belly muscles with short, quick breaths." }
+      },
+      phases: { in: "Breathe in", hold: "Hold", out: "Breathe out", empty: "Wait", hiss: "Out on sss", lip: "Out on brrr", pulse: "Ha! Ha! Ha!", pant: "Quick, quick", rest: "Rest" },
+      tips: { in: "Through your nose, filling your belly", hold: "Shoulders loose, throat open", out: "Through your mouth, slowly", empty: "Lungs empty, stay relaxed", hiss: "A thin, even sound", lip: "Lips loose, keep the sound going", pulse: "Pull your belly in on each pulse", pant: "Belly moves, chest stays still", rest: "Breathe normally" },
+      rounds: (n) => `${n} rounds`, minutes: (m) => `about ${m} min`, round: (a, b) => `Round ${a} of ${b}`, timesDone: (n) => `Done ${n}×`,
+      start: "Start", stop: "Stop", again: "Do it again", back: "Breath",
+      done: "Done!", doneSub: (m) => `Well done, you practised breathing for ${m} min.`,
+      safety: "If you feel dizzy, stop and breathe normally. Never force a breath hold."
+    },
+    custom: {
+      card: "Your own exercise", cardSub: "Pick the notes yourself",
+      title: "Create exercise", editTitle: "Edit exercise",
+      name: "Name", namePh: "E.g. My warm-up", syl: "Syllables", sylPh: "E.g. Ma – Me – Mi",
+      notes: "Notes", notesHint: "Tap the notes to sing in order, starting from the starting note.",
+      undo: "Undo", clear: "Clear", listen: "Listen", staccato: "Short and detached (staccato)",
+      save: "Save", del: "Delete", cancel: "Cancel", edit: "Edit",
+      tooShort: "Pick at least 2 notes.", needName: "Enter a name.", deleteAsk: "Tap again to delete",
+      count: (n, max) => `${n} / ${max} notes`, defName: (n) => `My exercise ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Buy once and it's all yours, forever.",
+      features: ["Advanced warm-ups: Arpeggio, Octave Leap, Nine-Note Scale", "Unlimited exercises of your own", "All breathing and diaphragm exercises", "Ear test, plus medium and advanced ear training", "Conservatory prep and mock exam"],
+      buy: (p) => (p ? `Get Pro · ${p}` : "Get Pro"), restore: "Restore purchase", close: "Not now",
+      owned: "Pro is unlocked. Thank you!", basic: "Basic", once: "One-time payment, no subscription.",
+      unavailable: "Purchases aren't available right now. Check your internet connection and try again.",
+      desktop: "You can buy Pro in the iPhone or Android app.", preview: "Preview: try Pro",
+      restored: "Your purchase has been restored.", notFound: "No purchase found to restore.",
+      waiting: "Waiting…", menu: "Pro"
+    },
     cons: {
       title: "Conservatory Prep",
       examTitle: "Mock Exam", examSub: "11 questions · hear each one at most twice · results at the end", examCta: "Start the mock exam",

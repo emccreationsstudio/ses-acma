@@ -20,7 +20,7 @@ module.exports = {
     micTip: "Consejo: usa auriculares o desactiva la melodía; si no, el micrófono también puede captar el piano.",
     micDenied: "El acceso al micrófono está desactivado. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
     micFail: "No se pudo iniciar el micrófono. Puede que otra app lo esté usando; ciérrala y vuelve a intentarlo.",
-    levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado" },
+    levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado", mine: "Míos" },
     ranges: { child: "Niño", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Bajo" },
     keyboardLabel: "Teclado de piano; toca una tecla para oír la nota",
     aboutText: "Calentamientos vocales con piano y entrenamiento auditivo para estudiantes de canto, cantantes y coristas. En Calentamiento, cada ronda empieza con un acorde y luego el ejercicio sube un semitono. En Oído, practica el reconocimiento de notas, intervalos y acordes, y haz un test auditivo que mide tu nivel. Conservatorio ofrece práctica de repetición de una, dos y tres notas, melodía y ritmo para las pruebas de acceso a escuelas de música, además de un examen simulado.",
@@ -32,6 +32,49 @@ module.exports = {
     close: "Cerrar",
     tabVoice: "Calentamiento", tabEar: "Oído",
     tabCons: "Conservatorio",
+    tabBreath: "Aire",
+    breath: {
+      title: "Ejercicios de respiración", sub: "Prepara tu respiración y tu diafragma antes de cantar.",
+      groups: { breath: "Respiración", diaphragm: "Diafragma y apnea" },
+      groupSub: { breath: "Cálmate, estabiliza la respiración, exhala largo y controlado.", diaphragm: "Aguanta la respiración, fortalece el diafragma, gana apoyo." },
+      types: {
+        calm: { name: "Respiración calmada", desc: "Inhala en 4, exhala en 6. Relájate antes de calentar." },
+        box: { name: "Respiración cuadrada", desc: "Inhala 4, aguanta 4, exhala 4, espera 4. Para concentrarte." },
+        hiss: { name: "Siseo largo", desc: "Inhala rápido y luego exhala largo y parejo con una \"sss\"." },
+        r478: { name: "Relajación 4-7-8", desc: "Inhala 4, aguanta 7, exhala 8. Cálmate antes de actuar." },
+        lip: { name: "Vibración de labios", desc: "Exhala con un \"brrr\" dejando que vibren los labios." },
+        ladder: { name: "Escalera de apnea", desc: "Aguanta la respiración un poco más en cada ronda." },
+        pulse: { name: "Impulsos de diafragma", desc: "Trabaja el diafragma con impulsos cortos y fuertes de \"¡Ja!\"." },
+        holdHiss: { name: "Aguanta y sisea", desc: "Inhala, aguanta y luego una \"sss\" más larga en cada ronda." },
+        pant: { name: "Diafragma rápido", desc: "Trabaja los músculos del abdomen con respiraciones cortas y rápidas." }
+      },
+      phases: { in: "Inhala", hold: "Aguanta", out: "Exhala", empty: "Espera", hiss: "Exhala con sss", lip: "Exhala con brrr", pulse: "¡Ja! ¡Ja! ¡Ja!", pant: "Rápido, rápido", rest: "Descansa" },
+      tips: { in: "Por la nariz, llenando el abdomen", hold: "Hombros sueltos, garganta abierta", out: "Por la boca, despacio", empty: "Pulmones vacíos, sigue relajado", hiss: "Un sonido fino y parejo", lip: "Labios sueltos, mantén el sonido", pulse: "Mete el abdomen en cada impulso", pant: "El abdomen se mueve, el pecho quieto", rest: "Respira con normalidad" },
+      rounds: (n) => `${n} rondas`, minutes: (m) => `unos ${m} min`, round: (a, b) => `Ronda ${a} de ${b}`, timesDone: (n) => `Hecho ${n}×`,
+      start: "Empezar", stop: "Parar", again: "Repetir", back: "Aire",
+      done: "¡Listo!", doneSub: (m) => `¡Bien hecho! Practicaste la respiración durante ${m} min.`,
+      safety: "Si te mareas, para y respira con normalidad. Nunca fuerces la apnea."
+    },
+    custom: {
+      card: "Tu propio ejercicio", cardSub: "Elige tú las notas",
+      title: "Crear ejercicio", editTitle: "Editar ejercicio",
+      name: "Nombre", namePh: "Ej. Mi calentamiento", syl: "Sílabas", sylPh: "Ej. Ma – Me – Mi",
+      notes: "Notas", notesHint: "Toca las notas que vas a cantar en orden, empezando por la nota inicial.",
+      undo: "Deshacer", clear: "Borrar", listen: "Escuchar", staccato: "Corto y separado (staccato)",
+      save: "Guardar", del: "Eliminar", cancel: "Cancelar", edit: "Editar",
+      tooShort: "Elige al menos 2 notas.", needName: "Escribe un nombre.", deleteAsk: "Toca otra vez para eliminar",
+      count: (n, max) => `${n} / ${max} notas`, defName: (n) => `Mi ejercicio ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Cómpralo una vez y es tuyo para siempre.",
+      features: ["Calentamientos avanzados: arpegio, salto de octava, escala de nueve notas", "Ejercicios propios ilimitados", "Todos los ejercicios de respiración y diafragma", "Test de oído y entrenamiento auditivo intermedio y avanzado", "Preparación para el conservatorio y examen de prueba"],
+      buy: (p) => (p ? `Obtener Pro · ${p}` : "Obtener Pro"), restore: "Restaurar compra", close: "Ahora no",
+      owned: "Pro está desbloqueado. ¡Gracias!", basic: "Básico", once: "Pago único, sin suscripción.",
+      unavailable: "Las compras no están disponibles ahora mismo. Revisa tu conexión a internet e inténtalo de nuevo.",
+      desktop: "Puedes comprar Pro en la app de iPhone o Android.", preview: "Vista previa: prueba Pro",
+      restored: "Tu compra se ha restaurado.", notFound: "No se encontró ninguna compra para restaurar.",
+      waiting: "Esperando…", menu: "Pro"
+    },
     cons: {
       title: "Preparación para el conservatorio",
       examTitle: "Examen simulado", examSub: "11 preguntas · escucha cada una dos veces como máximo · resultados al final", examCta: "Empezar el examen simulado",

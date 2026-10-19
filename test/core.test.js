@@ -376,4 +376,53 @@ test("dil paketi: 10 dil, her dilde aynı yapı ve tüm metinler", () => {
   }
 });
 
+test("nefes egzersizleri: 5 nefes + 4 diyafram, zaman çizelgesi doğru", () => {
+  assert.strictEqual(C.BREATH_EXERCISES.filter((e) => e.group === "breath").length, 5);
+  assert.strictEqual(C.BREATH_EXERCISES.filter((e) => e.group === "diaphragm").length, 4);
+  for (const ex of C.BREATH_EXERCISES) {
+    for (const [k] of ex.phases) assert.ok(C.BREATH_KINDS.includes(k), ex.id + " " + k);
+    const tl = C.breathTimeline(ex);
+    assert.strictEqual(tl.phases.length, ex.rounds * ex.phases.length);
+    assert.ok(tl.total > 20 && tl.total < 400, ex.id + " " + tl.total);
+    if (ex.phases.some(([k]) => k === "pulse" || k === "pant")) assert.ok(ex.beat > 0, ex.id);
+    for (const [code] of C.LANGS) {
+      const b = C.STRINGS[code].breath;
+      assert.ok(b.types[ex.id].name && b.types[ex.id].desc, code + " " + ex.id);
+      for (const [k] of ex.phases) assert.ok(b.phases[k] && b.tips[k], code + " " + k);
+    }
+  }
+  const lad = C.breathTimeline(C.BREATH_EXERCISES.find((e) => e.id === "ladder"));
+  assert.deepStrictEqual(lad.phases.filter((p) => p.kind === "hold").map((p) => p.dur), [4, 6, 8, 10]);
+  assert.strictEqual(lad.phases[1].t, 4);
+});
+
+test("Basic / Pro kuralları", () => {
+  assert.strictEqual(C.needsPro({ kind: "voice", level: "easy" }), false);
+  assert.strictEqual(C.needsPro({ kind: "voice", level: "adv" }), true);
+  assert.strictEqual(C.needsPro({ kind: "ear", level: "easy" }), false);
+  assert.strictEqual(C.needsPro({ kind: "ear", level: "mid" }), true);
+  assert.strictEqual(C.needsPro({ kind: "earTest" }), true);
+  assert.strictEqual(C.needsPro({ kind: "cons" }), true);
+  assert.strictEqual(C.needsPro({ kind: "custom", count: 0 }), false);
+  assert.strictEqual(C.needsPro({ kind: "custom", count: 1 }), true);
+  const free = C.BREATH_EXERCISES.filter((e) => !C.needsPro({ kind: "breath", id: e.id })).map((e) => e.id);
+  assert.deepStrictEqual(free, ["calm", "box", "hiss", "ladder"]);
+  assert.ok(C.EXERCISES.filter((e) => !C.needsPro({ kind: "voice", level: e.level })).length >= 3);
+});
+
+test("kendi egzersizin: doğrulama ve dönüştürme", () => {
+  assert.strictEqual(C.sanitizeCustom(null), null);
+  assert.strictEqual(C.sanitizeCustom({ name: "A", pattern: [0] }), null, "tek nota olmaz");
+  assert.strictEqual(C.sanitizeCustom({ name: "  ", pattern: [0, 2] }), null, "ad gerekli");
+  const c = C.sanitizeCustom({ id: "u_abc", name: " Benim ", pattern: [0, 4, 99, -1, 7, "2"], staccato: 1 });
+  assert.deepStrictEqual(c.pattern, [0, 4, 7, 2]);
+  assert.strictEqual(c.name, "Benim"); assert.strictEqual(c.id, "u_abc"); assert.strictEqual(c.staccato, true);
+  assert.ok(/^u_/.test(C.sanitizeCustom({ id: "<script>", name: "x", pattern: [0, 2] }).id));
+  assert.strictEqual(C.sanitizeCustom({ name: "x", pattern: Array(40).fill(2) }).pattern.length, C.CUSTOM_MAX);
+  const ex = C.customToExercise(c, C.LANGS.map((l) => l[0]), 0);
+  assert.strictEqual(ex.level, "mine"); assert.strictEqual(ex.name.ja, "Benim"); assert.ok(ex.syllables.de);
+  const tl = C.buildTimeline({ exercise: ex, start: 60, end: 62, dir: "up", bpm: 100, melody: true });
+  assert.ok(tl.events.length > 0);
+});
+
 console.log(`\n${passed} test geçti`);

@@ -20,7 +20,7 @@ module.exports = {
     micTip: "Tipp: Nutze Kopfhörer oder schalte die Melodie aus, sonst hört das Mikrofon auch das Klavier.",
     micDenied: "Der Mikrofonzugriff ist deaktiviert. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
     micFail: "Das Mikrofon konnte nicht gestartet werden. Vielleicht nutzt es gerade eine andere App; schließ sie und versuch es erneut.",
-    levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten" },
+    levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten", mine: "Eigene" },
     ranges: { child: "Kind", soprano: "Sopran", alto: "Alt", tenor: "Tenor", bass: "Bass" },
     keyboardLabel: "Klaviertastatur; tippe auf eine Taste, um den Ton zu hören",
     aboutText: "Einsingübungen mit Klavierbegleitung und Gehörbildung für Gesangsschüler, Sänger und Chormitglieder. Beim Einsingen beginnt jede Runde mit einem Akkord, danach steigt die Übung um einen Halbton. Unter Gehör übst du, Töne, Intervalle und Akkorde zu erkennen, und machst einen Gehörtest, der dein Niveau misst. Musikhochschule bietet Übungen zum Nachsingen von einem, zwei und drei Tönen sowie zum Nachsingen von Melodien und Nachklopfen von Rhythmen für Aufnahmeprüfungen an Musikhochschulen – plus eine Probeprüfung.",
@@ -32,6 +32,49 @@ module.exports = {
     close: "Schließen",
     tabVoice: "Einsingen", tabEar: "Gehör",
     tabCons: "Hochschule",
+    tabBreath: "Atem",
+    breath: {
+      title: "Atemübungen", sub: "Mach Atem und Zwerchfell bereit, bevor du singst.",
+      groups: { breath: "Atmung", diaphragm: "Zwerchfell & Atem anhalten" },
+      groupSub: { breath: "Komm zur Ruhe, beruhige den Atem, atme lang und kontrolliert aus.", diaphragm: "Halte den Atem an, stärke das Zwerchfell, bau Stütze auf." },
+      types: {
+        calm: { name: "Ruhiger Atem", desc: "4 ein, 6 aus. Entspann dich vor dem Einsingen." },
+        box: { name: "Box-Atmung", desc: "4 ein, 4 halten, 4 aus, 4 warten. Für mehr Fokus." },
+        hiss: { name: "Langes Zischen", desc: "Atme schnell ein und dann lang und gleichmäßig auf \"sss\" aus." },
+        r478: { name: "4-7-8 Entspannung", desc: "4 ein, 7 halten, 8 aus. Zur Ruhe kommen vor dem Auftritt." },
+        lip: { name: "Lippenflattern", desc: "Atme auf \"brrr\" aus und lass die Lippen vibrieren." },
+        ladder: { name: "Atemhalte-Leiter", desc: "Halte den Atem jede Runde etwas länger an." },
+        pulse: { name: "Zwerchfell-Impulse", desc: "Trainiere das Zwerchfell mit kurzen, kräftigen \"Ha!\"-Impulsen." },
+        holdHiss: { name: "Halten & Zischen", desc: "Ein, halten, dann jede Runde ein längeres \"sss\"." },
+        pant: { name: "Schnelles Zwerchfell", desc: "Trainiere deine Bauchmuskeln mit kurzen, schnellen Atemzügen." }
+      },
+      phases: { in: "Einatmen", hold: "Halten", out: "Ausatmen", empty: "Warten", hiss: "Aus auf sss", lip: "Aus auf brrr", pulse: "Ha! Ha! Ha!", pant: "Schnell, schnell", rest: "Pause" },
+      tips: { in: "Durch die Nase, in den Bauch", hold: "Schultern locker, Hals offen", out: "Durch den Mund, langsam", empty: "Lunge leer, bleib entspannt", hiss: "Ein dünner, gleichmäßiger Ton", lip: "Lippen locker, Ton halten", pulse: "Bei jedem Impuls den Bauch einziehen", pant: "Der Bauch bewegt sich, die Brust bleibt ruhig", rest: "Atme normal" },
+      rounds: (n) => `${n} Runden`, minutes: (m) => `ca. ${m} Min.`, round: (a, b) => `Runde ${a} von ${b}`, timesDone: (n) => `${n}× gemacht`,
+      start: "Start", stop: "Stopp", again: "Nochmal", back: "Atem",
+      done: "Geschafft!", doneSub: (m) => `Gut gemacht, du hast ${m} Min. Atmung geübt.`,
+      safety: "Wenn dir schwindlig wird, hör auf und atme normal. Erzwing das Atemanhalten nie."
+    },
+    custom: {
+      card: "Deine eigene Übung", cardSub: "Wähl die Töne selbst",
+      title: "Übung erstellen", editTitle: "Übung bearbeiten",
+      name: "Name", namePh: "Z. B. Mein Einsingen", syl: "Silben", sylPh: "Z. B. Ma – Me – Mi",
+      notes: "Töne", notesHint: "Tippe die Töne in der Reihenfolge an, in der du sie singen willst, ab dem Startton.",
+      undo: "Rückgängig", clear: "Leeren", listen: "Anhören", staccato: "Kurz und abgesetzt (Staccato)",
+      save: "Speichern", del: "Löschen", cancel: "Abbrechen", edit: "Bearbeiten",
+      tooShort: "Wähl mindestens 2 Töne.", needName: "Gib einen Namen ein.", deleteAsk: "Zum Löschen nochmal tippen",
+      count: (n, max) => `${n} / ${max} Töne`, defName: (n) => `Meine Übung ${n}`
+    },
+    pro: {
+      badge: "PRO", title: "Ses Açma Pro", sub: "Einmal kaufen, für immer deins.",
+      features: ["Fortgeschrittenes Einsingen: Arpeggio, Oktavsprung, Neuntonleiter", "Unbegrenzt eigene Übungen", "Alle Atem- und Zwerchfellübungen", "Gehörtest sowie mittlere und fortgeschrittene Gehörbildung", "Vorbereitung Musikhochschule und Probeprüfung"],
+      buy: (p) => (p ? `Pro holen · ${p}` : "Pro holen"), restore: "Kauf wiederherstellen", close: "Jetzt nicht",
+      owned: "Pro ist freigeschaltet. Danke!", basic: "Basis", once: "Einmalzahlung, kein Abo.",
+      unavailable: "Käufe sind gerade nicht möglich. Prüf deine Internetverbindung und versuch es erneut.",
+      desktop: "Du kannst Pro in der iPhone- oder Android-App kaufen.", preview: "Vorschau: Pro testen",
+      restored: "Dein Kauf wurde wiederhergestellt.", notFound: "Kein Kauf zum Wiederherstellen gefunden.",
+      waiting: "Warte…", menu: "Pro"
+    },
     cons: {
       title: "Vorbereitung Musikhochschule",
       examTitle: "Probeprüfung", examSub: "11 Fragen · jede höchstens zweimal anhören · Ergebnis am Ende", examCta: "Probeprüfung starten",

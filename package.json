@@ -1,6 +1,6 @@
 {
   "name": "ses-acma",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Ses Açma: Piyano Isınma — şan öğrencileri ve şarkıcılar için ses açma, kulak eğitimi ve konservatuvara hazırlık",
   "private": true,
   "scripts": {
@@ -19,7 +19,8 @@
   "dependencies": {
     "@capacitor/core": "latest",
     "@capacitor/ios": "latest",
-    "@capacitor/android": "latest"
+    "@capacitor/android": "latest",
+    "cordova-plugin-purchase": "^13.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "latest"
