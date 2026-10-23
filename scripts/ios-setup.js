@@ -90,15 +90,22 @@ if (fs.existsSync(splashSet)) {
   }
 }
 
-// 5) Yalnızca iPhone (iPad ekran görüntüsü istenmesin; iPad'de iPhone uygulaması olarak yine çalışır)
+// 5) iPhone + iPad (evrensel uygulama; iPad'de tam ekran, iki sütunlu düzen)
 const pbxPath = path.join(root, "ios", "App", "App.xcodeproj", "project.pbxproj");
 if (fs.existsSync(pbxPath)) {
   const pbx = fs.readFileSync(pbxPath, "utf8");
-  const updated = pbx.replace(/TARGETED_DEVICE_FAMILY = "1,2";/g, "TARGETED_DEVICE_FAMILY = 1;");
-  if (updated !== pbx) {
-    fs.writeFileSync(pbxPath, updated);
-    done.push("Yalnızca iPhone hedefi");
-  }
+  const updated = pbx.replace(/TARGETED_DEVICE_FAMILY = (1|"1,2");/g, 'TARGETED_DEVICE_FAMILY = "1,2";');
+  if (updated !== pbx) fs.writeFileSync(pbxPath, updated);
+  done.push("iPhone + iPad hedefi");
+}
+// iPad'de dört yönde de dönsün (Apple, bölünmüş ekran için iPad'de tüm yönleri ister); iPhone dikey
+{
+  let pl = fs.readFileSync(plistPath, "utf8");
+  plist = pl;
+  setKey("UISupportedInterfaceOrientations~ipad", "<array>\n\t\t<string>UIInterfaceOrientationPortrait</string>\n\t\t<string>UIInterfaceOrientationPortraitUpsideDown</string>\n\t\t<string>UIInterfaceOrientationLandscapeLeft</string>\n\t\t<string>UIInterfaceOrientationLandscapeRight</string>\n\t</array>");
+  setKey("UISupportedInterfaceOrientations", "<array>\n\t\t<string>UIInterfaceOrientationPortrait</string>\n\t</array>");
+  fs.writeFileSync(plistPath, plist);
+  done.push("iPad: tüm yönler, iPhone: dikey");
 }
 
 console.log("iOS projesi güncellendi:\n - " + done.join("\n - "));

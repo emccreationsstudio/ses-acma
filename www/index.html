@@ -483,6 +483,24 @@ button.qcard { cursor: pointer; }
   .ex-row { grid-auto-columns: calc(33.333% - 8px); }
   .now-note { font-size: 5.4rem; }
 }
+@media (min-width: 461px) and (max-width: 999px) { .switcher svg { display: none; } }
+/* iPad yatay ve büyük iPad: iki sütun */
+@media (min-width: 1000px) {
+  .app { max-width: 1180px; padding: 30px 36px calc(124px + env(safe-area-inset-bottom, 0px)); }
+  .tabs, .bar { max-width: 900px; }
+  #homeView { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); grid-template-areas: "stage ex" "play ex" "demo ex" ". set"; grid-template-rows: auto auto auto 1fr; column-gap: 28px; row-gap: 18px; align-items: start; }
+  #homeView[hidden] { display: none; }
+  #stage { grid-area: stage; } #exerciseSection { grid-area: ex; } #settingsSection { grid-area: set; } #play { grid-area: play; } #demo { grid-area: demo; }
+  .ex-row { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+  .keyboard { height: 190px; }
+  .ear-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .all-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .breath-stage .orb-wrap { width: 300px; height: 300px; }
+  .breath-stage .orb-count { font-size: 4.4rem; }
+  #earRun, #breathRun, #earResult { max-width: 760px; width: 100%; margin: 0 auto; }
+  .sheet { max-width: 640px; }
+}
+@media (min-width: 760px) and (min-height: 1000px) { .breath-stage .orb-wrap { width: 440px; height: 440px; } .breath-stage { padding: 40px 20px 34px; gap: 14px; } .breath-stage .orb-count { font-size: 5rem; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 /* ---------- 1.2: Nefes, kendi egzersizin, Pro ---------- */
 .switcher { grid-template-columns: repeat(4, minmax(0, 1fr)); }
