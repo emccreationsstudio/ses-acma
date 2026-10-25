@@ -1036,6 +1036,10 @@ html[data-skin] #breathGridA .lock-tag { top: 10px; right: 12px; }
 @media (max-width: 460px) { html[data-skin] .brand p { display: none; } html[data-skin] .head-btns { gap: 6px; } html[data-skin] .head-btns .icon-btn { width: 40px; height: 40px; } }
 /*IMG-END*/
 /*IPAD-START*/
+/* Telefon: Egzersize Başla ve Örneği dinle, sahnenin hemen altında */
+html[data-skin] #homeView { display: flex; flex-direction: column; }
+html[data-skin] #stage { order: 0; } html[data-skin] #play { order: 1; } html[data-skin] #demo { order: 2; }
+html[data-skin] #exerciseSection { order: 3; } html[data-skin] #settingsSection { order: 4; }
 /* =================== iPad: ana ekran tek ekrana sığar =================== */
 @media (min-width: 820px) {
   html[data-skin] .app { max-width: none; height: 100dvh; padding: 18px 26px calc(92px + env(safe-area-inset-bottom, 0px)); gap: 14px; overflow: hidden; }
@@ -1166,7 +1170,7 @@ html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem
   html[data-skin] #langPanel { top: 84px; right: 26px; }
 }
 @media (min-width: 820px) and (orientation: portrait), (min-width: 820px) and (max-width: 999px) {
-  html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "stage stage" "ex set" "play demo"; }
+  html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto auto minmax(0, 1fr); grid-template-areas: "stage stage" "play demo" "ex set"; }
 }
 @media (min-width: 1000px) and (orientation: landscape) {
   html[data-skin] #settingsSection { grid-template-columns: minmax(0, 1fr); }
@@ -1175,7 +1179,7 @@ html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem
 /* 820–999 px yatay (bölünmüş ekran, küçük pencere): dikey düzen, sayfa kayar */
 @media (min-width: 820px) and (max-width: 999px) and (orientation: landscape) {
   html[data-skin] .app { height: auto; overflow: visible; }
-  html[data-skin] #homeView:not([hidden]) { height: auto; grid-template-rows: auto auto auto; }
+  html[data-skin] #homeView:not([hidden]) { height: auto; grid-template-rows: auto auto auto; grid-template-areas: "stage stage" "play demo" "ex set"; }
   html[data-skin] #exercises { overflow: visible; }
 }
 /*IPAD-END*/
