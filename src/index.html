@@ -859,6 +859,135 @@ html[data-skin] .ex-row .ex-name { white-space: nowrap; overflow: hidden; text-o
 html[data-skin] .hero-cta, html[data-skin] #earPlay, html[data-skin] #bPlay, html[data-skin] #sumPlay, html[data-skin] #pwBuy, html[data-skin] #cbSave { background: var(--i-play) center / 100% 100% no-repeat; box-shadow: none; border: 0; }
 html[data-skin] .switcher button[aria-selected="true"] { background: var(--i-seg-on) center / 100% 100% no-repeat; box-shadow: none; }
 /*IMG-END*/
+/*IPAD-START*/
+/* =================== iPad: ana ekran tek ekrana sığar =================== */
+@media (min-width: 820px) {
+  html[data-skin] .app { max-width: none; height: 100dvh; padding: 18px 26px calc(92px + env(safe-area-inset-bottom, 0px)); gap: 14px; overflow: hidden; }
+  html[data-skin] .app:has(#homeView[hidden]), html[data-skin] .app:has(#voiceView[hidden]) { height: auto; overflow: visible; }
+  html[data-skin] .switcher { display: none; }
+  html[data-skin] .header .mark { width: 50px; height: 50px; }
+  html[data-skin] .brand h1 { font-size: 1.7rem; }
+  html[data-skin] #voiceView { flex: 1; min-height: 0; }
+  html[data-skin] #homeView:not([hidden]) { display: grid; height: 100%; min-height: 0; column-gap: 18px; row-gap: 12px; align-items: stretch; }
+  html[data-skin] #stage { grid-area: stage; min-height: 0; padding: 14px 16px 12px; gap: 10px; }
+  html[data-skin] #exerciseSection { grid-area: ex; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  html[data-skin] #settingsSection { grid-area: set; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+  html[data-skin] #play { grid-area: play; } html[data-skin] #demo { grid-area: demo; }
+  /* Sahne */
+  html[data-skin] .stage-top { flex: 0 0 auto; }
+  html[data-skin] .now-note { font-size: 4.2rem; }
+  html[data-skin] .contour-col svg { height: 118px; }
+  html[data-skin] .contour-col .syllables { font-size: 1.25rem; }
+  html[data-skin] #stageDown, html[data-skin] #stageUp { width: 50px; height: 50px; }
+  html[data-skin] .round-btns { margin-top: 6px; }
+  html[data-skin] .keyboard { flex: 1 1 auto; height: auto; min-height: 130px; max-height: 360px; }
+  /* Egzersizler: sıkı liste, sığmazsa kendi içinde kayar */
+  html[data-skin] #exerciseSection .section-head h2 { font-size: 1.6rem; }
+  html[data-skin] #exercises { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; overflow-y: auto; padding: 2px; margin: 0; }
+  html[data-skin] .ex-row .ex-card { min-height: 64px; padding: 6px 12px 6px 8px; flex: 0 0 auto; grid-template-columns: 50px 1px minmax(0, 1.2fr) minmax(0, 0.9fr); column-gap: 12px; }
+  html[data-skin] .ex-row .ex-card > svg.chart { height: 48px; }
+  html[data-skin] .ex-emb { width: 50px; height: 50px; }
+  html[data-skin] .ex-row .ex-name { font-size: 1.08rem; }
+  html[data-skin] .ex-row .ex-meta { font-size: 0.8rem; }
+  html[data-skin] .ex-row .check { width: 32px; height: 32px; }
+  /* Ayarlar: sıkı */
+  html[data-skin] #settings { gap: 9px; padding: 12px 12px; }
+  html[data-skin] #settings .panel-head h2 { font-size: 1.6rem; }
+  html[data-skin] .field.box { padding: 8px 10px; gap: 6px; }
+  html[data-skin] .label { font-size: 0.68rem; }
+  html[data-skin] .seg:not(.langs) button { padding: 8px 2px; font-size: 0.95rem; }
+  html[data-skin] .stepper { padding: 4px; }
+  html[data-skin] .stepper button { width: 36px; height: 36px; }
+  html[data-skin] .stepper b { font-size: 1.15rem; }
+  html[data-skin] .steppers { gap: 9px; }
+  html[data-skin] .toggle { padding-top: 8px !important; padding-bottom: 4px; }
+  html[data-skin] .toggle > span:first-child > span { font-size: 1.05rem !important; }
+  html[data-skin] .toggle small { font-size: 0.76rem; }
+  html[data-skin] .switch { width: 54px; height: 33px; }
+  /* Dil ve tema: 5'li ızgara, küçük düğmeler */
+  html[data-skin] #langPanel { gap: 8px; padding: 12px; }
+  html[data-skin] #langPanel .field { gap: 6px; }
+  html[data-skin] #langPanel .seg.langs { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  html[data-skin] #langPanel .seg.langs.themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html[data-skin] #langPanel .seg.langs button { min-height: 36px; padding: 6px 2px; font-size: 0.86rem; border-radius: 9px; }
+  /* Büyük düğmeler */
+  html[data-skin] #play { min-height: 58px; padding: 10px; font-size: 1.3rem; }
+  html[data-skin] #demo { min-height: 50px; padding: 8px; }
+}
+/* Dikey iPad: sahne üstte; solda egzersizler + dil, sağda ayarlar; en altta iki düğme yan yana */
+@media (min-width: 820px) and (orientation: portrait) {
+  html[data-skin] #homeView:not([hidden]) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto; grid-template-areas: "stage stage" "ex set" "ex lang" "play demo"; }
+  html[data-skin] #settingsSection { display: contents; }
+  html[data-skin] #settings { grid-area: set; }
+  html[data-skin] #langPanel { grid-area: lang; }
+  html[data-skin] #stage .keyboard { height: 150px; flex: none; }
+  html[data-skin] #exercises { gap: 6px; }
+  html[data-skin] .ex-row .ex-card { min-height: 52px; flex: 1 1 auto; max-height: 92px; }
+  html[data-skin] #langPanel { align-self: start; }
+  html[data-skin] #demo { min-height: 58px; }
+  html[data-skin] #settings { justify-content: space-between; }
+}
+@media (min-width: 820px) and (min-height: 1300px) and (orientation: portrait) {
+  html[data-skin] #stage .keyboard { height: 210px; }
+  html[data-skin] .now-note { font-size: 4.6rem; }
+  html[data-skin] .contour-col svg { height: 130px; }
+}
+@media (min-width: 820px) and (max-width: 900px) and (orientation: portrait) {
+  html[data-skin] .seg:not(.langs) button { font-size: 0.82rem; }
+  html[data-skin] #langPanel .seg.langs button { font-size: 0.76rem; }
+  html[data-skin] .ex-emb { width: 42px; height: 42px; }
+  html[data-skin] .ex-row .ex-card { grid-template-columns: 42px 1px minmax(0, 1.3fr) minmax(0, 0.8fr); column-gap: 9px; }
+  html[data-skin] .ex-row .ex-card > svg.chart { height: 40px; }
+  html[data-skin] .toggle small { display: none; }
+  html[data-skin] #stage .keyboard { height: 118px; }
+  html[data-skin] .contour-col svg { height: 84px; }
+  html[data-skin] .now-note { font-size: 3.2rem; }
+  html[data-skin] #stageDown, html[data-skin] #stageUp { width: 44px; height: 44px; }
+  html[data-skin] #settings { gap: 7px; }
+}
+/* Yatay iPad: ilk ekranda piyano (sahne + düğmeler) ve egzersizler; diğer ayarlar aşağıda */
+@media (min-width: 1000px) and (orientation: landscape) {
+  html[data-skin] .app { height: auto; overflow: visible; }
+  html[data-skin] #homeView:not([hidden]) { height: auto; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto auto; grid-template-areas: "stage ex" "play ex" "demo ex" "set set"; row-gap: 12px; }
+  html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto auto auto auto; align-items: start; }
+  html[data-skin] #stage { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; }
+  html[data-skin] #stage .keyboard { flex: none; height: auto; max-height: none; min-height: 0; aspect-ratio: 4.25 / 1; }
+  html[data-skin] .now-note { font-size: 4.8rem; }
+  html[data-skin] .contour-col svg { height: 150px; }
+  html[data-skin] .contour-col .syllables { font-size: 1.45rem; }
+  html[data-skin] #stageDown, html[data-skin] #stageUp { width: 58px; height: 58px; }
+  html[data-skin] #exercises { overflow: visible; }
+  html[data-skin] .ex-row .ex-card { min-height: 74px; }
+  /* Ayarlar aşağıda, tam genişlik: ayarlar paneli + dil/tema yan yana */
+  html[data-skin] #settingsSection { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-top: 18px; }
+  html[data-skin] #settings { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 12px; padding: 16px; }
+  html[data-skin] #settings > .panel-head, html[data-skin] #settings > .hint { grid-column: 1 / -1; }
+  html[data-skin] #settings .toggle { align-self: stretch; }
+  html[data-skin] #langPanel { padding: 16px; }
+  html[data-skin] #langPanel .seg.langs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html[data-skin] #langPanel .seg.langs button { min-height: 42px; font-size: 1rem; }
+}
+@media (min-width: 1000px) and (max-height: 860px) and (orientation: landscape) {
+  html[data-skin] .app { padding-top: 10px; gap: 8px; }
+  html[data-skin] .header .mark { width: 40px; height: 40px; }
+  html[data-skin] .brand h1 { font-size: 1.4rem; } html[data-skin] .brand p { display: none; }
+  html[data-skin] .now-note { font-size: 3.8rem; }
+  html[data-skin] .contour-col svg { height: 110px; }
+  html[data-skin] .ex-row .ex-card { min-height: 60px; }
+  html[data-skin] .ex-emb { width: 44px; height: 44px; }
+  html[data-skin] #play { min-height: 52px; } html[data-skin] #demo { min-height: 44px; }
+}
+/* Dil/Tema düğmesi (yalnızca dikey iPad'de; panel açılır pencere olur) */
+.lang-btn { display: none; }
+@media (min-width: 820px) and (orientation: portrait) {
+  html[data-skin] .lang-btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 99px; border: 0; cursor: pointer; font-family: var(--font-display); font-size: 1rem; color: var(--ink); background: var(--i-lang-off) center / 100% 100% no-repeat; }
+  html[data-skin] .lang-btn svg { width: 20px; height: 20px; }
+  html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "stage stage" "ex set" "play demo"; }
+  html[data-skin] #langPanel { display: none; position: fixed; z-index: 30; top: 84px; right: 26px; width: min(560px, calc(100vw - 52px)); box-shadow: 0 30px 80px -10px #000; }
+  html[data-skin] #langPanel.open { display: flex; }
+  html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem; }
+}
+/*IPAD-END*/
 </style>
 
 <div class="app" id="app">
@@ -880,7 +1009,7 @@ html[data-skin] .switcher button[aria-selected="true"] { background: var(--i-seg
         <p data-i18n="tagline"></p>
       </div>
     </div>
-    <div class="head-btns"><button type="button" class="pro-pill" id="proPill">PRO</button><button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button></div>
+    <div class="head-btns"><button type="button" class="lang-btn" id="langBtn" aria-controls="langPanel" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg><span data-i18n="language"></span></button><button type="button" class="pro-pill" id="proPill">PRO</button><button type="button" class="icon-btn" id="aboutBtn" aria-label="Hakkında">i</button></div>
   </header>
 
   <nav class="switcher" role="tablist">
@@ -4869,3 +4998,10 @@ updateProPill();
 if (state.tab === "breath") showTab("breath");
 </script>
 
+<script id="ipadLang">
+(function(){var b=document.getElementById("langBtn"),p=document.getElementById("langPanel");if(!b||!p)return;
+function set(o){p.classList.toggle("open",o);b.setAttribute("aria-expanded",String(o));}
+b.addEventListener("click",function(e){e.stopPropagation();set(!p.classList.contains("open"));});
+document.addEventListener("click",function(e){if(p.classList.contains("open")&&!p.contains(e.target))set(false);});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});})();
+</script>
