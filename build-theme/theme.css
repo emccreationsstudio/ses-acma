@@ -1,0 +1,153 @@
+/* =================== 1.3: Temalar — Rustik ve Siyah-Beyaz =================== */
+html[data-theme] {
+  --brush: repeating-linear-gradient(90deg, rgba(255,255,255,0.022) 0 1px, transparent 1px 3px, rgba(0,0,0,0.05) 3px 4px);
+  --radius: 16px;
+}
+html[data-theme="rustic"] {
+  --bg: #0A0806; --bg-2: #15100A; --surface: #16120C; --surface-2: #1F1911; --surface-3: #2C2418;
+  --line: rgba(214, 168, 88, 0.20); --line-2: rgba(222, 178, 98, 0.42);
+  --ink: #F5EBD6; --muted: #C6AF86; --dim: #8E7A57;
+  --gold: #D9A852; --gold-2: #9E6D27; --gold-hi: #FFE4A6; --gold-ink: #1E1306;
+  --metal-a: #F7D995; --metal-b: #D4A24C; --metal-c: #8F6022;
+  --key-white: #EFE3C8; --key-black: #0C0907;
+  --ex: #D9A852 !important;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  --font-body: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+}
+html[data-theme="mono"] {
+  --bg: #050505; --bg-2: #0D0D0D; --surface: #111111; --surface-2: #191919; --surface-3: #2A2A2A;
+  --line: rgba(255, 255, 255, 0.13); --line-2: rgba(255, 255, 255, 0.32);
+  --ink: #F7F7F7; --muted: #B9B9B9; --dim: #7C7C7C;
+  --gold: #E8E8E8; --gold-2: #8E8E8E; --gold-hi: #FFFFFF; --gold-ink: #0B0B0B;
+  --metal-a: #FFFFFF; --metal-b: #C9C9C9; --metal-c: #7A7A7A;
+  --key-white: #FAFAFA; --key-black: #050505;
+  --ex: #EDEDED !important;
+  --font-display: system-ui, -apple-system, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+}
+html[data-theme] body {
+  background:
+    radial-gradient(80% 45% at 75% -8%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 62%),
+    var(--brush),
+    linear-gradient(180deg, var(--bg-2), var(--bg) 60%);
+  background-attachment: fixed;
+}
+html[data-theme="rustic"] body { letter-spacing: 0.005em; }
+html[data-theme="mono"] h1, html[data-theme="mono"] h2 { letter-spacing: -0.02em; }
+
+/* Metal yüzeyler */
+html[data-theme] .stage, html[data-theme] .panel, html[data-theme] .ex-card, html[data-theme] .ear-card, html[data-theme] .ear-hero,
+html[data-theme] .switcher, html[data-theme] .sheet, html[data-theme] .summary, html[data-theme] .qcard {
+  background: var(--brush), linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 100%, #fff 3%), var(--surface) 70%);
+  border: 1px solid var(--line-2);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-hi) 14%, transparent), inset 0 -1px 0 rgba(0,0,0,0.5), 0 14px 34px -22px #000;
+}
+html[data-theme] .stage { border-radius: 22px; }
+html[data-theme] .dock { background: color-mix(in srgb, var(--bg) 90%, transparent); border-top: 1px solid var(--line-2); }
+
+/* Fırçalanmış altın / gümüş seçili durumlar */
+html[data-theme] .play, html[data-theme] .switcher button[aria-selected="true"], html[data-theme] .seg button[aria-pressed="true"],
+html[data-theme] .hero-cta, html[data-theme] .chips button[aria-pressed="true"], html[data-theme] .pro-pill.on, html[data-theme] .pro-badge {
+  background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 46%, var(--metal-c));
+  color: var(--gold-ink); border-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -2px 0 rgba(0,0,0,0.25), 0 8px 22px -12px var(--gold);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+}
+html[data-theme] .play { border-radius: 16px; font-family: var(--font-display); font-size: 1.45rem; }
+html[data-theme="mono"] .play { font-family: var(--font-body); font-weight: 800; }
+html[data-theme] .play.stop { background: var(--surface-3); color: var(--ink); text-shadow: none; }
+html[data-theme] .ghost-lg { border-radius: 16px; border-color: var(--line-2); background: var(--brush), linear-gradient(180deg, var(--surface-2), var(--surface)); }
+html[data-theme] .seg, html[data-theme] .stepper { background: rgba(0,0,0,0.45); border: 1px solid var(--line-2); box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+html[data-theme] .seg button { color: var(--ink); opacity: 0.88; }
+html[data-theme] .seg button[aria-pressed="true"] { opacity: 1; }
+html[data-theme] .seg.langs { gap: 8px; background: transparent; border: 0; box-shadow: none; padding: 0; }
+html[data-theme] .seg.langs button { background: var(--brush), linear-gradient(180deg, var(--surface-2), #000 140%); border: 1px solid var(--line-2); padding: 12px 8px; font-size: 1.05rem; border-radius: 12px; }
+html[data-theme] .seg.langs button[aria-pressed="true"] { background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 46%, var(--metal-c)); }
+
+/* Yuvarlak metal düğmeler */
+html[data-theme] .round-btn, html[data-theme] .stepper button, html[data-theme] .icon-btn, html[data-theme] .play-dot {
+  border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--gold) 70%, transparent);
+  background: radial-gradient(circle at 50% 30%, #3a3328, #0d0b08 70%);
+  color: var(--gold-hi); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 4px 10px -4px #000;
+}
+html[data-theme="mono"] .round-btn, html[data-theme="mono"] .stepper button, html[data-theme="mono"] .icon-btn, html[data-theme="mono"] .play-dot { background: radial-gradient(circle at 50% 30%, #4a4a4a, #050505 70%); }
+html[data-theme] .stepper button { width: 40px; height: 40px; }
+
+/* Anahtar (switch) */
+html[data-theme] .switch span { background: #0a0a0a; border: 1px solid var(--line-2); box-shadow: inset 0 2px 5px rgba(0,0,0,0.7); }
+html[data-theme] .switch input:checked + span { background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 50%, var(--metal-c)); }
+html[data-theme] .switch span::after { background: radial-gradient(circle at 40% 35%, #fff, #e8e2d4 55%, #a9a294); }
+
+/* Sahne: büyük nota, eğri, klavye */
+html[data-theme] .now-note { background: linear-gradient(180deg, var(--metal-a), var(--metal-b) 52%, var(--metal-c)); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+html[data-theme] .syllables { font-family: var(--font-display); font-size: clamp(1.15rem, 5vw, 1.6rem); }
+html[data-theme] .contour-col svg { height: 140px; }
+html[data-theme] .keyboard { padding: 10px 8px 8px; border-radius: 12px; }
+html[data-theme="rustic"] .keyboard {
+  background: repeating-linear-gradient(92deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 9px), linear-gradient(180deg, #4a2c17, #2a170b 60%, #1c0f06);
+  box-shadow: inset 0 2px 0 rgba(255,210,150,0.18), inset 0 -3px 6px rgba(0,0,0,0.6), 0 10px 24px -14px #000;
+}
+html[data-theme="rustic"] .key-w { background: linear-gradient(180deg, #d9ccae, var(--key-white) 14%, #f6eedb 90%, #cbbd9c); color: #6b5a3c; font-family: var(--font-body); }
+html[data-theme="rustic"] .key-b { background: linear-gradient(180deg, #2b211a, #0c0907 35%, #000); }
+html[data-theme="mono"] .keyboard { background: linear-gradient(180deg, #1a1a1a, #000); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18), 0 10px 24px -14px #000; }
+html[data-theme="mono"] .key-w { background: linear-gradient(180deg, #e2e2e2, #fff 14%, #fff 90%, #d4d4d4); color: #444; }
+html[data-theme="mono"] .key-b { background: linear-gradient(180deg, #333, #050505 35%, #000); }
+
+/* Bölüm başlıkları: başlık + ince çizgi */
+html[data-theme] .section-head h2, html[data-theme] .all-head h1, html[data-theme] .sheet h2, html[data-theme] .brand h1 { font-family: var(--font-display); }
+html[data-theme="rustic"] .section-head h2, html[data-theme="rustic"] .brand h1, html[data-theme="rustic"] .all-head h1 {
+  background: linear-gradient(180deg, var(--metal-a), var(--metal-b) 60%, var(--metal-c)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;
+}
+html[data-theme] .section-head { gap: 16px; }
+html[data-theme] .section-head h2 { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; font-size: 1.85rem; }
+html[data-theme] .section-head h2::after { content: ""; flex: 1; height: 1px; min-width: 20px; background: linear-gradient(90deg, var(--line-2), transparent); }
+html[data-theme="rustic"] .section-head h2::after { background: radial-gradient(circle, var(--gold) 0 2.5px, transparent 3px) center / 8px 8px no-repeat, linear-gradient(90deg, transparent, var(--line-2) 20%, var(--line-2) 80%, transparent); }
+html[data-theme] .label { color: var(--muted); letter-spacing: 0.18em; }
+html[data-theme="rustic"] .label { font-family: var(--font-body); }
+
+/* Egzersizler: satır kartlar (amblem · ad · eğri) */
+html[data-theme] .ex-row { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: 1fr; overflow: visible; scroll-snap-type: none; gap: 10px; }
+html[data-theme] .ex-row .ex-card {
+  --c: var(--gold);
+  display: grid; grid-template-columns: 62px 1px minmax(0, 0.9fr) minmax(0, 1.25fr); grid-template-areas: "emb div txt chart";
+  align-items: center; column-gap: 14px; padding: 10px 14px 10px 10px; min-height: 84px;
+}
+html[data-theme] .ex-row .ex-card::before { content: ""; grid-area: div; width: 1px; height: 60%; background: linear-gradient(180deg, transparent, var(--line-2), transparent); }
+html[data-theme] .ex-row .ex-card > svg.chart { grid-area: chart; height: 64px; }
+html[data-theme] .ex-row .ex-txt { grid-area: txt; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+html[data-theme] .ex-row .ex-name { font-size: 1.12rem; font-family: var(--font-display); }
+html[data-theme="rustic"] .ex-row .ex-name { font-size: 1.25rem; font-weight: 700; }
+html[data-theme] .ex-row .check { top: 50%; right: 12px; transform: translateY(-50%); width: 32px; height: 32px; background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 50%, var(--metal-c)); color: var(--gold-ink); }
+html[data-theme] .ex-row .lock-tag { top: 8px; right: 10px; }
+html[data-theme] .ex-row .ex-edit { bottom: auto; top: 50%; transform: translateY(-50%); right: 52px; }
+html[data-theme] .ex-row .ex-card[aria-pressed="true"] { border-color: var(--gold); background: var(--brush), linear-gradient(90deg, color-mix(in srgb, var(--gold) 26%, var(--surface-2)), var(--surface) 75%); box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent), 0 10px 28px -12px var(--gold); }
+html[data-theme] .ex-row .add-card { display: grid; grid-template-columns: 62px 1px minmax(0, 1fr); }
+html[data-theme] .ex-row .add-card .add-plus { grid-area: emb; margin: 0; width: 54px; height: 54px; }
+html[data-theme] .ex-row .add-card .ex-txt { grid-column: 3; }
+.ex-emb { display: none; }
+html[data-theme] .ex-emb {
+  grid-area: emb; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; color: var(--gold-hi);
+  background: radial-gradient(circle at 50% 35%, #2e2a24, #070605 72%);
+  box-shadow: 0 0 0 1.5px var(--gold), 0 0 0 4px rgba(0,0,0,0.6), 0 0 0 5px color-mix(in srgb, var(--gold) 45%, transparent), 0 6px 14px -6px #000;
+}
+html[data-theme] .ex-emb svg { width: 30px; height: 30px; }
+html[data-theme] .level { background: rgba(0,0,0,0.5); border: 1px solid var(--line-2); color: var(--ink); }
+html[data-theme] .ex-card.locked > svg.chart, html[data-theme] .ex-card.locked .ex-emb { opacity: 0.55; }
+@media (max-width: 430px) {
+  html[data-theme] .ex-row .ex-card { grid-template-columns: 52px 1px minmax(0, 1fr) minmax(0, 0.9fr); column-gap: 10px; }
+  html[data-theme] .ex-emb { width: 48px; height: 48px; }
+  html[data-theme] .ex-emb svg { width: 26px; height: 26px; }
+  html[data-theme] .ex-row .ex-name { font-size: 1.02rem; }
+}
+/* Kulak / nefes kartları ve sekmeler */
+html[data-theme] .ear-card, html[data-theme] .ear-hero { --c: var(--gold); }
+html[data-theme] .ear-ico, html[data-theme] .hero-ico { border-radius: 50%; color: var(--gold-hi); background: radial-gradient(circle at 50% 35%, #2e2a24, #070605 72%); border: 1.5px solid var(--gold); }
+html[data-theme] .ear-name, html[data-theme] .hero-txt b { font-family: var(--font-display); }
+html[data-theme] .tab[aria-selected="true"] svg { color: var(--gold-hi); }
+html[data-theme] .tab[aria-selected="true"]::after { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+html[data-theme] .orb { background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.9), var(--metal-a) 22%, var(--metal-b) 52%, var(--metal-c) 100%); }
+html[data-theme] .orb-count { color: var(--gold-ink); text-shadow: 0 1px 0 rgba(255,255,255,0.4); }
+html[data-theme] .chip.now { background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 50%, var(--metal-c)); }
+html[data-theme] .key-w.on, html[data-theme] .key-b.on { background: var(--brush), linear-gradient(180deg, var(--metal-a), var(--metal-b) 60%, var(--metal-c)); }
+html[data-theme] .cb-pad button { background: var(--key-white); }
+html[data-theme] .cb-pad button.blk { background: #141210; }
+@media (min-width: 1000px) { html[data-theme] .ex-row { grid-template-columns: 1fr; } }

@@ -89,7 +89,7 @@
   html[data-skin] #homeView:not([hidden]) { height: auto; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto auto; grid-template-areas: "stage ex" "play ex" "demo ex" "set set"; row-gap: 12px; }
   html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto auto auto auto; align-items: start; }
   html[data-skin] #stage { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; }
-  html[data-skin] #stage .keyboard { flex: none; height: auto; max-height: none; min-height: 0; aspect-ratio: 4.25 / 1; }
+  html[data-skin] #stage .keyboard { flex: none; max-height: none; min-height: 0; height: calc((100vw - 52px - 18px) * 1.45 / 2.45 / 4.25 - 8px); }
   html[data-skin] .now-note { font-size: 4.8rem; }
   html[data-skin] .contour-col svg { height: 150px; }
   html[data-skin] .contour-col .syllables { font-size: 1.45rem; }
@@ -115,13 +115,21 @@
   html[data-skin] .ex-emb { width: 44px; height: 44px; }
   html[data-skin] #play { min-height: 52px; } html[data-skin] #demo { min-height: 44px; }
 }
-/* Dil/Tema düğmesi (yalnızca dikey iPad'de; panel açılır pencere olur) */
+/* Dil ve tema: üstteki dişli düğmesiyle açılan pencerede (tüm ekranlarda) */
 .lang-btn { display: none; }
+html[data-skin] .lang-btn { display: grid; place-items: center; padding: 0; }
+html[data-skin] .lang-btn svg { width: 22px; height: 22px; }
+html[data-skin] #langPanel { display: none; position: fixed; z-index: 30; top: 76px; right: 16px; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 180px); overflow-y: auto; box-shadow: 0 30px 80px -10px #000; }
+html[data-skin] #langPanel.open { display: flex; }
+html[data-skin] #langPanel .seg.langs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html[data-skin] #langPanel .seg.langs.themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem; }
+@media (min-width: 820px) {
+  html[data-skin] #langPanel { top: 84px; right: 26px; }
+}
 @media (min-width: 820px) and (orientation: portrait) {
-  html[data-skin] .lang-btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 99px; border: 0; cursor: pointer; font-family: var(--font-display); font-size: 1rem; color: var(--ink); background: var(--i-lang-off) center / 100% 100% no-repeat; }
-  html[data-skin] .lang-btn svg { width: 20px; height: 20px; }
   html[data-skin] #homeView:not([hidden]) { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "stage stage" "ex set" "play demo"; }
-  html[data-skin] #langPanel { display: none; position: fixed; z-index: 30; top: 84px; right: 26px; width: min(560px, calc(100vw - 52px)); box-shadow: 0 30px 80px -10px #000; }
-  html[data-skin] #langPanel.open { display: flex; }
-  html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem; }
+}
+@media (min-width: 1000px) and (orientation: landscape) {
+  html[data-skin] #settingsSection { grid-template-columns: minmax(0, 1fr); }
 }
