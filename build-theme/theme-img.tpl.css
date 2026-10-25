@@ -243,3 +243,38 @@ html[data-skin] #breathGridA .lock-tag { top: 10px; right: 12px; }
   html[data-skin] #breathGridA .ear-card:nth-child(4) { grid-column: 2 / span 2; }
 }
 @media (max-width: 460px) { html[data-skin] .brand p { display: none; } html[data-skin] .head-btns { gap: 6px; } html[data-skin] .head-btns .icon-btn { width: 40px; height: 40px; } }
+/* ---- iPad Safari: düğme (button) içinde grid düzeni bozuluyor; kartlar blok + konumlandırma ile ---- */
+html[data-skin] .ex-row .ex-card { display: block !important; position: relative; flex: none !important; min-height: 78px; height: auto; padding: 10px 14px 10px 88px !important; }
+html[data-skin] .ex-row .ex-card::before { position: absolute; left: 78px; top: 22%; height: 56%; width: 1px; }
+html[data-skin] .ex-row .ex-card .ex-emb { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); margin: 0; }
+html[data-skin] .ex-row .ex-card .ex-txt { display: flex; flex-direction: column; justify-content: center; min-height: 58px; padding-right: 46%; }
+html[data-skin] .ex-row .ex-card > svg.chart { position: absolute; right: 54px; top: 50%; transform: translateY(-50%); width: calc(44% - 54px); height: 56px; }
+html[data-skin] .ex-row .ex-card .check { position: absolute; }
+html[data-skin] .ex-row .add-card { padding-left: 88px !important; }
+html[data-skin] .ex-row .add-card .add-plus { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); }
+html[data-skin] .ex-row .add-card .ex-txt { padding-right: 0; }
+@media (max-width: 430px) {
+  html[data-skin] .ex-row .ex-card { padding-left: 74px !important; }
+  html[data-skin] .ex-row .ex-card::before { left: 66px; }
+  html[data-skin] .ex-row .ex-card .ex-txt { padding-right: 40%; }
+  html[data-skin] .ex-row .ex-card > svg.chart { width: calc(40% - 40px); right: 46px; }
+}
+@media (min-width: 820px) {
+  html[data-skin] .ex-row .ex-card { min-height: 64px; padding-top: 6px !important; padding-bottom: 6px !important; padding-left: 76px !important; }
+  html[data-skin] .ex-row .ex-card::before { left: 66px; }
+  html[data-skin] .ex-row .ex-card .ex-txt { min-height: 50px; }
+  html[data-skin] .ex-row .ex-card > svg.chart { height: 46px; }
+  html[data-skin] .ex-row .add-card { padding-left: 76px !important; }
+}
+/* Nefes kartları da blok düzen */
+html[data-skin] #breathGridA .ear-card { display: block !important; position: relative; min-height: 140px; padding: 16px 16px 16px 146px !important; }
+html[data-skin] #breathGridA .br-emb { position: absolute !important; left: 16px; top: 50%; transform: translateY(-50%); margin: 0 !important; }
+html[data-skin] #breathGridA .ear-name, html[data-skin] #breathGridA .ear-desc { display: block; }
+html[data-skin] #breathGridA .ear-best { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (max-width: 430px) { html[data-skin] #breathGridA .ear-card { padding-left: 116px !important; min-height: 118px; } }
+@media (min-width: 1000px) { html[data-skin] #breathGridA .ear-card { padding-left: 140px !important; } html[data-skin] #breathGridA .br-emb { width: 108px !important; height: 108px !important; } }
+@media (min-width: 820px) {
+  html[data-skin] #exercises { display: block !important; overflow: visible !important; height: auto !important; }
+  html[data-skin] #exercises > .ex-card { width: 100%; margin: 0 0 8px; }
+  html[data-skin] #exerciseSection { height: auto !important; }
+}
