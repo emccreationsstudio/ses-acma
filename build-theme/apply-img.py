@@ -4,7 +4,7 @@ d=os.path.dirname(os.path.abspath(__file__)); src=os.path.join(d,'..','src','ind
 a=json.load(open(os.path.join(d,'assets.json'))); tpl=open(os.path.join(d,'theme-img.tpl.css')).read()
 m={'play':'play','demo':'demo','lang-on':'lang_on','lang-off':'lang_off','seg-on':'seg_on','minus':'minus','plus':'plus','on':'on','off':'off','check':'check','e-uclu':'emb_uclu','e-besli':'emb_besli','e-staccato':'emb_staccato','e-ring':'emb_ring','kbd':'kbd','kw':'kw','kb':'kb'}
 br=json.load(open(os.path.join(d,'breath.json')))
-bm={'anat-in':'anat_in','anat-out':'anat_out','br-ladder':'br_ladder','br-pulse':'br_pulse','br-holdHiss':'br_holdHiss','br-pant':'br_pant'}
+bm={'anat-in':'anat_in','anat-out':'anat_out','br-ladder':'br_ladder','br-pulse':'br_pulse','br-holdHiss':'br_holdHiss','br-pant':'br_pant','br-calm':'br_calm','br-box':'br_box','br-hiss':'br_hiss','br-r478':'br_r478','br-lip':'br_lip'}
 v0=lambda p:"\n".join(f"  --i-{k}: url({a[p+'_'+n]});" for k,n in m.items())
 v=lambda p: v0(p)+'\n'+'\n'.join(f"  --i-{k}: url({br[p+'_'+n]});" for k,n in bm.items())
 css=tpl.replace('@@G@@',v('g')).replace('@@S@@',v('s')).replace('@@B@@',v('b'))

@@ -221,3 +221,25 @@ html[data-skin] .b-anat { max-width: 620px; margin-left: auto; margin-right: aut
 html[data-skin] .switcher button[aria-selected="true"] { color: #120A02; font-weight: 800; text-shadow: 0 1px 0 rgba(255,236,190,0.7); }
 html[data-skin="blue"] .switcher button[aria-selected="true"] { color: #fff; text-shadow: 0 1px 2px rgba(0,20,60,0.9); }
 html[data-skin="mono"] .switcher button[aria-selected="true"] { color: #000; text-shadow: none; background: #fff; }
+/* Nefes grubu: yatay kartlar (solda amblem, sağda yazı) — tasarım görseli gibi */
+html[data-skin] .br-calm { background-image: var(--i-br-calm); } html[data-skin] .br-box { background-image: var(--i-br-box); }
+html[data-skin] .br-hiss { background-image: var(--i-br-hiss); } html[data-skin] .br-r478 { background-image: var(--i-br-r478); }
+html[data-skin] .br-lip { background-image: var(--i-br-lip); }
+html[data-skin] .br-calm svg, html[data-skin] .br-box svg, html[data-skin] .br-hiss svg, html[data-skin] .br-r478 svg, html[data-skin] .br-lip svg { display: none; }
+html[data-skin]:not([data-skin="rustic"]) #breathGridA .br-emb { box-shadow: none; }
+html[data-skin] #breathGridA { grid-template-columns: minmax(0, 1fr) !important; }
+@media (min-width: 700px) { html[data-skin] #breathGridA { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+@media (min-width: 1000px) { html[data-skin] #breathGridA { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+html[data-skin] #breathGridA .ear-card { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 16px; row-gap: 4px; align-items: start; padding: 14px 16px; }
+html[data-skin] #breathGridA .br-emb { grid-row: 1 / span 3; align-self: center; margin: 0; width: 112px !important; height: 112px !important; }
+html[data-skin] #breathGridA .ear-name { grid-column: 2; font-size: 1.35rem; margin-top: 4px; }
+html[data-skin] #breathGridA .ear-desc { grid-column: 2; }
+html[data-skin] #breathGridA .ear-best { grid-column: 2; margin-top: 8px; }
+html[data-skin] #breathGridA .lock-tag { top: 10px; right: 12px; }
+@media (max-width: 430px) { html[data-skin] #breathGridA .br-emb { width: 86px !important; height: 86px !important; } html[data-skin] #breathGridA .ear-name { font-size: 1.12rem; } }
+@media (min-width: 1000px) {
+  html[data-skin] #breathGridA { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+  html[data-skin] #breathGridA .ear-card { grid-column: span 2; }
+  html[data-skin] #breathGridA .ear-card:nth-child(4) { grid-column: 2 / span 2; }
+}
+@media (max-width: 460px) { html[data-skin] .brand p { display: none; } html[data-skin] .head-btns { gap: 6px; } html[data-skin] .head-btns .icon-btn { width: 40px; height: 40px; } }
