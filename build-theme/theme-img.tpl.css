@@ -164,3 +164,60 @@ html[data-skin="blue"] .seg:not(.langs), html[data-skin="blue"] .stepper { backg
 html[data-skin="blue"] .add-plus, html[data-skin="blue"] .ear-ico, html[data-skin="blue"] .hero-ico { background: radial-gradient(circle at 50% 35%, #1E3561, #050B18 72%); }
 html[data-skin="mono"] .add-plus, html[data-skin="mono"] .ear-ico, html[data-skin="mono"] .hero-ico { background: radial-gradient(circle at 50% 35%, #333, #000 72%); }
 @media (max-width: 430px) { html[data-skin="mono"] .seg:not(.langs) button { font-size: 0.8rem; letter-spacing: -0.01em; } }
+/* ---------- Nefes: kartlar (ortada büyük amblem) ---------- */
+html[data-skin] .breath .ear-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 820px) { html[data-skin] .breath .ear-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+html[data-skin] .breath .ear-card { align-items: flex-start; text-align: left; padding: 14px 14px 14px; gap: 6px; border-radius: 16px; }
+html[data-skin] .br-emb { align-self: center; width: 116px; height: 116px; border: 0; border-radius: 50%; margin: 2px auto 8px; display: grid; place-items: center; color: var(--gold-hi); background: var(--i-e-ring) center / 100% 100% no-repeat; box-shadow: 0 10px 24px -12px #000; }
+html[data-skin] .br-emb svg { width: 46px; height: 46px; }
+html[data-skin] .br-ladder, html[data-skin] .br-pulse, html[data-skin] .br-holdHiss, html[data-skin] .br-pant { background-size: 100% 100%; }
+html[data-skin] .br-ladder { background-image: var(--i-br-ladder); } html[data-skin] .br-pulse { background-image: var(--i-br-pulse); }
+html[data-skin] .br-holdHiss { background-image: var(--i-br-holdHiss); } html[data-skin] .br-pant { background-image: var(--i-br-pant); }
+html[data-skin] .br-ladder svg, html[data-skin] .br-pulse svg, html[data-skin] .br-holdHiss svg, html[data-skin] .br-pant svg { display: none; }
+html[data-skin] .breath .ear-name { font-family: var(--font-display); font-size: 1.22rem; font-weight: 700; }
+html[data-skin] .breath .ear-desc { font-family: var(--font-body); font-size: 0.9rem; color: var(--ink); opacity: 0.85; }
+html[data-skin] .breath .ear-best .pill { padding: 5px 12px; font-size: 0.85rem; font-family: var(--font-body); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); }
+html[data-skin="mono"] .breath .ear-best .pill { background: #000; color: #fff; border-color: rgba(255,255,255,0.6); }
+html[data-skin="blue"] .breath .ear-best .pill { background: #12305F; color: #fff; border-color: rgba(150,190,255,0.5); }
+html[data-skin] .breath .section-head h2 { font-size: 1.7rem; }
+html[data-skin] .breath .ear-note { color: var(--ink); opacity: 0.85; font-family: var(--font-body); }
+@media (max-width: 430px) { html[data-skin] .br-emb { width: 92px; height: 92px; } html[data-skin] .breath .ear-name { font-size: 1.05rem; } }
+/* ---------- Nefes: egzersiz ekranı (nefes al / ver çizimleri) ---------- */
+.b-anat { display: none; }
+html[data-skin] .b-anat { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin: 6px 0 4px; }
+html[data-skin] .ba { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: opacity 0.4s, filter 0.4s, transform 0.4s; }
+html[data-skin] .ba-pill { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.95rem; padding: 7px 18px; border-radius: 99px; border: 1px solid var(--line-2); background: rgba(0,0,0,0.35); white-space: nowrap; }
+html[data-skin="rustic"] .ba-pill { color: var(--ink); }
+html[data-skin] .ba-img { display: block; width: 100%; aspect-ratio: 1.09; background: center / contain no-repeat; }
+html[data-skin="mono"] .ba-img { aspect-ratio: 1; }
+html[data-skin] .ba-in .ba-img { background-image: var(--i-anat-in); }
+html[data-skin] .ba-out .ba-img { background-image: var(--i-anat-out); }
+html[data-skin] .ba figcaption { font-family: var(--font-body); font-size: 0.92rem; color: var(--ink); text-align: center; line-height: 1.3; }
+html[data-skin] .b-anat[data-ph="in"] .ba-out, html[data-skin] .b-anat[data-ph="out"] .ba-in { opacity: 0.32; filter: saturate(0.4); transform: scale(0.96); }
+html[data-skin] .b-anat[data-ph="in"] .ba-in, html[data-skin] .b-anat[data-ph="out"] .ba-out { transform: scale(1.03); }
+html[data-skin] .b-anat[data-ph="hold"] .ba { opacity: 0.55; }
+html[data-skin] .breath-stage .orb-wrap { width: 170px; height: 170px; }
+html[data-skin] .breath-stage .orb-count { font-size: 2.6rem; }
+html[data-skin] .breath-stage .ear-kicker { font-family: var(--font-display); letter-spacing: 0.22em; font-size: 0.95rem; color: var(--ink); }
+html[data-skin] .breath-stage .b-phase { font-family: var(--font-display); }
+html[data-skin="rustic"] .breath-stage .b-phase { background: linear-gradient(180deg, #FFF0C4, var(--metal-a) 35%, var(--metal-b) 70%, var(--metal-c)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html[data-skin="blue"] .breath-stage .b-phase { background: linear-gradient(180deg, #fff, #DCE8FF 45%, #9DB9EA); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html[data-skin="mono"] .breath-stage .b-phase { color: #fff; }
+@media (max-width: 430px) { html[data-skin] .ba-pill { font-size: 0.72rem; padding: 6px 10px; letter-spacing: 0.04em; } html[data-skin] .ba figcaption { font-size: 0.78rem; } html[data-skin] .breath-stage .orb-wrap { width: 130px; height: 130px; } }
+@media (min-width: 1000px) { html[data-skin] .breath-stage .orb-wrap { width: 200px; height: 200px; } }
+@media (min-width: 1000px) { html[data-skin] #breathGridA { grid-template-columns: repeat(5, minmax(0, 1fr)); } html[data-skin] #breathGridA .br-emb { width: 100px; height: 100px; } }
+html[data-skin] .b-anat { max-width: 620px; margin-left: auto; margin-right: auto; }
+@media (min-width: 900px) {
+  html[data-skin] .breath-stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: "kick kick kick" "in orb out" "in phase out" "in tip out"; column-gap: 24px; row-gap: 6px; align-items: center; justify-items: center; max-width: none; }
+  html[data-skin] .breath-stage .ear-kicker { grid-area: kick; }
+  html[data-skin] .breath-stage .b-anat { display: contents; }
+  html[data-skin] .breath-stage .ba-in { grid-area: in; width: 100%; max-width: 360px; }
+  html[data-skin] .breath-stage .ba-out { grid-area: out; width: 100%; max-width: 360px; }
+  html[data-skin] .breath-stage .orb-wrap { grid-area: orb; }
+  html[data-skin] .breath-stage .b-phase { grid-area: phase; }
+  html[data-skin] .breath-stage .ear-prompt { grid-area: tip; max-width: 260px; }
+  html[data-skin] #breathRun { max-width: 1100px; }
+}
+html[data-skin] .switcher button[aria-selected="true"] { color: #120A02; font-weight: 800; text-shadow: 0 1px 0 rgba(255,236,190,0.7); }
+html[data-skin="blue"] .switcher button[aria-selected="true"] { color: #fff; text-shadow: 0 1px 2px rgba(0,20,60,0.9); }
+html[data-skin="mono"] .switcher button[aria-selected="true"] { color: #000; text-shadow: none; background: #fff; }
