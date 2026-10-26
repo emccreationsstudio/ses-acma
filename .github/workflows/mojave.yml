@@ -1,0 +1,63 @@
+# Mac — macOS 10.14 Mojave için TAM SÜRÜM (tüm Pro özellikleri açık) deneme kurulumu.
+# Electron 26 kullanılır (macOS 10.14'ü destekleyen son sürüm). Yalnızca Intel (x64).
+# Deneme içindir; App Store / normal kurulum dosyalarını etkilemez.
+name: Mac Mojave tam sürüm (deneme)
+
+on:
+  push:
+    branches: ["surum-*"]
+    paths: [".github/workflows/mojave.yml", "mojave-tetik.txt"]
+
+jobs:
+  mojave:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Uygulamayı derle (testlerle)
+        run: |
+          node test/core.test.js
+          node scripts/build.js
+      - name: Pro özelliklerini aç (tam sürüm)
+        run: |
+          node -e '
+            const fs=require("fs"); const f="www/index.html"; let s=fs.readFileSync(f,"utf8");
+            const a="const PRO = { owned: false };"; const b="try { PRO.owned = localStorage.getItem(\"sesacma-pro\") === \"1\"; } catch (e) {}";
+            if(!s.includes(a)||!s.includes(b)) { console.error("Pro satırları bulunamadı"); process.exit(1); }
+            s=s.replace(a,"const PRO = { owned: true, full: true };").replace(b,"try { localStorage.setItem(\"sesacma-pro\",\"1\"); } catch (e) {}");
+            s=s.replace("PRO.owned = !!owned;","PRO.owned = true;");
+            fs.writeFileSync(f,s); console.log("Pro açık");'
+      - name: Mojave paketini hazırla (Electron 26, x64)
+        run: |
+          rm -rf dm && cp -r desktop dm && rm -rf dm/www && cp -r www dm/www
+          node -e '
+            const fs=require("fs"); const f="dm/package.json"; const p=JSON.parse(fs.readFileSync(f,"utf8"));
+            p.devDependencies.electron="26.6.10";
+            p.build.mac.target=[{target:"dmg",arch:["x64"]}];
+            p.build.mac.minimumSystemVersion="10.14.0";
+            p.build.mac.hardenedRuntime=false;
+            delete p.build.mac.entitlements; delete p.build.mac.entitlementsInherit;
+            p.build.mac.artifactName="SesAcma-PianoWarmUp-${version}-Mojave-TamSurum.${ext}";
+            fs.writeFileSync(f,JSON.stringify(p,null,2));'
+      - name: Kur ve paketle
+        working-directory: dm
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: |
+          npm install
+          npx electron-builder --mac --x64 --publish never
+          ls -la dist
+          /usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "dist/mac/Ses Açma - Piano Warm Up.app/Contents/Info.plist" || true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mojave-tam-deneme
+          name: Mac Mojave tam sürüm (deneme)
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          make_latest: false
+          files: dm/dist/*.dmg
+          body: Mojave 10.14 için deneme kurulumu. Geçicidir.
