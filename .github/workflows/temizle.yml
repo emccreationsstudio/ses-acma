@@ -1,0 +1,15 @@
+# Deneme sürüm sayfalarını (Pro'su açık Mojave kurulumu gibi) siler.
+name: Deneme sürümünü sil
+on:
+  push:
+    branches: ["surum-*"]
+    paths: ["temizle-tetik.txt"]
+jobs:
+  sil:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete mojave-tam-deneme --repo "$GITHUB_REPOSITORY" --cleanup-tag -y || true
