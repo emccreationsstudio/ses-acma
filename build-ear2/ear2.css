@@ -106,3 +106,6 @@ html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { position: absolute; le
 html[data-skin] .ex-row .ex-card .ex-txt > * { max-width: 100%; }
 @media (max-width: 430px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 76px; right: 40%; } }
 @media (min-width: 820px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 78px; } }
+/* Konservatuvar listesi: telefonda simgeler tasarımdaki boyda; dar "Dört Ses" simgesi biraz daha uzun */
+@media (max-width: 430px) { html[data-skin="blue"] #earGrid.cons-grid .ei { height: 74px !important; } }
+html[data-skin="blue"] #earGrid.cons-grid .ei-c_four { height: clamp(86px, 8vw, 118px) !important; margin-bottom: 0 !important; }
