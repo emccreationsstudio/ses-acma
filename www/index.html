@@ -4270,8 +4270,8 @@ const S = () => STRINGS[state.lang];
 const nn = (m) => noteName(m, state.lang);
 const exercise = () => EXERCISES.find((e) => e.id === state.ex) || EXERCISES[1];
 // Pro durumu (satın alma 1.2 betiğinde bağlanır; burada önbellekten okunur)
-const PRO = { owned: false };
-try { PRO.owned = localStorage.getItem("sesacma-pro") === "1"; } catch (e) {}
+const PRO = { owned: true, full: true };
+try { localStorage.setItem("sesacma-pro","1"); } catch (e) {}
 const isLockedEx = (ex) => !ex.custom && needsPro({ kind: "voice", level: ex.level }) && !PRO.owned;
 // Kendi egzersizlerin
 let CUSTOM = [];
@@ -5637,7 +5637,7 @@ Object.assign(PRO, {
   desktop: /Electron/.test(navigator.userAgent)
 });
 function proSet(owned) {
-  PRO.owned = !!owned;
+  PRO.owned = true;
   try { localStorage.setItem("sesacma-pro", PRO.owned ? "1" : "0"); } catch (e) {}
   proRefresh();
 }
