@@ -81,11 +81,28 @@ html[data-skin="blue"] #earGrid.cons-grid .ear-best .dim, html[data-skin="blue"]
 html[data-skin] .ear-hero:not(.hero-ear) .hero-cta {
   display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 10px;
   background: none !important; box-shadow: none !important; border-radius: 0;
-  border-style: solid; border-color: transparent; border-width: 0 calc(var(--eb-slice) * 0.62px);
-  border-image: var(--i-ebtn) 0 var(--eb-slice) fill / 0 calc(var(--eb-slice) * 0.62px) stretch;
+  border-style: solid; border-color: transparent; border-width: 0 calc(var(--ebs-slice) * 0.6px);
+  border-image: var(--i-ebtns) 0 var(--ebs-slice) fill / 0 calc(var(--ebs-slice) * 0.6px) stretch;
   font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; text-shadow: 0 1px 0 rgba(255,255,255,.35);
 }
 html[data-skin="blue"] .ear-hero:not(.hero-ear) .hero-cta { color: #07142B; }
 html[data-skin="mono"] .ear-hero:not(.hero-ear) .hero-cta { color: #101010; }
 html[data-skin="rustic"] .ear-hero:not(.hero-ear) .hero-cta { color: #2A1605; }
 html[data-skin] .ear-hero:not(.hero-ear) .hero-cta .pro-badge { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; background: linear-gradient(180deg,#fff,#c9ced6 60%,#9aa1ad); color: #111; border: 1px solid rgba(0,0,0,.35); }
+
+/* Telefon: Kulak Testi butonu da kısa düz buton (geniş parlamalar sıkışıp çizgi olmasın) */
+@media (max-width: 699px) {
+  html[data-skin] .ear-hero.hero-ear .hero-cta { border-width: 0 calc(var(--ebs-slice) * 0.6px); border-image: var(--i-ebtns) 0 var(--ebs-slice) fill / 0 calc(var(--ebs-slice) * 0.6px) stretch; }
+  html[data-skin] .ear-hero:not(.hero-ear) .hero-cta { font-size: clamp(0.98rem, 4.4vw, 1.2rem); white-space: nowrap; min-height: 56px; height: 56px; padding: 0 2px; gap: 8px; border-width: 0 calc(var(--ebs-slice) * 0.42px); border-image-width: 0 calc(var(--ebs-slice) * 0.42px); }
+  html[data-skin] .ear-hero.hero-ear .hero-cta { white-space: nowrap; }
+}
+/* Konservatuvar başlıkları heceyle bölünmesin */
+html[data-skin] #earGrid .ear-name, html[data-skin] #earGrid .ear-desc { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: normal; }
+/* iPhone: kaydırınca içerik saat/şebeke çubuğunun altına girmesin */
+html[data-skin] body::after { content: ""; position: fixed; left: 0; right: 0; top: 0; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 40; pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,.5); }
+/* iOS Safari: düğme içi yazılar ortalanmasın, egzersiz yazı alanı kesin konumda */
+html[data-skin] .ex-card, html[data-skin] .ear-card, html[data-skin] .ear-hero { text-align: left; }
+html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { position: absolute; left: 88px; right: 46%; top: 0; bottom: 0; min-height: 0 !important; padding: 0 !important; align-items: flex-start; text-align: left; }
+html[data-skin] .ex-row .ex-card .ex-txt > * { max-width: 100%; }
+@media (max-width: 430px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 76px; right: 40%; } }
+@media (min-width: 820px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 78px; } }
