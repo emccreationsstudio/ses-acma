@@ -1,0 +1,91 @@
+/* ---- Kulak ana ekranı (tasarım görselleri birebir) ---- */
+html[data-skin] .ear-hero.hero-ear {
+  position: relative; display: block; padding: 0; border: 0; border-radius: 12px; box-shadow: 0 14px 30px -16px #000;
+  background: var(--i-ehero) left center / cover no-repeat !important; min-height: 232px; overflow: hidden; container-type: inline-size;
+}
+html[data-skin] .ear-hero.hero-ear::before { display: none; }
+@media (max-width: 699px) {
+  html[data-skin] .ear-hero.hero-ear { min-height: 0; height: calc((100vw - 32px) * 0.17 + 104px); border: 1.5px solid var(--tab-rim);
+    background: var(--i-eherotop) left top / 100% auto no-repeat, linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)), var(--i-leather) center / 300px auto repeat !important; }
+  html[data-skin] .ear-hero.hero-ear .hero-txt { left: 46%; right: 3%; top: 8px; gap: 2px; }
+  html[data-skin] .ear-hero.hero-ear .hero-txt b { font-size: clamp(1.25rem, 6.6vw, 1.9rem); }
+  html[data-skin] .ear-hero.hero-ear .hero-txt span { font-size: clamp(0.72rem, 3vw, 0.9rem); }
+  html[data-skin] .ear-hero.hero-ear .hero-cta { bottom: 9px; height: 52px; left: 3%; right: 3%; font-size: 1.3rem; }
+}
+html[data-skin] .ear-hero.hero-ear .hi { display: none; }
+html[data-skin] .ear-hero.hero-ear .hero-txt { position: absolute; left: 47%; right: 6%; top: 16px; gap: 4px; }
+html[data-skin] .ear-hero.hero-ear .hero-txt b { font-size: 1.95rem; line-height: 1.05; text-shadow: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,.8)); }
+html[data-skin="mono"] .ear-hero.hero-ear .hero-txt b { background: linear-gradient(180deg, #fff, #e6e6e6 50%, #b9b9b9); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html[data-skin="mono"] .ear-hero.hero-ear .hero-txt b { color: #F4F4F4; }
+html[data-skin] .ear-hero.hero-ear .hero-txt span { font-size: 0.98rem; line-height: 1.25; text-shadow: 0 1px 3px #000; color: var(--ink); }
+html[data-skin] .ear-hero.hero-ear .hero-txt em { text-shadow: 0 1px 3px #000; }
+html[data-skin] .ear-hero.hero-ear .hero-cta {
+  position: absolute; left: 4%; right: 4%; bottom: 12px; height: 54px; margin: 0; padding: 0 10px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: none !important; box-shadow: none !important; border-radius: 0;
+  border-style: solid; border-color: transparent; border-width: 0 calc(var(--eb-slice) * 0.62px);
+  border-image: var(--i-ebtn) 0 var(--eb-slice) fill / 0 calc(var(--eb-slice) * 0.62px) stretch;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; text-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+html[data-skin="blue"] .ear-hero.hero-ear .hero-cta { color: #07142B; }
+html[data-skin="mono"] .ear-hero.hero-ear .hero-cta { color: #101010; }
+html[data-skin="rustic"] .ear-hero.hero-ear .hero-cta { color: #2A1605; }
+html[data-skin] .ear-hero.hero-ear .hero-cta .pro-badge { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; background: linear-gradient(180deg,#fff,#c9ced6 60%,#9aa1ad); color: #111; box-shadow: 0 1px 2px rgba(0,0,0,.6); border: 1px solid rgba(0,0,0,.35); }
+@media (min-width: 700px) {
+  html[data-skin] .ear-hero.hero-ear { min-height: 0; aspect-ratio: var(--eh-ar); background-size: 100% 100% !important; border-radius: 0; }
+  html[data-skin] .ear-hero.hero-ear::before { display: none; }
+  html[data-skin] .ear-hero.hero-ear .hero-txt { left: var(--eh-l); top: var(--eh-t); right: 18%; }
+  html[data-skin] .ear-hero.hero-ear .hero-txt b { font-size: clamp(2rem, 5.4cqw, 5.4rem); }
+  html[data-skin] .ear-hero.hero-ear .hero-txt span { font-size: clamp(0.95rem, 1.75cqw, 1.9rem); }
+  html[data-skin="rustic"] .ear-hero.hero-ear .hero-txt b { font-size: clamp(1.8rem, 4.5cqw, 4.6rem); }
+  html[data-skin="rustic"] .ear-hero.hero-ear .hero-txt span { font-size: clamp(0.9rem, 1.55cqw, 1.7rem); }
+  html[data-skin] .ear-hero.hero-ear .hero-cta { left: var(--eb-l); right: var(--eb-r); top: var(--eb-t); bottom: var(--eb-b); height: auto; font-size: clamp(1.2rem, 2.5cqw, 2.6rem); }
+}
+/* Kulak kartları: tasarımdaki çerçeve + kenara kadar uzanan resim */
+html[data-skin] #earGrid.ear-grid-k .ear-card {
+  border: 1px solid transparent !important; border-radius: 0 !important; box-shadow: 0 8px 18px -12px #000 !important;
+  border-image: var(--i-eframe) var(--ec-slice) / calc(var(--ec-slice) * 0.62px) stretch !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35)), var(--i-leather) center / 300px auto repeat !important;
+  background-clip: padding-box !important; min-height: 136px; padding: 18px 18px 14px 49% !important; overflow: hidden;
+}
+html[data-skin] #earGrid.ear-grid-k .ear-card::after { content: none !important; }
+html[data-skin] #earGrid.ear-grid-k .ei { left: 3px; top: 3px; bottom: 3px; width: 45%; border-radius: 9px 0 0 9px; background-size: cover !important; background-position: right center !important; }
+html[data-skin="rustic"] #earGrid.ear-grid-k .ei { left: 6px; top: 6px; bottom: 6px; }
+html[data-skin] .ei-note { background-image: var(--i-eimg-note) !important; } html[data-skin] .ei-interval { background-image: var(--i-eimg-interval) !important; }
+html[data-skin] .ei-higher { background-image: var(--i-eimg-higher) !important; } html[data-skin] .ei-chord { background-image: var(--i-eimg-chord) !important; }
+html[data-skin] .ei-sing { background-image: var(--i-eimg-sing) !important; }
+html[data-skin] #earGrid.ear-grid-k .ear-name { font-size: 1.38rem; line-height: 1.15; text-shadow: 0 1px 3px #000; }
+html[data-skin] #earGrid.ear-grid-k .ear-desc { font-size: 1rem; opacity: 0.9; padding-bottom: 10px; margin: 4px 0 8px; border-bottom: 0;
+  background: linear-gradient(90deg, transparent, var(--line-2) 15%, var(--line-2) 85%, transparent) bottom / 100% 1px no-repeat; position: relative; }
+html[data-skin] #earGrid.ear-grid-k .ear-desc::after { content: ""; position: absolute; left: 50%; bottom: -3px; width: 6px; height: 6px; transform: translateX(-50%) rotate(45deg); background: var(--gold); opacity: 0.8; }
+html[data-skin] #earGrid.ear-grid-k .ear-best .dim { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; color: var(--ink); opacity: 0.85; }
+html[data-skin="blue"] #earGrid.ear-grid-k .ear-best .dim::before, html[data-skin="rustic"] #earGrid.ear-grid-k .ear-best .dim::before { content: ""; width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid currentColor; flex: none; }
+html[data-skin="rustic"] #earGrid.ear-grid-k .ear-best .dim { white-space: nowrap; font-size: 0.88rem; border: 1px solid rgba(214,170,92,0.45); border-radius: 999px; padding: 4px 14px 4px 10px; background: rgba(0,0,0,0.3); }
+@media (max-width: 430px) { html[data-skin] #earGrid.ear-grid-k .ear-card { min-height: 122px; padding: 14px 12px 12px 46% !important; } html[data-skin] #earGrid.ear-grid-k .ear-name { font-size: 1.18rem; } html[data-skin] #earGrid.ear-grid-k .ear-desc { font-size: 0.9rem; } }
+/* Mavi Konservatuvar listesi (tasarım görseli birebir) */
+html[data-skin="blue"] #earGrid.cons-grid .ear-card {
+  border: 1.5px solid rgba(150, 190, 255, 0.5) !important; border-radius: 18px !important; padding: 16px 18px 16px !important;
+  background: linear-gradient(180deg, rgba(80, 130, 220, 0.30), rgba(16, 36, 84, 0.55)), var(--i-leather) center / 300px auto repeat !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), inset 0 0 26px rgba(90,150,255,0.14), 0 10px 22px -12px #000 !important;
+}
+html[data-skin="blue"] #earGrid.cons-grid .ei { display: block; width: 100%; height: clamp(64px, 6.4vw, 100px); opacity: 1 !important; margin: 0 0 6px; background-size: contain !important; background-position: left center !important; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)); }
+html[data-skin="blue"] #earGrid.cons-grid .ear-name { font-size: 1.42rem; text-shadow: 0 1px 3px #000; }
+html[data-skin="blue"] #earGrid.cons-grid .ear-desc { font-size: 1rem; opacity: 0.92; }
+html[data-skin="blue"] #earGrid.cons-grid .ear-best .dim, html[data-skin="blue"] #earGrid.cons-grid .ear-best .pill { display: inline-block; border: 1px solid rgba(150,190,255,0.42); border-radius: 999px; padding: 3px 14px; background: rgba(10,25,60,0.55); color: var(--ink); opacity: 1; }
+@media (min-width: 1000px) {
+  html[data-skin="blue"] #earGrid.cons-grid .ear-card:nth-child(n+9) { padding-left: 37% !important; display: flex !important; flex-direction: column; justify-content: center; min-height: 160px; }
+  html[data-skin="blue"] #earGrid.cons-grid .ear-card:nth-child(n+9) .ei { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 30%; height: 72%; margin: 0; background-position: center !important; }
+}
+@media (max-width: 430px) { html[data-skin="blue"] #earGrid.cons-grid .ei { height: 60px; } html[data-skin="blue"] #earGrid.cons-grid .ear-name { font-size: 1.18rem; } }
+/* Konservatuvar sınav provası butonu: aynı metal buton (uçları bozulmadan uzar) */
+html[data-skin] .ear-hero:not(.hero-ear) .hero-cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 10px;
+  background: none !important; box-shadow: none !important; border-radius: 0;
+  border-style: solid; border-color: transparent; border-width: 0 calc(var(--eb-slice) * 0.62px);
+  border-image: var(--i-ebtn) 0 var(--eb-slice) fill / 0 calc(var(--eb-slice) * 0.62px) stretch;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; text-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+html[data-skin="blue"] .ear-hero:not(.hero-ear) .hero-cta { color: #07142B; }
+html[data-skin="mono"] .ear-hero:not(.hero-ear) .hero-cta { color: #101010; }
+html[data-skin="rustic"] .ear-hero:not(.hero-ear) .hero-cta { color: #2A1605; }
+html[data-skin] .ear-hero:not(.hero-ear) .hero-cta .pro-badge { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; background: linear-gradient(180deg,#fff,#c9ced6 60%,#9aa1ad); color: #111; border: 1px solid rgba(0,0,0,.35); }

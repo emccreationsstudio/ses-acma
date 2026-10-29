@@ -22,7 +22,7 @@ html[data-skin] #exerciseSection { order: 3; } html[data-skin] #settingsSection 
   html[data-skin] .contour-col .syllables { font-size: 1.25rem; }
   html[data-skin] #stageDown, html[data-skin] #stageUp { width: 50px; height: 50px; }
   html[data-skin] .round-btns { margin-top: 6px; }
-  html[data-skin] .keyboard { flex: 1 1 auto; height: auto; min-height: 130px; max-height: 360px; }
+  html[data-skin] #stage .keyboard { flex: 1 1 auto; height: auto; min-height: 130px; max-height: 360px; }
   /* Egzersizler: sıkı liste, sığmazsa kendi içinde kayar */
   html[data-skin] #exerciseSection .section-head h2 { font-size: 1.6rem; }
   html[data-skin] #exercises { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; overflow-y: auto; padding: 2px; margin: 0; }
