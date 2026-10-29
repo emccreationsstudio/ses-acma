@@ -72,11 +72,27 @@ for p, d in EH.items():
         t2 = np.linspace(0, 1, e1 - e0)[None, :, None]; t2 = t2 * t2 * (3 - 2 * t2); a[:, e0:e1] = cL2[:, None] * (1 - t2) + cR2[:, None] * t2
     rng = np.random.default_rng(1); a[:, x0:x1] += rng.normal(0, 1.6, a[:, x0:x1].shape[:2])[..., None]
     btn = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    res[f"{p}_ebtn"] = b64(btn, 84, 1200)
+    # buton şekli dışını şeffaf yap (koyu köşeler kalmasın)
+    g = cv2.GaussianBlur(np.asarray(btn.convert("L")).astype(np.float32), (0, 0), 1.5)
+    bgv = np.median(np.concatenate([g[:4, :4].ravel(), g[:4, -4:].ravel(), g[-4:, :4].ravel(), g[-4:, -4:].ravel()]))
+    m = (g > bgv + 28).astype(np.uint8)
+    m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(m); k = 1 + np.argmax(st[1:, cv2.CC_STAT_AREA]); m = (lab == k).astype(np.uint8)
+    ff = m.copy(); hh, ww = m.shape; msk = np.zeros((hh + 2, ww + 2), np.uint8); cv2.floodFill(ff, msk, (0, 0), 1); m = m | (1 - ff)
+    al = cv2.GaussianBlur(m.astype(np.float32), (0, 0), 1.0)
+    btnA = Image.fromarray(np.dstack([np.asarray(btn), (al * 255).astype(np.uint8)]), "RGBA")
+    res[f"{p}_ebtn"] = b64(btnA, 84, 1200)
+    # kısa ve düz orta bölümlü sürüm (telefon / dar butonlar)
+    cap = round(bh * 1.25); A_ = np.asarray(btnA).astype(np.float32)
+    cl = A_[:, cap:cap + 3].mean(1); cr = A_[:, bw - cap - 3:bw - cap].mean(1); mid = round(bh * 3)
+    prof = A_[:, cap:bw - cap].mean(1); midA = np.repeat(prof[:, None], mid, 1); e = max(2, mid // 5)
+    tl = np.linspace(0, 1, e)[None, :, None]; midA[:, :e] = cl[:, None] * (1 - tl) + prof[:, None] * tl; midA[:, -e:] = prof[:, None] * (1 - tl) + cr[:, None] * tl
+    sh = np.concatenate([A_[:, :cap], midA, A_[:, bw - cap:]], 1)
+    res[f"{p}_ebtns"] = b64(Image.fromarray(np.clip(sh, 0, 255).astype(np.uint8), "RGBA"), 86, 900)
     sl = round(bh * 0.9)
     css.append(f'html[data-skin="{"blue" if p=="b" else "mono" if p=="s" else "rustic"}"] {{ --eh-ar: {hw}/{hh}; --eh-l: {100*(tx0-hx0)/hw:.1f}%; --eh-t: {100*(ty0-hy0)/hh:.1f}%; '
                f'--eb-l: {100*(bx0-hx0)/hw:.1f}%; --eb-r: {100*(hx1-bx1)/hw:.1f}%; --eb-t: {100*(by0-hy0)/hh:.1f}%; --eb-b: {100*(hy1-by1)/hh:.1f}%; '
-               f'--eb-slice: {sl}; --eh-slice: {44 if p=="g" else 30}; --ec-slice: {38 if p=="g" else 24}; }}')
+               f'--eb-slice: {sl}; --ebs-slice: {round(bh*1.25)}; --eh-slice: {44 if p=="g" else 30}; --ec-slice: {38 if p=="g" else 24}; }}')
     for k, c in zip(["note", "interval", "higher", "chord", "sing"], d["cards"]):
         card = src.crop(c); cw, ch = card.size
         fr = np.asarray(card).copy(); S = 40; H_, W_ = fr.shape[:2]
@@ -96,5 +112,11 @@ for p, d in EH.items():
             a[..., 3] = (a[..., 3] * ramp[None, :]).astype(np.uint8); im = Image.fromarray(a, "RGBA")
         res[f"{p}_eimg_{k}"] = b64(im, 84, 420)
         print(p, k, "divider", dx, cw)
+hq = Image.open(A + "3dd8b05b-image.png").convert("RGB"); W_, H_ = hq.size
+hq = hq.crop((int(W_ * .09), int(H_ * .17), int(W_ * .93), int(H_ * .70))).convert("RGBA")
+a = np.asarray(hq).copy(); hh, ww = a.shape[:2]; fx, fy = int(ww * .10), int(hh * .12)
+rx = np.ones(ww, np.float32); rx[:fx] = np.linspace(0, 1, fx); rx[-fx:] = np.linspace(1, 0, fx)
+ry = np.ones(hh, np.float32); ry[:fy] = np.linspace(0, 1, fy); ry[-fy:] = np.linspace(1, 0, fy)
+a[..., 3] = (np.outer(ry, rx) * 255).astype(np.uint8); res["b_bi_higher"] = b64(Image.fromarray(a, "RGBA"), 86, 760)
 json.dump(res, open("ear2.json", "w")); open("ear2-vars.css", "w").write("\n".join(css) + "\n")
 print(sum(len(v) for v in res.values()) // 1024, "KB")
