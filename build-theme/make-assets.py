@@ -27,8 +27,8 @@ def circle(img, cx, cy, r):
 def pill(img, box):
     c = img.crop(box); return rr(c, c.height // 2)
 def save(name, img, width=None, q=82):
-    if width and img.width > width: img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
-    b = io.BytesIO(); img.save(b, "WEBP", quality=q, method=6)
+    if width and img.width > max(width, 1400): img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
+    b = io.BytesIO(); img.save(b, "WEBP", quality=max(q, 88), method=6)
     out[name] = "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()
     img.save(f"{OUT}/{name}.png")
 def ring(img, cx, cy, r, col, glow):

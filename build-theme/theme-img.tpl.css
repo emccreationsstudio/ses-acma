@@ -395,3 +395,46 @@ html[data-skin="mono"] { --font-display: Baskerville, "Baskerville Old Face", "L
 html[data-skin="mono"] body, html[data-skin="mono"] button { font-family: var(--font-body); }
 html[data-skin="mono"] .seg:not(.langs) button, html[data-skin="mono"] .seg.langs button, html[data-skin="mono"] .stepper b, html[data-skin="mono"] .toggle > span:first-child > span, html[data-skin="mono"] .play, html[data-skin="mono"] .syllables, html[data-skin="mono"] .panel-head h2, html[data-skin="mono"] .section-head h2 { font-family: var(--font-display); letter-spacing: 0; }
 @media (max-width: 460px) { html[data-skin] .brand h1 { font-size: 1.45rem !important; } }
+/* ================= Deri dokusu (tasarım görsellerinden) — çizgili fırça dokusu kaldırıldı ================= */
+html[data-skin] { --brush: linear-gradient(transparent, transparent); }
+html[data-skin] body { background: linear-gradient(180deg, var(--bg-2), var(--bg)) !important; background-attachment: scroll !important; }
+html[data-skin="rustic"] body { background: var(--i-page) left top / auto 100vh repeat-x, #0b0805 !important; }
+html[data-skin="blue"] body { background: linear-gradient(180deg, rgba(3,10,26,0.35), rgba(3,10,26,0.75)), var(--i-page) center / cover no-repeat fixed, #030a1a !important; }
+html[data-skin="mono"] body { background: radial-gradient(90% 60% at 50% 0%, #121212, #030303 70%) !important; }
+html[data-skin] .stage, html[data-skin] .panel, html[data-skin] .ex-card, html[data-skin] .ear-card, html[data-skin] .ear-hero,
+html[data-skin] .sheet, html[data-skin] .summary, html[data-skin] .qcard, html[data-skin] .field.box, html[data-skin="mono"] .toggle, html[data-skin] .switcher {
+  background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.05), transparent 60%), var(--i-leather) center / 360px auto repeat !important;
+}
+html[data-skin] .ex-row .ex-card[aria-pressed="true"] { background: linear-gradient(90deg, color-mix(in srgb, var(--gold) 22%, transparent), transparent 75%), var(--i-leather) center / 360px auto repeat !important; }
+html[data-skin] .dock { background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), var(--i-leather) center / 360px auto repeat !important; }
+html[data-skin] .seg:not(.langs), html[data-skin] .stepper { background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35)), var(--i-leather) center / 360px auto repeat !important; }
+/* ---- Porte ve dikte ---- */
+.staff-box { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.staff-box .staff { width: min(100%, 560px); height: auto; display: block; overflow: visible; }
+.st-l { stroke: var(--ink); stroke-width: 1.1; opacity: 0.75; }
+.st-clef { font-size: 64px; fill: var(--ink); font-family: "Noto Music", "Bravura", "Apple Symbols", "Segoe UI Symbol", serif; }
+.st-acc { font-size: 17px; fill: var(--ink); font-family: "Apple Symbols", "Segoe UI Symbol", serif; }
+.st-time { font-size: 21px; font-weight: 800; fill: var(--ink); font-family: Georgia, serif; }
+.st-h { fill: var(--gold-hi); } .st-s { stroke: var(--gold-hi); stroke-width: 1.6; }
+.st-h.given { fill: var(--muted); } .st-s.given { stroke: var(--muted); }
+.st-h.ok { fill: var(--good); } .st-s.ok { stroke: var(--good); }
+.st-h.no { fill: var(--warn); } .st-s.no { stroke: var(--warn); }
+.st-cap { color: var(--muted); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
+#earStaff .staff { cursor: pointer; touch-action: manipulation; }
+.rslots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: min(100%, 440px); }
+.rslot { aspect-ratio: 1.2; border-radius: 12px; border: 1.5px dashed var(--line-2); display: grid; place-items: center; background: rgba(0,0,0,0.25); }
+.rslot.cur { border-color: var(--gold); border-style: solid; }
+.rslot.ok { border: 2px solid var(--good); } .rslot.no { border: 2px solid var(--warn); }
+.rcell { width: 80%; height: auto; }
+.rc-h, .rc-b, .rc-rd { fill: var(--gold-hi); } .rc-s, .rc-f, .rc-r { stroke: var(--gold-hi); stroke-width: 1.6; fill: none; }
+.rc-r { stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.dict-box { width: 100%; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.dpal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: min(100%, 480px); }
+.dpal button { min-height: 50px; border-radius: 12px; border: 1px solid var(--line-2); background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.3)); color: var(--ink); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; cursor: pointer; }
+.dpal button:disabled { opacity: 0.45; }
+.rpal button { min-height: 58px; display: grid; place-items: center; }
+.dact { display: flex; gap: 10px; width: min(100%, 480px); }
+.dact .ghost-btn { flex: 1; }
+.dact .ghost-btn.gold { color: var(--gold-ink); background: linear-gradient(180deg, var(--metal-a), var(--metal-b) 55%, var(--metal-c)); border-color: transparent; }
+.dact .ghost-btn:disabled { opacity: 0.45; }
+html[data-skin] .dact .ghost-btn.gold { background: var(--i-seg-on) center / 100% 100% no-repeat; }

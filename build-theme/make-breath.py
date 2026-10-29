@@ -6,8 +6,8 @@ A, OUT = sys.argv[1], sys.argv[2]
 out = {}
 def im(n): return Image.open(f"{A}/{n}-image.png").convert("RGB")
 def save(name, img, width, q=80):
-    if img.width > width: img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
-    b = io.BytesIO(); img.save(b, "WEBP", quality=q, method=6)
+    if img.width > max(width, 1400): img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
+    b = io.BytesIO(); img.save(b, "WEBP", quality=max(q, 88), method=6)
     out[name] = "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode(); img.save(f"{OUT}/{name}.png")
 def circle(img, cx, cy, r):
     c = img.crop((cx-r, cy-r, cx+r, cy+r)).convert("RGBA"); m = Image.new("L", (r*8, r*8), 0)

@@ -13,7 +13,7 @@ def im(n): return Image.open(f"{A}/{n}-image.png").convert("RGB")
 def save(name, img, width, q=80):
     if img.width > width:
         img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
-    b = io.BytesIO(); img.save(b, "WEBP", quality=q, method=6)
+    b = io.BytesIO(); img.save(b, "WEBP", quality=q, method=4)
     out[name] = "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()
     img.save(f"{OUT}/{name}.png")
 
@@ -55,10 +55,47 @@ def inpaint(img, boxes):
     for (x0, y0, x1, y1) in boxes: m[int(y0 * H):int(y1 * H), int(x0 * W):int(x1 * W)] = 255
     a = cv2.inpaint(a, m, 9, cv2.INPAINT_TELEA); return Image.fromarray(cv2.cvtColor(a, cv2.COLOR_BGR2RGB))
 
-def big(name, src, box, width=520, pad=0.10, delta=38, f=0.14, erase=None):
+def cutout(img, lo=34, hi=80):
+    """Arka planı (deri) saydam yap: simgeyi boyayıp yerel arka planı tahmin et, farka göre alfa."""
+    a = np.asarray(img.convert("RGB")).astype(np.float32); h, w, _ = a.shape
+    g = cv2.GaussianBlur(a, (0, 0), 2.5)
+    e = max(4, min(h, w) // 25)
+    border = np.concatenate([g[:e].reshape(-1, 3), g[-e:].reshape(-1, 3), g[:, :e].reshape(-1, 3), g[:, -e:].reshape(-1, 3)])
+    bg0 = np.median(border, 0)
+    m = (np.sqrt(((g - bg0) ** 2).sum(2)) > 30).astype(np.uint8)
+    m = cv2.dilate(m, np.ones((15, 15), np.uint8))
+    small = cv2.resize(a.astype(np.uint8), (max(8, w // 4), max(8, h // 4)), interpolation=cv2.INTER_AREA)
+    ms = cv2.resize(m, (small.shape[1], small.shape[0]), interpolation=cv2.INTER_NEAREST)
+    bgf = cv2.inpaint(small, ms * 255, 7, cv2.INPAINT_TELEA)
+    bgf = cv2.GaussianBlur(cv2.resize(bgf, (w, h), interpolation=cv2.INTER_LINEAR).astype(np.float32), (0, 0), 12)
+    g2 = cv2.GaussianBlur(a, (0, 0), 1.2)
+    lum = lambda x: x @ np.array([0.3, 0.59, 0.11], np.float32)
+    d = np.sqrt(((g2 - bgf) ** 2).sum(2)); dl = lum(g2) - lum(bgf)
+    al = np.clip((d - lo) / (hi - lo), 0, 1)
+    al = np.where(dl < 0, al * 0.7, al)
+    # yalnızca simgeye bağlı bölgeler (küçük deri parıltıları gitsin)
+    n, lab, st, _ = cv2.connectedComponentsWithStats((al > 0.25).astype(np.uint8))
+    if n > 1:
+        big_ = st[1:, cv2.CC_STAT_AREA].max(); keep = np.zeros(n, bool); keep[1:] = st[1:, cv2.CC_STAT_AREA] > big_ * 0.02
+        for i in range(1, n):
+            x, y, ww, hh, ar = st[i]
+            edge = y <= 2 or x <= 2 or x + ww >= w - 2 or y + hh >= h - 2
+            if edge and ar < big_ * 0.5 and (hh < h * 0.3 or ww < w * 0.12): keep[i] = False
+        reach = cv2.dilate(keep[lab].astype(np.uint8), np.ones((9, 9), np.uint8)) > 0
+        al = np.where(reach, al, 0)
+    al = cv2.GaussianBlur(al, (0, 0), 0.7)
+    rgba = np.dstack([a, al * 255]).astype(np.uint8)
+    out_ = Image.fromarray(rgba, "RGBA"); bb = Image.fromarray((al > 0.04).astype(np.uint8) * 255).getbbox()
+    if bb:
+        x0, y0, x1, y1 = bb; px = 8
+        out_ = out_.crop((max(0, x0 - px), max(0, y0 - px), min(w, x1 + px), min(h, y1 + px)))
+    return out_
+
+def big(name, src, box, width=520, pad=0.10, delta=38, f=0.14, erase=None, cut=True):
     if erase: src = inpaint(src, erase)
     b = tight(src, box, pad=pad, delta=delta)
-    save(name, feather(src.crop(b), f, f), width, q=80)
+    c = src.crop(b)
+    save(name, cutout(c) if cut else feather(c, f, f), (width if width < 400 else min(max(width, 700), 760)), q=84)
 
 T = ["g", "s", "b"]
 
@@ -79,7 +116,7 @@ for p, f in PIANO.items():
     fr = src.copy(); ImageDraw.Draw(fr).rectangle((kx0 - 3, ky0 - 16, kx1 + 3, kb_bot + 3), fill=(8, 7, 6) if p == "g" else (6, 6, 8))
     ky1 = kb_bot
     out[f"{p}_kbd_slice"] = [ky0 - 12, W - kx1, H - ky1, kx0]
-    save(f"{p}_kbd", fr, 1400, q=78)
+    save(f"{p}_kbd", fr, 2200, q=86)
     # beyaz tuş: Fa (466-611) — üstü siyah tuşsuz bölgeden genişletilir, alt kısım tam tuş
     xF0, xF1 = 473, 607
     # siyah tuş alt sınırı
@@ -99,19 +136,19 @@ for p, f in PIANO.items():
 BS = {  # id: (g, s, b, kutu)
     "calm": ("0121929d", "a40a7fd9", "a6336e86", (0.33, 0.19, 0.68, 0.705)),
     "box": ("d752ddd3", "d4b84201", "e2a6d7da", (0.34, 0.22, 0.65, 0.65)),
-    "hiss": ("e8029746", "721849a1", "a48e3f54", (0.13, 0.15, 0.83, 0.68)),
+    "hiss": ("e8029746", "721849a1", "a48e3f54", (0.13, 0.15, 0.83, 0.655)),
     "r478": ("9e24a0e3", "f8e449a3", "da6be53f", (0.35, 0.22, 0.65, 0.69)),
     "lip": ("e685da43", "e8b204b6", "e6abd2ba", (0.28, 0.25, 0.72, 0.65)),
     "ladder": ("7aafe758", "26290278", "e6a18d9f", (0.34, 0.205, 0.65, 0.70)),
     "pulse": ("6b6de8b7", "7e136ddf", "266c8ce9", (0.34, 0.195, 0.66, 0.67)),
     "holdHiss": ("8258f12f", "4007d6c7", "8abf5639", (0.32, 0.215, 0.85, 0.75)),
-    "pant": ("ccc8dae5", "867868ac", "2ab0d0dc", (0.36, 0.195, 0.64, 0.69)),
+    "pant": ("ccc8dae5", "867868ac", "2ab0d0dc", (0.36, 0.225, 0.64, 0.655)),
 }
 for bid, (g, s, b, box) in BS.items():
     for p, f in zip(T, (g, s, b)):
         er = [(0.38, 0.16, 0.62, 0.235)] if bid == "hiss" else None
         bx = (box[0], 0.19, box[2], box[3]) if (bid == "r478" and p == "s") else box
-        big(f"{p}_bs_{bid}", im(f), bx, width=460, erase=er, f=0.12)
+        big(f"{p}_bs_{bid}", im(f), bx, width=460, erase=er, f=0.12, cut=False)
 
 # ---------- 3) Kulak soru ekranları (büyük simge) ----------
 EQ = {
@@ -122,7 +159,7 @@ EQ = {
 }
 for k, (g, s, b, box) in EQ.items():
     for p, f in zip(T, (g, s, b)):
-        big(f"{p}_bi_{k}", im(f), box, width=560, delta=30, f=0.12)
+        big(f"{p}_bi_{k}", im(f), box, width=560, delta=30, f=0.12, cut=False)
 
 # ---------- 4) Konservatuvar büyük kartları (büyük simge) ----------
 CB = {
@@ -137,7 +174,7 @@ CB = {
     "c_rdict": ("19edb59b", "75a4db5f", "df4a7b35"),
     "c_theory": ("c2a6cc26", "f7f8f2a5", "a0de01de"),
 }
-CBOX = (0.26, 0.11, 0.74, 0.515)
+CBOX = (0.26, 0.135, 0.74, 0.50)
 for k, fs in CB.items():
     for p, f in zip(T, fs):
         big(f"{p}_bi_{k}", im(f), CBOX, width=480, delta=34, f=0.14)
@@ -153,7 +190,7 @@ for p, (f, cs, r) in CL.items():
     for k, (cx, cy) in zip(CONS_ORDER, cs): save(f"{p}_ei_{k}", circle(src, cx, cy, r), 160, q=84)
 # Mavi listede çember yok: büyük karttaki simge kullanılır (küçültülmüş)
 for k, fs in CB.items():
-    big(f"b_ei_{k}", im(fs[2]), CBOX, width=200, delta=34, f=0.12)
+    big(f"b_ei_{k}", im(fs[2]), CBOX, width=320, delta=34, f=0.12)
 
 # ---------- 6) Kulak listesi (sol simge bölgesi) + Kulak Testi kulağı ----------
 EL = {  # tema: (dosya, [(x0,y0,x1,y1) her kart], kulak kutusu)
@@ -175,7 +212,7 @@ br = json.load(open("breath.json"))
 for p, (f, cs, r) in DL.items():
     src = im(f)
     for k, (cx, cy) in zip(["ladder", "pulse", "holdHiss", "pant"], cs):
-        c = circle(src, cx, cy, r); bb = io.BytesIO(); c2 = c.resize((200, 200), Image.LANCZOS); c2.save(bb, "WEBP", quality=82, method=6)
+        c = circle(src, cx, cy, r); bb = io.BytesIO(); c2 = c; c2.save(bb, "WEBP", quality=88, method=6)
         br[f"{p}_br_{k}"] = "data:image/webp;base64," + base64.b64encode(bb.getvalue()).decode(); c2.save(f"{OUT}/{p}_br_{k}.png")
 json.dump(br, open("breath.json", "w"))
 

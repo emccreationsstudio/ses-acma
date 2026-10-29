@@ -15,9 +15,11 @@ def v2(p):
         n=k[len(p)+1:]
         if n in ('kw','kb','kbd'): n='h'+n
         L.append(f"  --i-{n.replace('_','-')}: url({val});")
-    sl=a2[p+'_kbd_slice']; sc=1400/2172
+    sl=a2[p+'_kbd_slice']; sc=1
     L.append(f"  --kbd-slice: {round(sl[0]*sc)} {round(sl[1]*sc)} {round(sl[2]*sc)} {round(sl[3]*sc)};")
+    L.append(f"  --i-leather: url({lt[p+'_leather']});"); L.append(f"  --i-page: url({lt[p+'_page']});")
     return '\n'.join(L)
+lt=json.load(open(os.path.join(d,'leather.json')))
 v1=v
 v=lambda p: v1(p)+'\n'+v2(p)
 css=tpl.replace('@@G@@',v('g')).replace('@@S@@',v('s')).replace('@@B@@',v('b'))

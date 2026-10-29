@@ -22,8 +22,8 @@ def heal(c,t0,t1,c0,c1):
 def rr(img,rad):
     c=img.convert("RGBA"); w,h=c.size; m=Image.new("L",(w*4,h*4),0); ImageDraw.Draw(m).rounded_rectangle((0,0,w*4-1,h*4-1),radius=rad*4,fill=255); c.putalpha(m.resize((w,h),Image.LANCZOS)); return c
 def save(n,img,width):
-    if img.width>width: img=img.resize((width,round(img.height*width/img.width)),Image.LANCZOS)
-    b=io.BytesIO(); img.save(b,"WEBP",quality=82,method=6); out[n]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode(); return img
+    if img.width>max(width,1500): img=img.resize((width,round(img.height*width/img.width)),Image.LANCZOS)
+    b=io.BytesIO(); img.save(b,"WEBP",quality=88,method=6); out[n]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode(); return img
 specs=[('g_play',G_LANG,(40,690,1495,830),400,1060,160,390,40),
        ('g_demo',G_LANG,(40,845,1495,968),470,960,160,440,36),
        ('s_play',S_LANG,(45,688,1488,828),430,1020,160,410,40),
