@@ -322,7 +322,7 @@ html[data-skin] .bi-test, html[data-skin] .bi-cons { display: grid; place-items:
 html[data-skin] .bi-test svg, html[data-skin] .bi-cons svg { display: block; }
 html[data-skin] .bi-note { background-image: var(--i-bi-note); } html[data-skin] .bi-interval { background-image: var(--i-bi-interval); }
 html[data-skin] .bi-chord { background-image: var(--i-bi-chord); } html[data-skin] .bi-sing { background-image: var(--i-bi-sing); }
-html[data-skin] .bi-higher { background-image: var(--i-ei-higher); aspect-ratio: 1.3; }
+html[data-skin] .bi-higher { background-image: var(--i-bi-higher, var(--i-ei-higher)); aspect-ratio: 1.45; }
 html[data-skin] .bi-c_one { background-image: var(--i-bi-c-one); } html[data-skin] .bi-c_two { background-image: var(--i-bi-c-two); }
 html[data-skin] .bi-c_three { background-image: var(--i-bi-c-three); } html[data-skin] .bi-c_melody { background-image: var(--i-bi-c-melody); }
 html[data-skin] .bi-c_rhythm { background-image: var(--i-bi-c-rhythm); } html[data-skin] .bi-c_four { background-image: var(--i-bi-c-four); }
