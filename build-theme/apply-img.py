@@ -21,7 +21,9 @@ def v2(p):
     return '\n'.join(L)
 lt=json.load(open(os.path.join(d,'leather.json')))
 v1=v
-v=lambda p: v1(p)+'\n'+v2(p)
+tb=json.load(open(os.path.join(d,'tabs.json')))
+v3=lambda p:'\n'.join(f"  --i-tab-{k}: url({tb[p+'_tab_'+k]});" for k in ('voice','breath','ear','cons'))
+v=lambda p: v1(p)+'\n'+v2(p)+'\n'+v3(p)
 css=tpl.replace('@@G@@',v('g')).replace('@@S@@',v('s')).replace('@@B@@',v('b'))
 s=open(src).read()
 block='/*IMG-START*/\n'+css+'/*IMG-END*/\n'

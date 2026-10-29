@@ -438,3 +438,41 @@ html[data-skin] .seg:not(.langs), html[data-skin] .stepper { background: linear-
 .dact .ghost-btn.gold { color: var(--gold-ink); background: linear-gradient(180deg, var(--metal-a), var(--metal-b) 55%, var(--metal-c)); border-color: transparent; }
 .dact .ghost-btn:disabled { opacity: 0.45; }
 html[data-skin] .dact .ghost-btn.gold { background: var(--i-seg-on) center / 100% 100% no-repeat; }
+/* ---- Alt sekme çubuğu (tasarım görseli birebir: çerçeveli bar, deri kutular, metal simgeler) ---- */
+html[data-skin="rustic"] { --tab-rim: #A8803F; --tab-rim-2: rgba(214,170,92,0.35); --tab-glow: #FFB23E; --tab-ink: #EBC983; --tab-frame: #8A6A36; }
+html[data-skin="mono"]   { --tab-rim: #9C9C9C; --tab-rim-2: rgba(230,230,230,0.28); --tab-glow: #FFFFFF; --tab-ink: #ECECEC; --tab-frame: #7C7C7C; }
+html[data-skin="blue"]   { --tab-rim: #6F86AE; --tab-rim-2: rgba(170,200,255,0.30); --tab-glow: #5FA2FF; --tab-ink: #E4ECFA; --tab-frame: #5E739A; }
+html[data-skin] .dock { padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); border-top: 0; }
+html[data-skin] .dock .tabs {
+  gap: 5px; padding: 5px; border-radius: 14px; max-width: 760px;
+  border: 1.5px solid var(--tab-frame);
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)), var(--i-leather) center / 300px auto repeat;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.6), inset 0 1px 0 var(--tab-rim-2), 0 2px 10px rgba(0,0,0,0.6);
+}
+html[data-skin] .dock .tab {
+  border-radius: 10px; padding: 6px 2px 10px; gap: 2px; min-height: 62px;
+  border: 1.5px solid var(--tab-rim);
+  background: radial-gradient(120% 90% at 50% 30%, rgba(255,255,255,0.05), rgba(0,0,0,0.35)), var(--i-leather) center / 220px auto repeat;
+  box-shadow: inset 0 0 0 2.5px rgba(0,0,0,0.55), inset 0 0 0 3.5px var(--tab-rim-2), 0 1px 3px rgba(0,0,0,0.6);
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(0.8rem, 3.3vw, 0.98rem); letter-spacing: -0.01em; color: var(--tab-ink);
+  text-shadow: 0 1px 2px #000, 0 0 1px rgba(0,0,0,0.8);
+  transition: box-shadow .2s, border-color .2s;
+}
+html[data-skin] .dock .tab + .tab::before { content: none; }
+html[data-skin] .dock .tab svg { width: 54px; height: 34px; background: center / contain no-repeat; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.7)); }
+html[data-skin] .dock .tab svg > * { display: none; }
+html[data-skin] #tab-voice svg { background-image: var(--i-tab-voice); }
+html[data-skin] #tab-breath svg { background-image: var(--i-tab-breath); }
+html[data-skin] #tab-ear svg { background-image: var(--i-tab-ear); }
+html[data-skin] #tab-cons svg { background-image: var(--i-tab-cons); }
+html[data-skin] .dock .tab[aria-selected="true"] {
+  color: var(--tab-ink); border-color: var(--tab-glow);
+  box-shadow: inset 0 0 0 2.5px rgba(0,0,0,0.45), inset 0 0 14px color-mix(in srgb, var(--tab-glow) 35%, transparent), 0 0 12px color-mix(in srgb, var(--tab-glow) 70%, transparent), 0 0 2px var(--tab-glow);
+}
+html[data-skin] .dock .tab[aria-selected="true"]::after { bottom: 5px; left: 30%; right: 30%; height: 3px; background: var(--tab-glow); box-shadow: 0 0 8px var(--tab-glow), 0 0 2px #fff; }
+html[data-skin="mono"] .dock .tab[aria-selected="true"]::after { background: #F4F4F4; }
+html[data-skin] .dock .tab span { padding: 0 1px; }
+html[data-skin] #tab-ear svg { height: 38px; margin: -2px 0 -2px; }
+@media (max-width: 400px) { html[data-skin] .dock .tab { font-size: 0.8rem; } html[data-skin] .dock .tab svg { width: 46px; height: 30px; } html[data-skin] #tab-ear svg { height: 34px; } }
+@media (min-width: 700px) { html[data-skin] .dock .tab { min-height: 70px; font-size: 1.12rem; padding: 7px 4px 11px; } html[data-skin] .dock .tab svg { width: 64px; height: 40px; } html[data-skin] #tab-ear svg { height: 44px; } html[data-skin] .dock .tabs { max-width: 900px; } }
+@media (max-width: 699px) { html[data-skin] #tab-cons { flex: 1.22; } html[data-skin] #tab-breath, html[data-skin] #tab-ear { flex: 0.9; } }

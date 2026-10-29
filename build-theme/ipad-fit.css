@@ -4,7 +4,7 @@ html[data-skin] #stage { order: 0; } html[data-skin] #play { order: 1; } html[da
 html[data-skin] #exerciseSection { order: 3; } html[data-skin] #settingsSection { order: 4; }
 /* =================== iPad: ana ekran tek ekrana sığar =================== */
 @media (min-width: 820px) {
-  html[data-skin] .app { max-width: none; height: 100dvh; padding: 18px 26px calc(92px + env(safe-area-inset-bottom, 0px)); gap: 14px; overflow: hidden; }
+  html[data-skin] .app { max-width: none; height: 100dvh; padding: 18px 26px calc(104px + env(safe-area-inset-bottom, 0px)); gap: 14px; overflow: hidden; }
   html[data-skin] .app:has(#homeView[hidden]), html[data-skin] .app:has(#voiceView[hidden]) { height: auto; overflow: visible; }
   html[data-skin] .switcher { display: none; }
   html[data-skin] .header .mark { width: 50px; height: 50px; }
