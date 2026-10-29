@@ -7,6 +7,19 @@ br=json.load(open(os.path.join(d,'breath.json')))
 bm={'anat-in':'anat_in','anat-out':'anat_out','br-ladder':'br_ladder','br-pulse':'br_pulse','br-holdHiss':'br_holdHiss','br-pant':'br_pant','br-calm':'br_calm','br-box':'br_box','br-hiss':'br_hiss','br-r478':'br_r478','br-lip':'br_lip'}
 v0=lambda p:"\n".join(f"  --i-{k}: url({a[p+'_'+n]});" for k,n in m.items())
 v=lambda p: v0(p)+'\n'+'\n'.join(f"  --i-{k}: url({br[p+'_'+n]});" for k,n in bm.items())
+a2=json.load(open(os.path.join(d,'assets2.json')))
+def v2(p):
+    L=[]
+    for k,val in a2.items():
+        if not k.startswith(p+'_') or not isinstance(val,str): continue
+        n=k[len(p)+1:]
+        if n in ('kw','kb','kbd'): n='h'+n
+        L.append(f"  --i-{n.replace('_','-')}: url({val});")
+    sl=a2[p+'_kbd_slice']; sc=1400/2172
+    L.append(f"  --kbd-slice: {round(sl[0]*sc)} {round(sl[1]*sc)} {round(sl[2]*sc)} {round(sl[3]*sc)};")
+    return '\n'.join(L)
+v1=v
+v=lambda p: v1(p)+'\n'+v2(p)
 css=tpl.replace('@@G@@',v('g')).replace('@@S@@',v('s')).replace('@@B@@',v('b'))
 s=open(src).read()
 block='/*IMG-START*/\n'+css+'/*IMG-END*/\n'
