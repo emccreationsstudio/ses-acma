@@ -5983,7 +5983,7 @@ if (state.tab === "breath") showTab("breath");
 
 <script id="ipadLang">
 (function(){var b=document.getElementById("langBtn"),p=document.getElementById("langPanel");if(!b||!p)return;
-function set(o){p.classList.toggle("open",o);b.setAttribute("aria-expanded",String(o));}
+function set(o){if(o&&p.parentNode!==document.body)document.body.appendChild(p);p.classList.toggle("open",o);b.setAttribute("aria-expanded",String(o));}
 b.addEventListener("click",function(e){e.stopPropagation();set(!p.classList.contains("open"));});
 document.addEventListener("click",function(e){if(p.classList.contains("open")&&!(e.composedPath?e.composedPath():[e.target]).includes(p))set(false);});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});})();

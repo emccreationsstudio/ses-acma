@@ -10,10 +10,11 @@ s=re.sub(r'<button type="button" class="[^"]*lang-btn" id="langBtn".*?</button>'
 if True: s=s.replace('<div class="head-btns">','<div class="head-btns">'+btn,1)
 js='''<script id="ipadLang">
 (function(){var b=document.getElementById("langBtn"),p=document.getElementById("langPanel");if(!b||!p)return;
-function set(o){p.classList.toggle("open",o);b.setAttribute("aria-expanded",String(o));}
+function set(o){if(o&&p.parentNode!==document.body)document.body.appendChild(p);p.classList.toggle("open",o);b.setAttribute("aria-expanded",String(o));}
 b.addEventListener("click",function(e){e.stopPropagation();set(!p.classList.contains("open"));});
 document.addEventListener("click",function(e){if(p.classList.contains("open")&&!(e.composedPath?e.composedPath():[e.target]).includes(p))set(false);});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});})();
 </script>'''
-if 'id="ipadLang"' not in s: i=s.rindex('</body>') if '</body>' in s else len(s); s=s[:i]+js+s[i:]
+s=re.sub(r'<script id="ipadLang">.*?</script>','',s,flags=re.S)
+i=s.rindex('</body>') if '</body>' in s else len(s); s=s[:i]+js+s[i:]
 open(f,'w').write(s); print('ok')
