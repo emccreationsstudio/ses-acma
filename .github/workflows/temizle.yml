@@ -12,4 +12,4 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release delete mojave-tam-deneme --repo "$GITHUB_REPOSITORY" --cleanup-tag -y || true
+        run: for t in mojave-tam-deneme windows-tam-deneme; do gh release delete "$t" --repo "$GITHUB_REPOSITORY" --cleanup-tag -y || true; done

@@ -1,0 +1,54 @@
+# Windows için TAM SÜRÜM (tüm Pro özellikleri açık) deneme kurulumu. Normal kurulumları etkilemez.
+name: Windows tam sürüm (deneme)
+on:
+  push:
+    branches: ["surum-*"]
+    paths: [".github/workflows/tam-windows.yml", "tam-windows-tetik.txt"]
+jobs:
+  win:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Uygulamayı derle (testlerle)
+        run: |
+          node test/core.test.js
+          node scripts/build.js
+      - name: Pro özelliklerini aç (tam sürüm)
+        shell: bash
+        run: |
+          node -e '
+            const fs=require("fs"); const f="www/index.html"; let s=fs.readFileSync(f,"utf8");
+            const a="const PRO = { owned: false };"; const b="try { PRO.owned = localStorage.getItem(\"sesacma-pro\") === \"1\"; } catch (e) {}";
+            if(!s.includes(a)||!s.includes(b)) { console.error("Pro satırları bulunamadı"); process.exit(1); }
+            s=s.replace(a,"const PRO = { owned: true, full: true };").replace(b,"try { localStorage.setItem(\"sesacma-pro\",\"1\"); } catch (e) {}");
+            s=s.replace("PRO.owned = !!owned;","PRO.owned = true;");
+            fs.writeFileSync(f,s); console.log("Pro açık");'
+      - name: Paketi hazırla
+        shell: bash
+        run: |
+          rm -rf dw && cp -r desktop dw && rm -rf dw/www && cp -r www dw/www
+          node -e '
+            const fs=require("fs"); const f="dw/package.json"; const p=JSON.parse(fs.readFileSync(f,"utf8"));
+            p.build.win.artifactName="SesAcma-PianoWarmUp-Setup-${version}-TamSurum.${ext}";
+            fs.writeFileSync(f,JSON.stringify(p,null,2));'
+      - name: Kur ve paketle
+        working-directory: dw
+        shell: bash
+        run: |
+          npm install
+          npx electron-builder --win --publish never
+          ls -la dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: windows-tam-deneme
+          name: Windows tam sürüm (deneme)
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          make_latest: false
+          files: dw/dist/*TamSurum.exe
+          body: Deneme kurulumu. Geçicidir.
