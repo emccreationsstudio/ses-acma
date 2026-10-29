@@ -80,6 +80,7 @@ jobs:
           name: SesAcma-${{ matrix.target }}
           path: ${{ matrix.files }}
           if-no-files-found: error
+          retention-days: 1
 
   android:
     runs-on: ubuntu-latest
@@ -138,6 +139,7 @@ jobs:
           name: SesAcma-android
           path: out/*
           if-no-files-found: error
+          retention-days: 1
 
   # Hepsini tek bir indirme sayfasına koy: github.com/emccreationsstudio/ses-acma/releases/latest
   release:
