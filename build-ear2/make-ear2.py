@@ -78,7 +78,7 @@ for p, d in EH.items():
     m = (g > bgv + 28).astype(np.uint8)
     m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
     n, lab, st, _ = cv2.connectedComponentsWithStats(m); k = 1 + np.argmax(st[1:, cv2.CC_STAT_AREA]); m = (lab == k).astype(np.uint8)
-    ff = m.copy(); hh, ww = m.shape; msk = np.zeros((hh + 2, ww + 2), np.uint8); cv2.floodFill(ff, msk, (0, 0), 1); m = m | (1 - ff)
+    ff = m.copy(); mh_, mw_ = m.shape; msk = np.zeros((mh_ + 2, mw_ + 2), np.uint8); cv2.floodFill(ff, msk, (0, 0), 1); m = m | (1 - ff)
     al = cv2.GaussianBlur(m.astype(np.float32), (0, 0), 1.0)
     btnA = Image.fromarray(np.dstack([np.asarray(btn), (al * 255).astype(np.uint8)]), "RGBA")
     res[f"{p}_ebtn"] = b64(btnA, 84, 1200)
