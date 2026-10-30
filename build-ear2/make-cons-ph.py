@@ -20,6 +20,6 @@ for f,top,ks in J:
         xa=min(c[0] for c in C); ya=min(c[1] for c in C); xb=max(c[0]+c[2] for c in C); yb=max(c[1]+c[3] for c in C)
         bx=(x0+20+xa,y0+ya,x0+20+xb,y0+yb)
         o=soft(img,bx); b=io.BytesIO(); o.save(b,'WEBP',quality=88,method=6)
-        res[f"b_ei_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
+        res[f"b_eip_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
         t=o.copy(); t.thumbnail((140,150)); sheet.alpha_composite(t,(n*150+4,8)); n+=1; print(k,bx,o.size)
 json.dump(res,open('consph.json','w')); sheet.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/consph.png')
