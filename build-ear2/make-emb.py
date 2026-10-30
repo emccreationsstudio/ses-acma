@@ -35,3 +35,16 @@ for c,k in enumerate(IDS):
     res[f"g_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
     t=o.copy(); t.thumbnail((120,120)); sheet2.alpha_composite(t,(c*130+4,4))
 json.dump(res,open('emb.json','w')); sheet2.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb_g.png')
+
+# Rustik: kullanıcının gönderdiği altın metalik amblemler (15545681) -> birebir
+G=Image.open(A+'15545681-image.png').convert('RGBA')
+sheet3=Image.new('RGBA',(4*130,130),(30,20,10,255))
+for c,(k,(x,y)) in enumerate(zip(["arpej","oktav","dokuzlu","plus"],[(363,275),(363,811),(363,1347),(361,1881)])):
+    R=210; S=2
+    crop=G.crop((x-R,y-R,x+R,y+R)).resize((2*R*S,2*R*S),Image.LANCZOS)
+    m=Image.new('L',crop.size,0); ImageDraw.Draw(m).ellipse((6,6,crop.width-6,crop.height-6),fill=255)
+    crop.putalpha(m); crop=crop.resize((240,240),Image.LANCZOS)
+    b=io.BytesIO(); crop.save(b,'WEBP',quality=90,method=6)
+    res[f"g_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
+    t=crop.copy(); t.thumbnail((120,120)); sheet3.alpha_composite(t,(c*130+4,4))
+json.dump(res,open('emb.json','w')); sheet3.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb_g2.png')
