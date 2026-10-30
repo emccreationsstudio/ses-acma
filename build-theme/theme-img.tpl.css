@@ -1,8 +1,9 @@
+@font-face { font-family: "SesDigits"; src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Times"), local("Liberation Serif"), local("Tinos"); unicode-range: U+0030-0039; }
 /* =================== 1.3b: Tasarım görselleri (birebir) =================== */
 html[data-skin="rustic"] {
 @@G@@
-  --font-display: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
-  --font-body: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-display: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-body: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif;
 }
 html[data-skin="mono"] {
 @@S@@
@@ -16,8 +17,8 @@ html[data-skin="blue"] {
   --metal-a: #F2F7FF; --metal-b: #A9C5F2; --metal-c: #5A7DB8;
   --key-white: #EEF2F8; --key-black: #05080F;
   --ex: #A9C8FF !important;
-  --font-display: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
-  --font-body: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-display: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-body: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif;
 }
 /* Büyük düğmeler */
 html[data-skin] .play, html[data-skin] .ghost-lg { border: 0; box-shadow: none; text-shadow: none; min-height: 66px; border-radius: 18px; background: var(--i-play) center / 100% 100% no-repeat; }
@@ -91,7 +92,7 @@ html[data-skin="mono"] .toggle > span:first-child > span { font-family: var(--fo
 .info-i { display: none; }
 html[data-skin] .info-i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1.3px solid currentColor; font: italic 700 12px/1 Georgia, serif; color: var(--ink); opacity: 0.85; flex: none; }
 html[data-skin] .kicker { color: var(--ink); letter-spacing: 0.14em; }
-html[data-skin] .now-note { font-family: Baskerville, "Libre Baskerville", "Bodoni 72", Didot, Georgia, serif; font-weight: 700; letter-spacing: -0.02em; }
+html[data-skin] .now-note { font-family: "SesDigits", Baskerville, "Libre Baskerville", "Bodoni 72", Didot, Georgia, serif; font-weight: 700; letter-spacing: -0.02em; }
 html:is([data-skin="rustic"],[data-skin="blue"]) .now-note { background: linear-gradient(180deg, #FFF3CF 0%, #F2CF86 30%, #C99442 62%, #8A5A1E 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 html[data-skin="mono"] .now-note { background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 40%, #A8A8A8 70%, #E6E6E6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 html[data-skin] .contour-col { border-left: 1px solid var(--line); padding-left: 12px; justify-content: space-between; }
@@ -391,7 +392,7 @@ html[data-skin="blue"] .ear-hero .hero-cta { color: #06101f; }
 @media (max-width: 430px) { html[data-skin] .hi-test { width: 96px; height: 84px; } html[data-skin] .ear-hero .hero-txt b { font-size: 1.6rem; } }
 html[data-skin] .breath-stage.bs-intro .ear-prompt { max-width: 640px !important; }
 /* Siyah-Beyaz: yeni görsellerdeki gibi serif yazı */
-html[data-skin="mono"] { --font-display: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif; --font-body: Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif; }
+html[data-skin="mono"] { --font-display: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif; --font-body: "SesDigits", Baskerville, "Baskerville Old Face", "Libre Baskerville", "Iowan Old Style", Palatino, Georgia, serif; }
 html[data-skin="mono"] body, html[data-skin="mono"] button { font-family: var(--font-body); }
 html[data-skin="mono"] .seg:not(.langs) button, html[data-skin="mono"] .seg.langs button, html[data-skin="mono"] .stepper b, html[data-skin="mono"] .toggle > span:first-child > span, html[data-skin="mono"] .play, html[data-skin="mono"] .syllables, html[data-skin="mono"] .panel-head h2, html[data-skin="mono"] .section-head h2 { font-family: var(--font-display); letter-spacing: 0; }
 @media (max-width: 460px) { html[data-skin] .brand h1 { font-size: 1.45rem !important; } }

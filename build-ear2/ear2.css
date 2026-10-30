@@ -111,3 +111,5 @@ html[data-skin] .ex-row .ex-card .ex-txt > * { max-width: 100%; }
 html[data-skin="blue"] #earGrid.cons-grid .ei-c_four { height: clamp(86px, 8vw, 118px) !important; margin-bottom: 0 !important; }
 /* Mavi Konservatuvar simgeleri oval kırpılmasın (simge sola dayalı, sol yarısı kesiliyordu) */
 html[data-skin="blue"] #earGrid.cons-grid .ei { border-radius: 0 !important; overflow: visible !important; clip-path: none !important; }
+/* Serif yazı tipinde rakamlar aşağı sarkmasın (Do3, 130,8 Hz, akor adları, sayaçlar) */
+html[data-skin], html[data-skin] * { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1, "onum" 0; }
