@@ -132,3 +132,9 @@ html[data-skin="blue"] .add-plus, html[data-skin="rustic"] .add-plus { backgroun
 html[data-skin="blue"] .ex-row .add-card .add-plus, html[data-skin="rustic"] .ex-row .add-card .add-plus { width: 62px; height: 62px; }
 @media (max-width: 430px) { html[data-skin="blue"] .ex-row .add-card .add-plus, html[data-skin="rustic"] .ex-row .add-card .add-plus { width: 52px; height: 52px; } }
 html[data-skin="rustic"] .ex-row .add-card { border-style: solid !important; }
+/* Rustik Kulak kartları: telefon tasarımı resimleri yalnız telefonda; iPad/masaüstünde önceki (ayırıcı çizgili) resimler */
+@media (max-width: 699px) {
+  html[data-skin="rustic"] .ei-note { background-image: var(--i-eimgp-note) !important; }
+  html[data-skin="rustic"] .ei-interval { background-image: var(--i-eimgp-interval) !important; }
+  html[data-skin="rustic"] .ei-higher { background-image: var(--i-eimgp-higher) !important; }
+}

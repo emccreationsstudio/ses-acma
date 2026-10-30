@@ -48,3 +48,29 @@ for c,(k,(x,y)) in enumerate(zip(["arpej","oktav","dokuzlu","plus"],[(362,269),(
     res[f"g_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
     t=crop.copy(); t.thumbnail((120,120)); sheet3.alpha_composite(t,(c*130+4,4))
 json.dump(res,open('emb.json','w')); sheet3.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb_g2.png')
+
+# Parlatma: zemin koyulaşır, altın parlar, ışıltı (bloom) eklenir — ilk üç amblem gibi
+import cv2
+sheet4=Image.new('RGBA',(4*130,130),(30,20,10,255))
+for c,k in enumerate(["arpej","oktav","dokuzlu","plus"]):
+    im=Image.open(io.BytesIO(base64.b64decode(res[f"g_emb_{k}"].split(',')[1]))).convert('RGBA')
+    a=np.asarray(im).astype(np.float32); rgb=a[...,:3]/255; al=a[...,3]
+    L=rgb@np.array([.3,.59,.11],np.float32)
+    sat=rgb.max(2)-rgb.min(2)
+    gold=np.clip((L-0.30)/0.35,0,1)*np.clip(sat*3,0,1)          # altın kısımlar
+    bgk=1-gold
+    out=rgb*(1-bgk[...,None]*0.55)                                 # zemini koyulaştır
+    out=out*(1+gold[...,None]*0.55)                                # altını parlat
+    out=np.clip(out,0,1)**np.where(gold[...,None]>0.3,0.85,1.15)
+    br=np.clip((L-0.55)/0.3,0,1)[...,None]*out
+    bloom=cv2.GaussianBlur(br,(0,0),5)*0.9+cv2.GaussianBlur(br,(0,0),14)*0.6
+    out=1-(1-out)*(1-bloom*np.array([1.0,0.72,0.32]))              # ekran karışımı, sıcak ışık
+    o=Image.fromarray(np.dstack([np.clip(out,0,1)*255,al]).astype(np.uint8),'RGBA')
+    b=io.BytesIO(); o.save(b,'WEBP',quality=90,method=6)
+    res[f"g_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
+    t=o.copy(); t.thumbnail((120,120)); sheet4.alpha_composite(t,(c*130+4,4))
+# karşılaştırma için ilk üç
+ref=Image.new('RGBA',(7*130,130),(20,14,8,255))
+for c,k in enumerate(["uclu","besli","staccato","arpej","oktav","dokuzlu","plus"]):
+    t=Image.open(io.BytesIO(base64.b64decode(res[f"g_emb_{k}"].split(',')[1]))).convert('RGBA'); t.thumbnail((120,120)); ref.alpha_composite(t,(c*130+4,4))
+json.dump(res,open('emb.json','w')); ref.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb_g3.png')
