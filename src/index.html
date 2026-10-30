@@ -1669,6 +1669,11 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_theory { background-image: var(-
   html[data-skin="rustic"] .ei-interval { background-image: var(--i-eimgp-interval) !important; }
   html[data-skin="rustic"] .ei-higher { background-image: var(--i-eimgp-higher) !important; }
 }
+/* Telefon (geniş telefon / dar pencere dahil): Kulak kartı yüksekliği genişlikle orantılı — resimler kırpılmadan sığar */
+@media (max-width: 699px) {
+  html[data-skin] #earGrid.ear-grid-k .ear-card { min-height: max(122px, calc((100vw - 32px) * 0.45 / 1.62)) !important; }
+  html[data-skin] #earGrid.ear-grid-k .ei { background-position: center !important; }
+}
 /*IMG-END*/
 /*IPAD-START*/
 /* Telefon: Egzersize Başla ve Örneği dinle, sahnenin hemen altında */
