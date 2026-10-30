@@ -107,7 +107,7 @@ html[data-skin] .ex-row .ex-card .ex-txt > * { max-width: 100%; }
 @media (max-width: 430px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 76px; right: 40%; } }
 @media (min-width: 820px) { html[data-skin] .ex-row .ex-card:not(.add-card) .ex-txt { left: 78px; } }
 /* Konservatuvar listesi: telefonda simgeler tasarımdaki boyda; dar "Dört Ses" simgesi biraz daha uzun */
-@media (max-width: 430px) { html[data-skin="blue"] #earGrid.cons-grid .ei { height: 74px !important; } }
+@media (max-width: 430px) { html[data-skin="blue"] #earGrid.cons-grid .ei { height: 78px !important; } }
 html[data-skin="blue"] #earGrid.cons-grid .ei-c_four { height: clamp(86px, 8vw, 118px) !important; margin-bottom: 0 !important; }
 /* Mavi Konservatuvar simgeleri oval kırpılmasın (simge sola dayalı, sol yarısı kesiliyordu) */
 html[data-skin="blue"] #earGrid.cons-grid .ei { border-radius: 0 !important; overflow: visible !important; clip-path: none !important; }
@@ -119,3 +119,16 @@ html[data-skin], html[data-skin] * { font-variant-numeric: lining-nums; font-fea
   html[data-skin] .switcher button { flex: 1 1 auto !important; min-width: 0; padding: 10px 6px !important; font-size: clamp(0.74rem, 3.7vw, 1rem) !important; white-space: nowrap; letter-spacing: -0.015em; overflow: visible !important; text-overflow: clip !important; }
   html[data-skin] .switcher button span { overflow: visible; text-overflow: clip; }
 }
+/* Egzersiz amblemleri ve "+" düğmesi: telefon tasarımlarından birebir (mavi + rustik) */
+html[data-skin="blue"] .ex-emb, html[data-skin="rustic"] .ex-emb { border: 0 !important; box-shadow: 0 3px 8px rgba(0,0,0,.55) !important; border-radius: 50%; background-size: 100% 100% !important; background-repeat: no-repeat !important; }
+html[data-skin="blue"] .ex-emb svg, html[data-skin="rustic"] .ex-emb svg, html[data-skin="blue"] .add-plus svg, html[data-skin="rustic"] .add-plus svg, html[data-skin="blue"] .add-plus > *, html[data-skin="rustic"] .add-plus > * { display: none !important; }
+html[data-skin="blue"] .ex-emb.emb-uclu, html[data-skin="rustic"] .ex-emb.emb-uclu { background-image: var(--i-emb-uclu) !important; }
+html[data-skin="blue"] .ex-emb.emb-besli, html[data-skin="rustic"] .ex-emb.emb-besli { background-image: var(--i-emb-besli) !important; }
+html[data-skin="blue"] .ex-emb.emb-staccato, html[data-skin="rustic"] .ex-emb.emb-staccato { background-image: var(--i-emb-staccato) !important; }
+html[data-skin="blue"] .ex-emb.emb-arpej, html[data-skin="rustic"] .ex-emb.emb-arpej { background-image: var(--i-emb-arpej) !important; }
+html[data-skin="blue"] .ex-emb.emb-oktav, html[data-skin="rustic"] .ex-emb.emb-oktav { background-image: var(--i-emb-oktav) !important; }
+html[data-skin="blue"] .ex-emb.emb-dokuzlu, html[data-skin="rustic"] .ex-emb.emb-dokuzlu { background-image: var(--i-emb-dokuzlu) !important; }
+html[data-skin="blue"] .add-plus, html[data-skin="rustic"] .add-plus { background: var(--i-emb-plus) center / 100% 100% no-repeat !important; border: 0 !important; box-shadow: 0 3px 8px rgba(0,0,0,.55) !important; color: transparent !important; font-size: 0 !important; }
+html[data-skin="blue"] .ex-row .add-card .add-plus, html[data-skin="rustic"] .ex-row .add-card .add-plus { width: 62px; height: 62px; }
+@media (max-width: 430px) { html[data-skin="blue"] .ex-row .add-card .add-plus, html[data-skin="rustic"] .ex-row .add-card .add-plus { width: 52px; height: 52px; } }
+html[data-skin="rustic"] .ex-row .add-card { border-style: solid !important; }
