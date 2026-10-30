@@ -1604,6 +1604,12 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_four { height: clamp(86px, 8vw, 
 html[data-skin="blue"] #earGrid.cons-grid .ei { border-radius: 0 !important; overflow: visible !important; clip-path: none !important; }
 /* Serif yazı tipinde rakamlar aşağı sarkmasın (Do3, 130,8 Hz, akor adları, sayaçlar) */
 html[data-skin], html[data-skin] * { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1, "onum" 0; }
+/* Telefon: üst sekme şeridi — sekme genişliği yazıya göre, uzun adlar kesilmesin */
+@media (max-width: 819px) {
+  html[data-skin] .switcher { display: flex !important; gap: 2px; padding: 4px; grid-template-columns: none !important; }
+  html[data-skin] .switcher button { flex: 1 1 auto !important; min-width: 0; padding: 10px 6px !important; font-size: clamp(0.74rem, 3.7vw, 1rem) !important; white-space: nowrap; letter-spacing: -0.015em; overflow: visible !important; text-overflow: clip !important; }
+  html[data-skin] .switcher button span { overflow: visible; text-overflow: clip; }
+}
 /*IMG-END*/
 /*IPAD-START*/
 /* Telefon: Egzersize Başla ve Örneği dinle, sahnenin hemen altında */
@@ -6048,4 +6054,10 @@ function set(o){if(o&&p.parentNode!==document.body)document.body.appendChild(p);
 b.addEventListener("click",function(e){e.stopPropagation();set(!p.classList.contains("open"));});
 document.addEventListener("click",function(e){if(p.classList.contains("open")&&!(e.composedPath?e.composedPath():[e.target]).includes(p))set(false);});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});})();
+</script><script id="roundDots">
+(function(){function fix(svg){var vb=svg.viewBox&&svg.viewBox.baseVal;if(!vb||!vb.width)return;var r=svg.getBoundingClientRect();if(!r.width||!r.height)return;var sx=r.width/vb.width,sy=r.height/vb.height,k=Math.sqrt(sx*sy);
+svg.querySelectorAll("circle.cdot").forEach(function(c){var cx=+c.getAttribute("cx"),cy=+c.getAttribute("cy");c.setAttribute("transform","translate("+cx+" "+cy+") scale("+(k/sx)+" "+(k/sy)+") translate("+(-cx)+" "+(-cy)+")");});}
+var ro=new ResizeObserver(function(es){es.forEach(function(e){fix(e.target);});});var seen=new WeakSet();
+function scan(){document.querySelectorAll("svg.chart").forEach(function(s){if(!seen.has(s)){seen.add(s);ro.observe(s);}fix(s);});}
+new MutationObserver(function(){scan();}).observe(document.body,{childList:true,subtree:true});scan();})();
 </script>
