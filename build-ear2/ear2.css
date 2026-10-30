@@ -113,3 +113,9 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_four { height: clamp(86px, 8vw, 
 html[data-skin="blue"] #earGrid.cons-grid .ei { border-radius: 0 !important; overflow: visible !important; clip-path: none !important; }
 /* Serif yazı tipinde rakamlar aşağı sarkmasın (Do3, 130,8 Hz, akor adları, sayaçlar) */
 html[data-skin], html[data-skin] * { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1, "onum" 0; }
+/* Telefon: üst sekme şeridi — sekme genişliği yazıya göre, uzun adlar kesilmesin */
+@media (max-width: 819px) {
+  html[data-skin] .switcher { display: flex !important; gap: 2px; padding: 4px; grid-template-columns: none !important; }
+  html[data-skin] .switcher button { flex: 1 1 auto !important; min-width: 0; padding: 10px 6px !important; font-size: clamp(0.74rem, 3.7vw, 1rem) !important; white-space: nowrap; letter-spacing: -0.015em; overflow: visible !important; text-overflow: clip !important; }
+  html[data-skin] .switcher button span { overflow: visible; text-overflow: clip; }
+}
