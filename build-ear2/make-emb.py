@@ -1,6 +1,7 @@
 # Egzersiz amblemleri (telefon tasarımlarından): mavi eebfc350, altın af2d0a67 -> emb.json
 import json, io, base64
 import numpy as np
+import numpy as np
 from PIL import Image, ImageDraw
 A='/mnt/user-data/attachments/56b66296-fc03-5990-a0be-6d20ea602b9c/'
 IDS=["uclu","besli","staccato","arpej","oktav","dokuzlu","plus"]
@@ -18,3 +19,19 @@ for r,(p,(f,cs)) in enumerate(C.items()):
         res[f"{p}_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
         t=crop.copy(); t.thumbnail((120,120)); sheet.alpha_composite(t,(c*130+4,r*130+4))
 json.dump(res,open('emb.json','w')); sheet.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb.png'); print(len(res))
+
+# Rustik: mavi metalik amblemler altın tonuna boyanır (koyu kahve -> altın -> açık altın)
+pal=np.array([(0,(18,11,5)),(0.35,(92,58,22)),(0.62,(196,142,62)),(0.82,(238,200,120)),(1,(255,246,214))],dtype=object)
+xs=np.array([p[0] for p in pal],float); cols=np.array([p[1] for p in pal],float)
+sheet2=Image.new('RGBA',(7*130,130),(30,20,10,255))
+for c,k in enumerate(IDS):
+    src=Image.open(io.BytesIO(base64.b64decode(res[f"b_emb_{k}"].split(',')[1]))).convert('RGBA')
+    a=np.asarray(src).astype(float); L=(a[...,:3]@np.array([.3,.59,.11]))/255
+    L=np.clip((L-0.03)/0.92,0,1)**0.9
+    rgb=np.stack([np.interp(L,xs,cols[:,i]) for i in range(3)],-1)
+    o=Image.fromarray(np.dstack([rgb,a[...,3]]).astype(np.uint8),'RGBA')
+    b=io.BytesIO(); o.save(b,'WEBP',quality=88,method=6)
+    if k in ("uclu","besli","staccato"): continue
+    res[f"g_emb_{k}"]="data:image/webp;base64,"+base64.b64encode(b.getvalue()).decode()
+    t=o.copy(); t.thumbnail((120,120)); sheet2.alpha_composite(t,(c*130+4,4))
+json.dump(res,open('emb.json','w')); sheet2.save('/tmp/claude-0/-home-claude/56b66296-fc03-5990-a0be-6d20ea602b9c/scratchpad/emb_g.png')
