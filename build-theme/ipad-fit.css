@@ -6,7 +6,9 @@ html[data-skin] #exerciseSection { order: 3; } html[data-skin] #settingsSection 
 @media (min-width: 820px) {
   html[data-skin] .app { max-width: none; height: 100dvh; padding: 18px 26px calc(104px + env(safe-area-inset-bottom, 0px)); gap: 14px; overflow: hidden; }
   html[data-skin] .app:has(#homeView[hidden]), html[data-skin] .app:has(#voiceView[hidden]) { height: auto; overflow: visible; }
-  html[data-skin] .switcher { display: none; }
+  html[data-skin] .app { position: relative; }
+  html[data-skin] .switcher { position: absolute; z-index: 6; top: calc(18px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); width: min(620px, calc(100% - 480px)); margin: 0; padding: 3px; }
+  html[data-skin] .switcher button { padding: 7px 4px; min-height: 0; font-size: 1rem; }
   html[data-skin] .header .mark { width: 50px; height: 50px; }
   html[data-skin] .brand h1 { font-size: 1.7rem; }
   html[data-skin] #voiceView { flex: 1; min-height: 0; }
@@ -146,3 +148,4 @@ html[data-skin] #langPanel .seg.langs button { min-height: 44px; font-size: 1rem
 }
 /* iPad döndürünce yazılar büyümesin (iOS yatayda yazıyı kendiliğinden büyütüyor) */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (min-width: 820px) and (max-width: 1199px) { html[data-skin] .switcher svg { display: none; } html[data-skin] .switcher button { font-size: 0.95rem; padding: 7px 2px; } }
