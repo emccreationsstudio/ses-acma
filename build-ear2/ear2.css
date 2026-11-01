@@ -156,3 +156,6 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_theory { background-image: var(-
   html[data-skin] #earGrid.ear-grid-k .ear-card { min-height: max(122px, calc((100vw - 32px) * 0.45 / 1.62)) !important; }
   html[data-skin] #earGrid.ear-grid-k .ei { background-position: center !important; }
 }
+/* "Kendi egzersizin" kartı: yazı tam genişlik (telefonda kesilmesin) */
+html[data-skin] .ex-row .add-card .ex-txt { padding-right: 8px !important; }
+html[data-skin] .ex-row .add-card .ex-name { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
