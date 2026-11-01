@@ -165,3 +165,4 @@ html[data-skin] #ranges button { min-width: 0; padding: 10px 2px !important; fon
 html[data-skin] #ranges button::before, html[data-skin] #ranges button::after { display: none !important; }
 /* Rustik Akor Tanıma / Duyduğunu Söyle: yüksek çözünürlüklü resim, kırpılmadan alana oturur */
 html[data-skin="rustic"] #earGrid.ear-grid-k .ei-chord, html[data-skin="rustic"] #earGrid.ear-grid-k .ei-sing { background-size: contain !important; background-position: center !important; background-color: transparent !important; }
+@media (max-width: 699px) { html[data-skin="rustic"] #earGrid.ear-grid-k .ei-interval, html[data-skin="rustic"] #earGrid.ear-grid-k .ei-higher { background-size: contain !important; background-position: center !important; background-color: transparent !important; } }
