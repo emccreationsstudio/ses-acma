@@ -159,3 +159,7 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_theory { background-image: var(-
 /* "Kendi egzersizin" kartı: yazı tam genişlik (telefonda kesilmesin) */
 html[data-skin] .ex-row .add-card .ex-txt { padding-right: 8px !important; }
 html[data-skin] .ex-row .add-card .ex-name { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+/* Ses grubu: 8 seçenek, iki satır (4 + 4) */
+html[data-skin] #ranges { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+html[data-skin] #ranges button { min-width: 0; padding: 10px 2px !important; font-size: clamp(0.7rem, 3vw, 1.02rem) !important; letter-spacing: -0.02em; line-height: 1.1; white-space: normal; overflow-wrap: normal; word-break: keep-all; hyphens: manual; }
+html[data-skin] #ranges button::before, html[data-skin] #ranges button::after { display: none !important; }

@@ -1677,6 +1677,10 @@ html[data-skin="blue"] #earGrid.cons-grid .ei-c_theory { background-image: var(-
 /* "Kendi egzersizin" kartı: yazı tam genişlik (telefonda kesilmesin) */
 html[data-skin] .ex-row .add-card .ex-txt { padding-right: 8px !important; }
 html[data-skin] .ex-row .add-card .ex-name { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+/* Ses grubu: 8 seçenek, iki satır (4 + 4) */
+html[data-skin] #ranges { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+html[data-skin] #ranges button { min-width: 0; padding: 10px 2px !important; font-size: clamp(0.7rem, 3vw, 1.02rem) !important; letter-spacing: -0.02em; line-height: 1.1; white-space: normal; overflow-wrap: normal; word-break: keep-all; hyphens: manual; }
+html[data-skin] #ranges button::before, html[data-skin] #ranges button::after { display: none !important; }
 /*IMG-END*/
 /*IPAD-START*/
 /* Telefon: Egzersize Başla ve Örneği dinle, sahnenin hemen altında */
@@ -2167,9 +2171,12 @@ const EXERCISES = [
 const RANGES = [
   { id: "child", start: 60, end: 67 },
   { id: "soprano", start: 60, end: 72 },
+  { id: "mezzo", start: 57, end: 69 },
   { id: "alto", start: 55, end: 67 },
+  { id: "ctenor", start: 55, end: 67 },
   { id: "tenor", start: 48, end: 60 },
-  { id: "bass", start: 43, end: 55 }
+  { id: "baritone", start: 45, end: 57 },
+  { id: "bass", start: 41, end: 53 }
 ];
 
 const STRINGS = {
@@ -2192,7 +2199,7 @@ const STRINGS = {
     micDenied: "Mikrofon izni kapalı. iPhone'da Ayarlar > Ses Açma > Mikrofon'u açıp tekrar dene.",
     micFail: "Mikrofon açılamadı. Başka bir uygulama kullanıyor olabilir; kapatıp tekrar dene.",
     levels: { easy: "Kolay", mid: "Orta", adv: "İleri", mine: "Benim" },
-    ranges: { child: "Çocuk", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Bariton" },
+    ranges: { child: "Çocuk", soprano: "Soprano", mezzo: "Mezzo-soprano", alto: "Alto", ctenor: "Kontratenor", tenor: "Tenor", baritone: "Bariton", bass: "Bas" },
     keyboardLabel: "Piyano klavyesi; tuşlara dokununca nota çalar",
     aboutText: "Şan öğrencileri, şarkıcılar ve koro üyeleri için piyano eşliğinde ses açma egzersizleri ve kulak eğitimi. Ses Açma sekmesinde her turda önce ton akoru çalar, sonra egzersiz yarım ton yarım ton yükselir. Kulak sekmesinde nota, aralık ve akor tanıma egzersizleri ile seviyeni ölçen bir kulak testi var. Konservatuvar sekmesi özel yetenek sınavlarına yönelik tek-iki-üç ses, ezgi ve ritim tekrarı çalışmaları ile bir sınav provası sunar.",
     privacyTitle: "Gizlilik",
@@ -2345,7 +2352,7 @@ const STRINGS = {
     micDenied: "Microphone access is off. On your iPhone go to Settings > Ses Açma > Microphone, then try again.",
     micFail: "The microphone couldn't start. Another app may be using it; close it and try again.",
     levels: { easy: "Easy", mid: "Medium", adv: "Advanced", mine: "Mine" },
-    ranges: { child: "Child", soprano: "Soprano", alto: "Alto", tenor: "Tenor", bass: "Baritone" },
+    ranges: { child: "Child", soprano: "Soprano", mezzo: "Mezzo-soprano", alto: "Alto", ctenor: "Countertenor", tenor: "Tenor", baritone: "Baritone", bass: "Bass" },
     keyboardLabel: "Piano keyboard; tap a key to hear the note",
     aboutText: "Piano-accompanied vocal warm-ups and ear training for singing students, singers and choir members. In Warm-up, each round starts with a chord, then the exercise moves up by a half step. In Ear, practise recognising notes, intervals and chords, and take an ear test that measures your level. Conservatory offers single-, two- and three-note, melody and rhythm repetition practice for music school entrance exams, plus a mock exam.",
     privacyTitle: "Privacy",
@@ -3025,7 +3032,7 @@ const LANG_PACK = {
     micDenied: "Der Mikrofonzugriff ist deaktiviert. Öffne auf deinem iPhone Einstellungen > Ses Açma > Mikrofon und versuch es dann erneut.",
     micFail: "Das Mikrofon konnte nicht gestartet werden. Vielleicht nutzt es gerade eine andere App; schließ sie und versuch es erneut.",
     levels: { easy: "Leicht", mid: "Mittel", adv: "Fortgeschritten", mine: "Eigene" },
-    ranges: { child: "Kind", soprano: "Sopran", alto: "Alt", tenor: "Tenor", bass: "Bariton" },
+    ranges: { child: "Kind", soprano: "Sopran", mezzo: "Mezzosopran", alto: "Alt", ctenor: "Countertenor", tenor: "Tenor", baritone: "Bariton", bass: "Bass" },
     keyboardLabel: "Klaviertastatur; tippe auf eine Taste, um den Ton zu hören",
     aboutText: "Einsingübungen mit Klavierbegleitung und Gehörbildung für Gesangsschüler, Sänger und Chormitglieder. Beim Einsingen beginnt jede Runde mit einem Akkord, danach steigt die Übung um einen Halbton. Unter Gehör übst du, Töne, Intervalle und Akkorde zu erkennen, und machst einen Gehörtest, der dein Niveau misst. Musikhochschule bietet Übungen zum Nachsingen von einem, zwei und drei Tönen sowie zum Nachsingen von Melodien und Nachklopfen von Rhythmen für Aufnahmeprüfungen an Musikhochschulen – plus eine Probeprüfung.",
     privacyTitle: "Datenschutz",
@@ -3192,7 +3199,7 @@ const LANG_PACK = {
     micDenied: "L'accès au micro est désactivé. Sur ton iPhone, va dans Réglages > Ses Açma > Micro, puis réessaie.",
     micFail: "Impossible de démarrer le micro. Une autre app l'utilise peut-être ; ferme-la et réessaie.",
     levels: { easy: "Facile", mid: "Moyen", adv: "Avancé", mine: "Les miens" },
-    ranges: { child: "Enfant", soprano: "Soprano", alto: "Alto", tenor: "Ténor", bass: "Baryton" },
+    ranges: { child: "Enfant", soprano: "Soprano", mezzo: "Mezzo-soprano", alto: "Alto", ctenor: "Contre-ténor", tenor: "Ténor", baritone: "Baryton", bass: "Basse" },
     keyboardLabel: "Clavier de piano ; touche une note pour l'entendre",
     aboutText: "Échauffements vocaux accompagnés au piano et formation de l'oreille pour élèves en chant, chanteurs et choristes. Dans Échauffement, chaque tour commence par un accord, puis l'exercice monte d'un demi-ton. Dans Oreille, entraîne-toi à reconnaître les notes, les intervalles et les accords, et passe un test d'oreille qui mesure ton niveau. Conservatoire propose des exercices de répétition à une, deux et trois notes, de mélodie et de rythme pour préparer les concours d'entrée, ainsi qu'un examen blanc.",
     privacyTitle: "Confidentialité",
@@ -3359,7 +3366,7 @@ const LANG_PACK = {
     micDenied: "El acceso al micrófono está desactivado. En tu iPhone ve a Ajustes > Ses Açma > Micrófono y vuelve a intentarlo.",
     micFail: "No se pudo iniciar el micrófono. Puede que otra app lo esté usando; ciérrala y vuelve a intentarlo.",
     levels: { easy: "Fácil", mid: "Intermedio", adv: "Avanzado", mine: "Míos" },
-    ranges: { child: "Niño", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Barítono" },
+    ranges: { child: "Niño", soprano: "Soprano", mezzo: "Mezzosoprano", alto: "Contralto", ctenor: "Contratenor", tenor: "Tenor", baritone: "Barítono", bass: "Bajo" },
     keyboardLabel: "Teclado de piano; toca una tecla para oír la nota",
     aboutText: "Calentamientos vocales con piano y entrenamiento auditivo para estudiantes de canto, cantantes y coristas. En Calentamiento, cada ronda empieza con un acorde y luego el ejercicio sube un semitono. En Oído, practica el reconocimiento de notas, intervalos y acordes, y haz un test auditivo que mide tu nivel. Conservatorio ofrece práctica de repetición de una, dos y tres notas, melodía y ritmo para las pruebas de acceso a escuelas de música, además de un examen simulado.",
     privacyTitle: "Privacidad",
@@ -3526,7 +3533,7 @@ const LANG_PACK = {
     micDenied: "L'accesso al microfono è disattivato. Sul tuo iPhone vai su Impostazioni > Ses Açma > Microfono, poi riprova.",
     micFail: "Impossibile avviare il microfono. Forse un'altra app lo sta usando: chiudila e riprova.",
     levels: { easy: "Facile", mid: "Medio", adv: "Avanzato", mine: "Miei" },
-    ranges: { child: "Bambino", soprano: "Soprano", alto: "Contralto", tenor: "Tenore", bass: "Baritono" },
+    ranges: { child: "Bambino", soprano: "Soprano", mezzo: "Mezzosoprano", alto: "Contralto", ctenor: "Controtenore", tenor: "Tenore", baritone: "Baritono", bass: "Basso" },
     keyboardLabel: "Tastiera del pianoforte; tocca un tasto per sentire la nota",
     aboutText: "Riscaldamenti vocali con accompagnamento di pianoforte ed educazione dell'orecchio per studenti di canto, cantanti e coristi. Nel Riscaldamento ogni giro inizia con un accordo, poi l'esercizio sale di un semitono. In Orecchio ti alleni a riconoscere note, intervalli e accordi, e puoi fare un test che misura il tuo livello. Conservatorio offre esercizi di ripetizione di una, due e tre note, melodie e ritmi per gli esami di ammissione, più una simulazione d'esame.",
     privacyTitle: "Privacy",
@@ -3693,7 +3700,7 @@ const LANG_PACK = {
     micDenied: "O acesso ao microfone está desativado. No iPhone, vá em Ajustes > Ses Açma > Microfone e tente novamente.",
     micFail: "Não foi possível iniciar o microfone. Outro app pode estar usando; feche-o e tente novamente.",
     levels: { easy: "Fácil", mid: "Médio", adv: "Avançado", mine: "Meus" },
-    ranges: { child: "Criança", soprano: "Soprano", alto: "Contralto", tenor: "Tenor", bass: "Barítono" },
+    ranges: { child: "Criança", soprano: "Soprano", mezzo: "Meio-soprano", alto: "Contralto", ctenor: "Contratenor", tenor: "Tenor", baritone: "Barítono", bass: "Baixo" },
     keyboardLabel: "Teclado de piano; toque em uma tecla para ouvir a nota",
     aboutText: "Aquecimentos vocais com piano e treino de percepção musical para estudantes de canto, cantores e coralistas. No Aquecimento, cada rodada começa com um acorde e o exercício sobe meio tom. Em Percepção, pratique o reconhecimento de notas, intervalos e acordes e faça um teste de ouvido que mede o seu nível. Conservatório oferece prática de repetição de uma, duas e três notas, melodia e ritmo para o vestibular de música, além de um simulado.",
     privacyTitle: "Privacidade",
@@ -3860,7 +3867,7 @@ const LANG_PACK = {
     micDenied: "Доступ к микрофону выключен. На iPhone открой Настройки > Ses Açma > Микрофон и попробуй снова.",
     micFail: "Не удалось включить микрофон. Возможно, он занят другим приложением — закрой его и попробуй снова.",
     levels: { easy: "Лёгкий", mid: "Средний", adv: "Продвинутый", mine: "Мои" },
-    ranges: { child: "Детский", soprano: "Сопрано", alto: "Альт", tenor: "Тенор", bass: "Баритон" },
+    ranges: { child: "Детский", soprano: "Сопрано", mezzo: "Меццо-сопрано", alto: "Альт", ctenor: "Контратенор", tenor: "Тенор", baritone: "Баритон", bass: "Бас" },
     keyboardLabel: "Фортепианная клавиатура; нажми клавишу, чтобы услышать ноту",
     aboutText: "Распевки под фортепиано и тренировка слуха для студентов-вокалистов, певцов и хористов. В разделе «Распевка» каждый раунд начинается с аккорда, а затем упражнение повторяется на полтона выше. В разделе «Слух» учись узнавать ноты, интервалы и аккорды и пройди тест, который определит твой уровень. Раздел «Консерватория» помогает готовиться к поступлению в консерваторию или музыкальное училище: повторение одной, двух и трёх нот, мелодии и ритма, а также пробный экзамен.",
     privacyTitle: "Конфиденциальность",
@@ -4027,7 +4034,7 @@ const LANG_PACK = {
     micDenied: "マイクへのアクセスがオフになっています。iPhoneの 設定 > Ses Açma > マイク をオンにして、もう一度お試しください。",
     micFail: "マイクを起動できませんでした。他のアプリが使用中の可能性があります。そのアプリを閉じて、もう一度お試しください。",
     levels: { easy: "初級", mid: "中級", adv: "上級", mine: "マイ" },
-    ranges: { child: "子ども", soprano: "ソプラノ", alto: "アルト", tenor: "テノール", bass: "バリトン" },
+    ranges: { child: "子ども", soprano: "ソプラノ", mezzo: "メゾソプラノ", alto: "アルト", ctenor: "カウンターテナー", tenor: "テノール", baritone: "バリトン", bass: "バス" },
     keyboardLabel: "ピアノ鍵盤：鍵盤をタップすると音が聴けます",
     aboutText: "声楽を学ぶ人、歌手、合唱団員のための、ピアノ伴奏付きボイスウォームアップと耳トレーニングアプリです。「ウォームアップ」では各ラウンドが和音で始まり、エクササイズが半音ずつ上がっていきます。「耳」では音・音程・和音の聴き分けを練習でき、レベルを測る耳テストも受けられます。「音大受験」では、音楽大学入試に向けた単音・2音・3音、メロディ、リズムの再現練習と模擬試験を用意しています。",
     privacyTitle: "プライバシー",
@@ -4194,7 +4201,7 @@ const LANG_PACK = {
     micDenied: "麦克风权限已关闭。请在 iPhone 上前往 设置 > Ses Açma > 麦克风，然后重试。",
     micFail: "麦克风无法启动。可能有其他应用正在使用，请关闭后重试。",
     levels: { easy: "简单", mid: "中等", adv: "进阶", mine: "我的" },
-    ranges: { child: "童声", soprano: "女高音", alto: "女低音", tenor: "男高音", bass: "男中音" },
+    ranges: { child: "童声", soprano: "女高音", mezzo: "女中音", alto: "女低音", ctenor: "假声男高音", tenor: "男高音", baritone: "男中音", bass: "男低音" },
     keyboardLabel: "钢琴键盘；点按琴键可听到该音",
     aboutText: "为声乐学生、歌手和合唱团员打造的钢琴伴奏开嗓与视唱练耳应用。在“开嗓”中，每一轮先弹一个和弦，随后练习上移半音。在“练耳”中，可练习辨认单音、音程与和弦，并通过听力测试评估你的水平。“艺考”为音乐学院入学考试提供单音、双音、三音、旋律与节奏模唱练习，以及模拟考试。",
     privacyTitle: "隐私",
