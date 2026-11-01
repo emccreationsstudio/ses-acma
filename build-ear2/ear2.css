@@ -163,3 +163,5 @@ html[data-skin] .ex-row .add-card .ex-name { white-space: normal !important; ove
 html[data-skin] #ranges { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 html[data-skin] #ranges button { min-width: 0; padding: 10px 2px !important; font-size: clamp(0.7rem, 3vw, 1.02rem) !important; letter-spacing: -0.02em; line-height: 1.1; white-space: normal; overflow-wrap: normal; word-break: keep-all; hyphens: manual; }
 html[data-skin] #ranges button::before, html[data-skin] #ranges button::after { display: none !important; }
+/* Rustik Akor Tanıma / Duyduğunu Söyle: yüksek çözünürlüklü resim, kırpılmadan alana oturur */
+html[data-skin="rustic"] #earGrid.ear-grid-k .ei-chord, html[data-skin="rustic"] #earGrid.ear-grid-k .ei-sing { background-size: contain !important; background-position: center !important; background-color: transparent !important; }
