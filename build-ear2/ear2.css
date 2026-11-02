@@ -166,3 +166,12 @@ html[data-skin] #ranges button::before, html[data-skin] #ranges button::after { 
 /* Rustik Akor Tanıma / Duyduğunu Söyle: yüksek çözünürlüklü resim, kırpılmadan alana oturur */
 html[data-skin="rustic"] #earGrid.ear-grid-k .ei-chord, html[data-skin="rustic"] #earGrid.ear-grid-k .ei-sing { background-size: contain !important; background-position: center !important; background-color: transparent !important; }
 @media (max-width: 699px) { html[data-skin="rustic"] #earGrid.ear-grid-k .ei-interval, html[data-skin="rustic"] #earGrid.ear-grid-k .ei-higher { background-size: contain !important; background-position: center !important; background-color: transparent !important; } }
+/* Mavi tema (telefon): Kulak kartı resimleri küçük, net ve kırpılmadan */
+@media (max-width: 699px) {
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei-note { background-image: var(--i-eimgp-note) !important; }
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei-interval { background-image: var(--i-eimgp-interval) !important; }
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei-higher { background-image: var(--i-eimgp-higher) !important; }
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei-chord { background-image: var(--i-eimgp-chord) !important; }
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei-sing { background-image: var(--i-eimgp-sing) !important; }
+  html[data-skin="blue"] #earGrid.ear-grid-k .ear-card .ei { background-size: contain !important; background-position: center !important; background-color: transparent !important; }
+}
