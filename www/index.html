@@ -1898,6 +1898,12 @@ html[data-skin="blue"] .ex-emb.emb-dokuzlu, html[data-skin="rustic"] .ex-emb.emb
   html[data-skin] .switcher:not(.switcher2) button span { overflow: visible !important; text-overflow: clip !important; }
 }
 html[data-skin="rustic"] .switcher:not(.switcher2) button[aria-selected="true"] { color: #1A0D00 !important; font-weight: 800; text-shadow: 0 1px 0 rgba(255,240,200,.75) !important; }
+/* Ses tipi: uzun adlar (Kontratenor) seçili kutunun içinde kalsın */
+html[data-skin] #ranges { container-type: inline-size; }
+html[data-skin] #ranges button { padding-left: 4px !important; padding-right: 4px !important; letter-spacing: -0.02em; font-size: clamp(0.58rem, 3.6cqw, 1.02rem) !important; min-width: 0; overflow: hidden; }
+/* Nefes başlığı: biraz daha büyük ve kalın */
+html[data-skin] .all-head.b-hero h1 { font-size: clamp(1.25rem, 10.6cqw, 5.6rem) !important; font-weight: 800 !important; filter: drop-shadow(0 2px 3px rgba(0,0,0,.85)) drop-shadow(0 0 .4px rgba(255,255,255,.35)); }
+html[data-skin] .all-head.b-hero p { font-size: clamp(.68rem, 5cqw, 2.1rem) !important; font-weight: 600 !important; }
 /*IMG-END*/
 /*IPAD-START*/
 /* Telefon: Egzersize Başla ve Örneği dinle, sahnenin hemen altında */
