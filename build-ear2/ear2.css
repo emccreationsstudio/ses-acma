@@ -184,3 +184,14 @@ html[data-skin="rustic"] #earGrid.ear-grid-k .ei-chord, html[data-skin="rustic"]
   html[data-skin="mono"] #earGrid.ear-grid-k .ear-card .ei-sing { background-image: var(--i-eimgp-sing) !important; }
   html[data-skin="mono"] #earGrid.ear-grid-k .ear-card .ei { background-size: contain !important; background-position: center !important; background-color: transparent !important; }
 }
+/* Nefes sayfası başlığı: tasarım banner'ı (yazı uygulamanın kendi metni, her dilde) */
+html[data-skin] .all-head.b-hero {
+  position: relative; aspect-ratio: var(--bh-ar); background: var(--i-bhero) center / 100% 100% no-repeat; border-radius: 14px;
+  display: flex; flex-direction: column; justify-content: center; padding: 0 4% 0 var(--bh-tx); margin-bottom: 8px; container-type: inline-size; box-shadow: 0 10px 24px -14px #000;
+}
+html[data-skin] .all-head.b-hero h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 8.2cqw, 5.4rem); line-height: 1.05; filter: drop-shadow(0 2px 3px rgba(0,0,0,.8)); }
+html[data-skin] .all-head.b-hero p { margin: .35em 0 0; font-family: var(--font-body); font-size: clamp(.66rem, 3.4cqw, 2.1rem); line-height: 1.25; color: var(--ink); text-shadow: 0 1px 3px #000; }
+html[data-skin="rustic"] .all-head.b-hero h1 { background: linear-gradient(180deg,#FFF0C4,#E9C27A 45%,#B98A3E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html[data-skin="mono"] .all-head.b-hero h1 { background: linear-gradient(180deg,#fff,#e2e2e2 50%,#a9a9a9); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html[data-skin="blue"] .all-head.b-hero h1 { background: linear-gradient(180deg,#fff,#DCE8FF 45%,#9DB9EA); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (max-width: 699px) { html[data-skin] .all-head.b-hero { border-radius: 10px; padding-right: 3%; } html[data-skin] .all-head.b-hero p { line-height: 1.15; } }
