@@ -307,3 +307,10 @@ html[data-skin="blue"] .ex-emb.emb-staccato, html[data-skin="rustic"] .ex-emb.em
 html[data-skin="blue"] .ex-emb.emb-arpej, html[data-skin="rustic"] .ex-emb.emb-arpej { background-image: var(--i-emb-arpej) !important; }
 html[data-skin="blue"] .ex-emb.emb-oktav, html[data-skin="rustic"] .ex-emb.emb-oktav { background-image: var(--i-emb-oktav) !important; }
 html[data-skin="blue"] .ex-emb.emb-dokuzlu, html[data-skin="rustic"] .ex-emb.emb-dokuzlu { background-image: var(--i-emb-dokuzlu) !important; }
+/* Üst sekmeler 820–1099px: "Konservatuvar" kesilmesin (yazıya göre genişlik, biraz küçük yazı) */
+@media (min-width: 820px) and (max-width: 1099px) {
+  html[data-skin] .switcher:not(.switcher2) { display: flex !important; width: calc(100% - 470px) !important; gap: 2px; margin-left: 15px !important; }
+  html[data-skin] .switcher:not(.switcher2) button { flex: 1 1 auto !important; min-width: 0; padding: 7px 6px !important; font-size: clamp(.8rem, 1.18vw, .95rem) !important; letter-spacing: -0.02em; overflow: visible !important; text-overflow: clip !important; }
+  html[data-skin] .switcher:not(.switcher2) button span { overflow: visible !important; text-overflow: clip !important; }
+}
+html[data-skin="rustic"] .switcher:not(.switcher2) button[aria-selected="true"] { color: #1A0D00 !important; font-weight: 800; text-shadow: 0 1px 0 rgba(255,240,200,.75) !important; }
