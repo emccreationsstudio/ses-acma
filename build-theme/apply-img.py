@@ -23,10 +23,10 @@ lt=json.load(open(os.path.join(d,'leather.json')))
 v1=v
 tb=json.load(open(os.path.join(d,'tabs.json')))
 v3=lambda p:'\n'.join(f"  --i-tab-{k}: url({tb[p+'_tab_'+k]});" for k in ('voice','breath','ear','cons'))
-e2=json.load(open(os.path.join(d,'..','build-ear2','ear2.json'))); cb=json.load(open(os.path.join(d,'..','build-ear2','consb.json'))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','consbig.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','emb.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','consph.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','bhero.json'))))
+e2=json.load(open(os.path.join(d,'..','build-ear2','ear2.json'))); cb=json.load(open(os.path.join(d,'..','build-ear2','consb.json'))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','consbig.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','emb.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','consph.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','bhero.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','chero.json')))); cb.update(json.load(open(os.path.join(d,'..','build-ear2','consm.json'))))
 v4=lambda p:'\n'.join(f"  --i-{k[len(p)+1:].replace('_','-')}: url({val});" for k,val in list(e2.items())+list(cb.items()) if k.startswith(p+'_') and not k.endswith('_src'))
 v=lambda p: v1(p)+'\n'+v2(p)+'\n'+v3(p)+'\n'+v4(p)
-tpl=tpl+open(os.path.join(d,'..','build-ear2','ear2-vars.css')).read()+open(os.path.join(d,'..','build-ear2','bhero-vars.css')).read()+open(os.path.join(d,'..','build-ear2','ear2.css')).read()
+tpl=tpl+open(os.path.join(d,'..','build-ear2','ear2-vars.css')).read()+open(os.path.join(d,'..','build-ear2','bhero-vars.css')).read()+open(os.path.join(d,'..','build-ear2','chero-vars.css')).read()+open(os.path.join(d,'..','build-ear2','ear2.css')).read()
 css=tpl.replace('@@G@@',v('g')).replace('@@S@@',v('s')).replace('@@B@@',v('b'))
 s=open(src).read()
 block='/*IMG-START*/\n'+css+'/*IMG-END*/\n'
